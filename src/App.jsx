@@ -1,33 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
-
-import PatientDashboard from './pages/PatientDashboard';
-import PharmacyDashboard from './pages/PharmacyDashboard';
-import DeliveryDashboard from './pages/DeliveryDashboard';
-import Medications from './pages/Medications';
-
-// const PatientPortal = () => <div className="p-8 text-2xl font-bold text-slate-800">Patient Dashboard</div>;
-// const PharmacyPortal = () => <div className="p-8 text-2xl font-bold text-slate-800">Pharmacy Dashboard</div>;
-// const DeliveryPortal = () => <div className="p-8 text-2xl font-bold text-slate-800">Delivery Dashboard</div>;
-
 import ErrorBoundary from './components/ErrorBoundary';
 
+// Lazy load pages for performance
+const Home = lazy(() => import('./pages/Home'));
+const PatientDashboard = lazy(() => import('./pages/PatientDashboard'));
+const PharmacyDashboard = lazy(() => import('./pages/PharmacyDashboard'));
+const DeliveryDashboard = lazy(() => import('./pages/DeliveryDashboard'));
+const Medications = lazy(() => import('./pages/Medications'));
+
+// Lazy load Landing Scene to avoid blocking initial bundle
+const LandingScene = lazy(() => import('./components/ThreeLanding/LandingScene'));
+
+// Loading Fallback Component
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-slate-50">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-slate-900"></div>
+  </div>
+);
+
 function App() {
+  // Check if user has visited before
+  const [visited, setVisited] = useState(() => {
+    return localStorage.getItem('medilink_visited') === 'true';
+  });
+
+  const handleEnterApp = () => {
+    localStorage.setItem('medilink_visited', 'true');
+    setVisited(true);
+  };
+
+  // If not visited, show Landing Gateway
+  if (!visited) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div className="bg-slate-50 w-full h-screen" />}>
+          <LandingScene onEnter={handleEnterApp} />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
   return (
     <ErrorBoundary>
       <Router>
         <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
           <Navbar />
           <main>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/patient" element={<PatientDashboard />} />
-              <Route path="/medications" element={<Medications />} />
-              <Route path="/pharmacy" element={<PharmacyDashboard />} />
-              <Route path="/delivery" element={<DeliveryDashboard />} />
-            </Routes>
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/patient" element={<PatientDashboard />} />
+                <Route path="/medications" element={<Medications />} />
+                <Route path="/pharmacy" element={<PharmacyDashboard />} />
+                <Route path="/delivery" element={<DeliveryDashboard />} />
+              </Routes>
+            </Suspense>
           </main>
         </div>
       </Router>
