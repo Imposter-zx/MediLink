@@ -23,6 +23,12 @@ const PageLoader = () => (
 function App() {
   // Check if user has visited before
   const [visited, setVisited] = useState(() => {
+    // DEBUG: Allow resetting via URL ?reset=true
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('reset') === 'true') {
+      localStorage.removeItem('medilink_visited');
+      return false;
+    }
     return localStorage.getItem('medilink_visited') === 'true';
   });
 
@@ -35,7 +41,7 @@ function App() {
   if (!visited) {
     return (
       <ErrorBoundary>
-        <Suspense fallback={<div className="bg-slate-50 w-full h-screen" />}>
+        <Suspense fallback={<div className="bg-black w-full h-screen flex items-center justify-center text-cyan-500">Loading Experience...</div>}>
           <LandingScene onEnter={handleEnterApp} />
         </Suspense>
       </ErrorBoundary>
