@@ -4,6 +4,7 @@ import Button from '../components/ui/Button';
 import { Package, Clock, CheckCircle, Truck, Search } from 'lucide-react';
 import { cn } from '../lib/utils';
 import NewRequestModal from '../components/pharmacy/NewRequestModal';
+import { useOrdersStore } from '../stores/ordersStore';
 
 const OrderCard = ({ order, onStatusChange }) => {
     const statusStyles = {
@@ -37,7 +38,7 @@ const OrderCard = ({ order, onStatusChange }) => {
                         </Button>
                     )}
                     {order.status === 'ready' && (
-                        <Button size="sm" variant="secondary" className="w-full md:w-auto" onClick={() => onStatusChange(order.id, 'picked_up')}>
+                        <Button size="sm" variant="secondary" className="w-full md:w-auto" onClick={() => onStatusChange(order.id, 'ready_for_pickup')}>
                             <Truck size={16} className="mr-2" /> Assign Delivery
                         </Button>
                     )}
@@ -48,19 +49,20 @@ const OrderCard = ({ order, onStatusChange }) => {
 };
 
 const PharmacyDashboard = () => {
-    const [orders, setOrders] = useState([
-        { id: '1024', patientName: 'Ilyass (Patient)', medication: 'Metformin', dosage: '500mg', status: 'pending' },
-        { id: '1025', patientName: 'Sarah Connor', medication: 'Amoxicillin', dosage: '250mg', status: 'ready' },
-        { id: '1026', patientName: 'John Doe', medication: 'Lisinopril', dosage: '10mg', status: 'pending' },
-    ]);
+    const { orders, addOrder, updateStatus, getPendingCount, getReadyCount } = useOrdersStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleStatusChange = (id, newStatus) => {
-        setOrders(orders.map(o => o.id === id ? { ...o, status: newStatus } : o));
+        updateStatus(id, newStatus);
+        
+        // If assigned to delivery, adding to delivery queue (simulated)
+        if (newStatus === 'ready_for_pickup') {
+            console.log(`[Pharmacy] Order #${id} assigned to delivery`);
+        }
     };
 
     const handleNewRequest = (newRequest) => {
-        setOrders([newRequest, ...orders]);
+        addOrder(newRequest);
     };
 
     return (
@@ -88,7 +90,7 @@ const PharmacyDashboard = () => {
                         </div>
                         <div>
                             <p className="text-sm font-medium text-muted-foreground">Pending Orders</p>
-                            <p className="text-3xl font-bold text-foreground">{orders.filter(o => o.status === 'pending').length}</p>
+                            <p className="text-3xl font-bold text-foreground">{getPendingCount()}</p>
                         </div>
                     </CardContent>
                 </Card>
@@ -99,7 +101,7 @@ const PharmacyDashboard = () => {
                         </div>
                         <div>
                             <p className="text-sm font-medium text-muted-foreground">Ready for Pickup</p>
-                            <p className="text-3xl font-bold text-foreground">{orders.filter(o => o.status === 'ready').length}</p>
+                            <p className="text-3xl font-bold text-foreground">{getReadyCount()}</p>
                         </div>
                     </CardContent>
                 </Card>

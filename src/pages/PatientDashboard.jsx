@@ -6,22 +6,24 @@ import Card, { CardHeader, CardTitle, CardContent } from '../components/ui/Card'
 import Button from '../components/ui/Button';
 import { ShoppingBag, Bell, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuthStore } from '../stores/authStore';
 
 const PatientDashboard = () => {
+    const { user } = useAuthStore();
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-foreground">Good Morning, Ilyass</h1>
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground">Good Morning, {user?.name || 'Guest'}</h1>
                     <p className="text-muted-foreground mt-1">Here's your health overview for today.</p>
                 </div>
                 <div className="flex gap-2">
                     <Button variant="outline" size="icon" className="rounded-full">
                         <Bell size={20} />
                     </Button>
-                    <Link to="/pharmacy">
+                    <Link to="/library">
                         <Button className="rounded-full shadow-lg shadow-primary/25">
-                            New Order
+                            Order Medication
                         </Button>
                     </Link>
                 </div>

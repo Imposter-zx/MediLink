@@ -2,9 +2,31 @@ import React from 'react';
 import { ArrowRight, Activity, ShieldCheck, Clock } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card, { CardContent } from '../components/ui/Card';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const Home = () => {
+    const { isAuthenticated, login } = useAuth();
+    const navigate = useNavigate();
+
+    const handleGetStarted = async () => {
+        if (!isAuthenticated) {
+            await login({ 
+                userData: { id: 'user-1', name: 'Ilyass', role: 'patient' } 
+            });
+        }
+        navigate('/patient');
+    };
+
+    const handlePartnerWithUs = async () => {
+        if (!isAuthenticated) {
+            await login({ 
+                userData: { id: 'user-2', name: 'Pharmacy Admin', role: 'pharmacy' } 
+            });
+        }
+        navigate('/pharmacy');
+    };
+
     return (
         <div className="flex flex-col min-h-[calc(100vh-4rem)]">
             {/* Hero Section */}
@@ -29,16 +51,21 @@ const Home = () => {
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                        <Link to="/patient">
-                            <Button size="lg" className="rounded-full px-8 text-lg h-14 shadow-lg shadow-primary/25">
-                                Get Started <ArrowRight className="ml-2 h-5 w-5" />
-                            </Button>
-                        </Link>
-                        <Link to="/pharmacy">
-                            <Button variant="outline" size="lg" className="rounded-full px-8 text-lg h-14 bg-background/50 backdrop-blur-sm">
-                                Partner with Us
-                            </Button>
-                        </Link>
+                        <Button 
+                            size="lg" 
+                            className="rounded-full px-8 text-lg h-14 shadow-lg shadow-primary/25"
+                            onClick={handleGetStarted}
+                        >
+                            Get Started <ArrowRight className="ml-2 h-5 w-5" />
+                        </Button>
+                        <Button 
+                            variant="outline" 
+                            size="lg" 
+                            className="rounded-full px-8 text-lg h-14 bg-background/50 backdrop-blur-sm"
+                            onClick={handlePartnerWithUs}
+                        >
+                            Partner with Us
+                        </Button>
                     </div>
                 </div>
             </section>

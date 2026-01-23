@@ -3,6 +3,7 @@ import Card, { CardHeader, CardTitle, CardContent } from '../components/ui/Card'
 import Button from '../components/ui/Button';
 import { Truck, MapPin, CheckCircle, Navigation, Box } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { useOrdersStore } from '../stores/ordersStore';
 
 const DeliveryCard = ({ delivery, onAction }) => {
     const isAvailable = delivery.status === 'ready_for_pickup';
@@ -57,17 +58,13 @@ const DeliveryCard = ({ delivery, onAction }) => {
 };
 
 const DeliveryDashboard = () => {
-    const [deliveries, setDeliveries] = useState([
-        { id: 'DEL-8821', recipient: 'Mrs. Anderson', address: '12 Maple Ave, Downtown', status: 'ready_for_pickup' },
-        { id: 'DEL-8822', recipient: 'Mr. Williams', address: '45 Oak St, Suburbs', status: 'in_transit' },
-        { id: 'DEL-8823', recipient: 'Ilyass', address: '88 Tech Park, City', status: 'ready_for_pickup' },
-    ]);
+    const { deliveries, updateDeliveryStatus, removeDelivery } = useOrdersStore();
 
     const handleAction = (id, action) => {
         if (action === 'accept') {
-            setDeliveries(deliveries.map(d => d.id === id ? { ...d, status: 'in_transit' } : d));
+            updateDeliveryStatus(id, 'in_transit');
         } else if (action === 'delivered') {
-            setDeliveries(deliveries.filter(d => d.id !== id)); // Remove from list for demo
+            removeDelivery(id); // Remove from list for demo
         }
     };
 

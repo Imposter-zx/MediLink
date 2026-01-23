@@ -1,0 +1,309 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* ========================================
+     LIGHT COMFORT THEME (Default)
+     Warm, soft colors for daytime use
+     ======================================== */
+  :root,
+  :root[data-theme="light-comfort"] {
+    --background: 40 30% 98%; /* Warm Cream/Ivory */
+    --foreground: 215 25% 20%; /* Deep Charcoal */
+
+    --card: 40 30% 100%;
+    --card-foreground: 215 25% 20%;
+
+    --popover: 40 30% 100%;
+    --popover-foreground: 215 25% 20%;
+
+    --primary: 158 35% 35%; /* Healthy Sage Green */
+    --primary-foreground: 40 30% 98%;
+
+    --secondary: 35 20% 90%; /* Soft Warm Taupe */
+    --secondary-foreground: 215 25% 20%;
+
+    --muted: 40 15% 94%; /* Muted Cream */
+    --muted-foreground: 215 10% 45%;
+
+    --accent: 14 50% 65%; /* Soft Medical Coral/Terracotta */
+    --accent-foreground: 215 25% 20%;
+
+    --destructive: 0 60% 50%; /* Softer Red */
+    --destructive-foreground: 40 30% 98%;
+
+    --border: 35 15% 85%;
+    --input: 35 15% 85%;
+    --ring: 158 35% 35%;
+
+    --radius: 1rem; /* Softer Rounded Corners */
+  }
+
+  /* ========================================
+     DARK MEDICAL THEME
+     High contrast for night use
+     ======================================== */
+  :root[data-theme="dark-medical"] {
+    --background: 222 20% 10%; /* Dark Blue-Gray */
+    --foreground: 210 40% 98%; /* Almost White */
+
+    --card: 222 20% 15%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 20% 15%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 158 50% 55%; /* Brighter Sage for visibility */
+    --primary-foreground: 222 20% 10%;
+
+    --secondary: 222 15% 25%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 222 15% 20%;
+    --muted-foreground: 210 20% 70%;
+
+    --accent: 14 60% 60%;
+    --accent-foreground: 222 20% 10%;
+
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 15% 25%;
+    --input: 222 15% 25%;
+    --ring: 158 50% 55%;
+  }
+
+  /* ========================================
+     HIGH CONTRAST THEME
+     Maximum readability for accessibility
+     ======================================== */
+  :root[data-theme="high-contrast"],
+  :root[data-contrast="high"] {
+    --background: 0 0% 100%; /* Pure White */
+    --foreground: 0 0% 0%; /* Pure Black */
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+
+    --primary: 210 100% 40%; /* High Contrast Blue */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 90%;
+    --secondary-foreground: 0 0% 0%;
+
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 20%;
+
+    --accent: 30 100% 45%; /* High Contrast Orange */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 100% 45%; /* High Contrast Red */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 210 100% 40%;
+  }
+
+  /* ========================================
+     BASE STYLES
+     ======================================== */
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family:
+      "Inter",
+      system-ui,
+      -apple-system,
+      sans-serif;
+    line-height: 1.6; /* Better Readability */
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Base font size (can be adjusted via JS) */
+    font-size: 16px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    color: hsl(var(--foreground));
+    line-height: 1.3;
+  }
+
+  /* Larger font sizes for elderly users */
+  h1 {
+    font-size: 2.25rem;
+  } /* 36px */
+  h2 {
+    font-size: 1.875rem;
+  } /* 30px */
+  h3 {
+    font-size: 1.5rem;
+  } /* 24px */
+  h4 {
+    font-size: 1.25rem;
+  } /* 20px */
+  h5 {
+    font-size: 1.125rem;
+  } /* 18px */
+  h6 {
+    font-size: 1rem;
+  } /* 16px */
+
+  /* ========================================
+     ACCESSIBILITY IMPROVEMENTS
+     ======================================== */
+
+  /* Enhanced focus indicators for keyboard navigation */
+  *:focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* High contrast mode - extra thick focus */
+  :root[data-contrast="high"] *:focus-visible {
+    outline-width: 4px;
+    outline-offset: 3px;
+  }
+
+  /* Skip to content link (for screen readers) */
+  .skip-to-content {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    z-index: 9999;
+    padding: 1rem 2rem;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 0 0 0.5rem 0;
+  }
+
+  .skip-to-content:focus {
+    top: 0;
+  }
+
+  /* Screen reader only content */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+
+  /* ========================================
+     REDUCED MOTION SUPPORT
+     ======================================== */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Reduced motion class (applied via JS) */
+  .reduce-motion *,
+  .reduce-motion *::before,
+  .reduce-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* ========================================
+     IMPROVED BUTTON ACCESSIBILITY
+     ======================================== */
+  button,
+  a {
+    /* Minimum touch target size (44x44px for accessibility) */
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* High contrast mode - stronger borders */
+  :root[data-contrast="high"] button,
+  :root[data-contrast="high"] input,
+  :root[data-contrast="high"] select,
+  :root[data-contrast="high"] textarea {
+    border: 2px solid hsl(var(--border));
+  }
+
+  /* ========================================
+     PRINT STYLES
+     ======================================== */
+  @media print {
+    body {
+      background: white;
+      color: black;
+    }
+
+    .no-print {
+      display: none !important;
+    }
+
+    /* Ensure links are visible in print */
+    a[href]:after {
+      content: " (" attr(href) ")";
+    }
+  }
+
+  /* ========================================
+     SCREEN READER ANNOUNCER
+     ======================================== */
+  #a11y-announcer {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+}
+
+@layer utilities {
+  /* Custom utility classes for accessibility */
+  .text-readable {
+    max-width: 65ch; /* Optimal line length for readability */
+    line-height: 1.6;
+  }
+
+  .focus-ring {
+    @apply focus-visible:ring-4 focus-visible:ring-primary/50 focus-visible:outline-none;
+  }
+
+  .focus-ring-high-contrast {
+    @apply focus-visible:ring-4 focus-visible:ring-black focus-visible:outline-none;
+  }
+}

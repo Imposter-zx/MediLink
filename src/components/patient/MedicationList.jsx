@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Check, Clock, AlertCircle } from 'lucide-react';
 import Card, { CardHeader, CardTitle, CardContent } from '../ui/Card';
 import Button from '../ui/Button';
 import { cn } from '../../lib/utils';
+import { useMedicationsStore } from '../../stores/medicationsStore';
 
 const MedicationList = () => {
-    const [meds, setMeds] = useState([
-        { id: 1, name: 'Aspirin', dosage: '100mg', time: '08:00 AM', taken: true, type: 'pill' },
-        { id: 2, name: 'Metformin', dosage: '500mg', time: '12:00 PM', taken: false, type: 'capsule' },
-        { id: 3, name: 'Lisinopril', dosage: '10mg', time: '08:00 PM', taken: false, type: 'pill' },
-    ]);
+    const { medications: meds, updateMedication } = useMedicationsStore();
+    const [localMeds, setLocalMeds] = useState(meds); // Still use local for the 'taken' checkbox if not in store
+    
+    // Sync with global store if needed
+    useEffect(() => {
+        setLocalMeds(meds);
+    }, [meds]);
 
     const toggleTaken = (id) => {
-        setMeds(meds.map(med =>
+        setLocalMeds(localMeds.map(med =>
             med.id === id ? { ...med, taken: !med.taken } : med
         ));
     };
@@ -26,11 +29,11 @@ const MedicationList = () => {
                     Today's Schedule
                 </CardTitle>
                 <span className="text-sm font-medium text-muted-foreground bg-secondary px-3 py-1 rounded-full">
-                    {meds.filter(m => m.taken).length}/{meds.length} Taken
+                    {localMeds.filter(m => m.taken).length}/{localMeds.length} Taken
                 </span>
             </CardHeader>
             <CardContent className="space-y-4 pt-4">
-                {meds.map((med) => (
+                {localMeds.map((med) => (
                     <div
                         key={med.id}
                         className={cn(

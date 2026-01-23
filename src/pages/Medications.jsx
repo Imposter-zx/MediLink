@@ -3,14 +3,16 @@ import { Plus, Search, Calendar, Clock, Pill } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card, { CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { cn } from '../lib/utils';
+import { useMedicationsStore } from '../stores/medicationsStore';
 
 const Medications = () => {
-    const [meds, setMeds] = useState([
-        { id: 1, name: 'Aspirin', dosage: '100mg', frequency: 'Daily', time: '08:00 AM', type: 'pill' },
-        { id: 2, name: 'Metformin', dosage: '500mg', frequency: 'With Lunch', time: '12:00 PM', type: 'capsule' },
-        { id: 3, name: 'Lisinopril', dosage: '10mg', frequency: 'Daily', time: '08:00 PM', type: 'pill' },
-        { id: 4, name: 'Vitamin D', dosage: '1000IU', frequency: 'Weekly', time: '09:00 AM', type: 'supplement' },
-    ]);
+    const { medications: meds } = useMedicationsStore();
+    const [searchQuery, setSearchQuery] = useState('');
+    
+    const filteredMeds = meds.filter(med => 
+        med.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        med.category?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     return (
         <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
@@ -31,11 +33,13 @@ const Medications = () => {
                     type="text"
                     placeholder="Search your medications..."
                     className="w-full pl-10 pr-4 py-3 rounded-2xl border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring transition-all"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                 />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {meds.map((med) => (
+                {filteredMeds.map((med) => (
                     <Card key={med.id} className="group hover:border-primary/50 transition-colors">
                         <CardContent className="p-6 flex justify-between items-start">
                             <div className="flex gap-4">

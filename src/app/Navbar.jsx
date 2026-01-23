@@ -1,22 +1,40 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Heart, Home, Pill, Truck, User, Menu, X, Bookmark } from 'lucide-react';
 import { cn } from '../lib/utils';
-import Button from './ui/Button';
+import Button from '../components/ui/Button';
+import { useAuth } from '../hooks/useAuth';
 
 const Navbar = () => {
     const location = useLocation();
+    const navigate = useNavigate();
+    const { user, login } = useAuth();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const navItems = [
         { name: 'Home', path: '/', icon: Home },
-        { name: 'Patient', path: '/patient', icon: User },
-        { name: 'Pharmacy', path: '/pharmacy', icon: Pill },
+        { name: 'Patient', path: '/patient', icon: User, role: 'patient' },
+        { name: 'Pharmacy', path: '/pharmacy', icon: Pill, role: 'pharmacy' },
         { name: 'Library', path: '/library', icon: Bookmark },
-        { name: 'Delivery', path: '/delivery', icon: Truck },
+        { name: 'Delivery', path: '/delivery', icon: Truck, role: 'delivery' },
     ];
 
     const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
+    const handleNavClick = async (item) => {
+        if (item.role && user?.role !== item.role) {
+            // Demo auto-login for seamless navigation
+            await login({ 
+                userData: { 
+                    id: `demo-${item.role}`, 
+                    name: `${item.name} User`, 
+                    role: item.role 
+                } 
+            });
+        }
+        navigate(item.path);
+        setIsMobileMenuOpen(false);
+    };
 
     return (
         <nav className="bg-background/80 backdrop-blur-md sticky top-0 z-50 border-b border-border shadow-sm">
@@ -33,26 +51,28 @@ const Navbar = () => {
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center gap-1">
-                        {navItems.map((item) => {
-                            const isActive = location.pathname === item.path;
-                            const Icon = item.icon;
-                            return (
-                                <Link
-                                    key={item.name}
-                                    to={item.path}
-                                    className={cn(
-                                        "px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-200 text-sm font-medium",
-                                        isActive
-                                            ? "bg-primary/10 text-primary"
-                                            : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                                    )}
-                                >
-                                    <Icon size={18} />
-                                    <span>{item.name}</span>
-                                </Link>
-                            );
-                        })}
+                    <div className="hidden md:flex items-center gap-3">
+                        <div className="flex items-center gap-1">
+                            {navItems.map((item) => {
+                                const isActive = location.pathname === item.path;
+                                const Icon = item.icon;
+                                return (
+                                    <button
+                                        key={item.name}
+                                        onClick={() => handleNavClick(item)}
+                                        className={cn(
+                                            "px-4 py-2 rounded-full flex items-center gap-2 transition-all duration-200 text-sm font-medium",
+                                            isActive
+                                                ? "bg-primary/10 text-primary"
+                                                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                                        )}
+                                    >
+                                        <Icon size={18} />
+                                        <span>{item.name}</span>
+                                    </button>
+                                );
+                            })}
+                        </div>
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -72,12 +92,11 @@ const Navbar = () => {
                             const isActive = location.pathname === item.path;
                             const Icon = item.icon;
                             return (
-                                <Link
+                                <button
                                     key={item.name}
-                                    to={item.path}
-                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    onClick={() => handleNavClick(item)}
                                     className={cn(
-                                        "flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-colors",
+                                        "w-full flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-colors",
                                         isActive
                                             ? "bg-primary/10 text-primary"
                                             : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
@@ -85,7 +104,7 @@ const Navbar = () => {
                                 >
                                     <Icon size={20} />
                                     {item.name}
-                                </Link>
+                                </button>
                             );
                         })}
                     </div>
