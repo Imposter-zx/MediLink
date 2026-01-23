@@ -3,6 +3,7 @@ import Card, { CardHeader, CardTitle, CardContent } from '../components/ui/Card'
 import Button from '../components/ui/Button';
 import { Package, Clock, CheckCircle, Truck, Search } from 'lucide-react';
 import { cn } from '../lib/utils';
+import NewRequestModal from '../components/pharmacy/NewRequestModal';
 
 const OrderCard = ({ order, onStatusChange }) => {
     const statusStyles = {
@@ -52,9 +53,14 @@ const PharmacyDashboard = () => {
         { id: '1025', patientName: 'Sarah Connor', medication: 'Amoxicillin', dosage: '250mg', status: 'ready' },
         { id: '1026', patientName: 'John Doe', medication: 'Lisinopril', dosage: '10mg', status: 'pending' },
     ]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleStatusChange = (id, newStatus) => {
         setOrders(orders.map(o => o.id === id ? { ...o, status: newStatus } : o));
+    };
+
+    const handleNewRequest = (newRequest) => {
+        setOrders([newRequest, ...orders]);
     };
 
     return (
@@ -64,7 +70,10 @@ const PharmacyDashboard = () => {
                     <h1 className="text-3xl font-bold tracking-tight text-foreground">Pharmacy Portal</h1>
                     <p className="text-muted-foreground mt-1">Manage incoming prescriptions and inventory.</p>
                 </div>
-                <Button className="shadow-lg shadow-primary/20">
+                <Button 
+                    className="shadow-lg shadow-primary/20"
+                    onClick={() => setIsModalOpen(true)}
+                >
                     <Package className="mr-2" size={18} />
                     New Request
                 </Button>
@@ -113,6 +122,12 @@ const PharmacyDashboard = () => {
                     ))}
                 </div>
             </div>
+
+            <NewRequestModal 
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSubmit={handleNewRequest}
+            />
         </div>
     );
 };
