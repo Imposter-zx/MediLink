@@ -9,6 +9,7 @@ const PatientDashboard = lazy(() => import('./pages/PatientDashboard'));
 const PharmacyDashboard = lazy(() => import('./pages/PharmacyDashboard'));
 const DeliveryDashboard = lazy(() => import('./pages/DeliveryDashboard'));
 const Medications = lazy(() => import('./pages/Medications'));
+const MedicationLibrary = lazy(() => import('./pages/MedicationLibrary'));
 
 // Lazy load Landing Scene to avoid blocking initial bundle
 const LandingScene = lazy(() => import('./components/ThreeLanding/LandingScene'));
@@ -60,6 +61,7 @@ function App() {
                 <Route path="/patient" element={<PatientDashboard />} />
                 <Route path="/medications" element={<Medications />} />
                 <Route path="/pharmacy" element={<PharmacyDashboard />} />
+                <Route path="/library" element={<MedicationLibrary />} />
                 <Route path="/delivery" element={<DeliveryDashboard />} />
               </Routes>
             </Suspense>

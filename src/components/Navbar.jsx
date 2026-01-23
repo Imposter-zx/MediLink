@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Heart, Home, Pill, Truck, User, Menu, X } from 'lucide-react';
+import { Heart, Home, Pill, Truck, User, Menu, X, Bookmark } from 'lucide-react';
 import { cn } from '../lib/utils';
 import Button from './ui/Button';
 
@@ -12,6 +12,7 @@ const Navbar = () => {
         { name: 'Home', path: '/', icon: Home },
         { name: 'Patient', path: '/patient', icon: User },
         { name: 'Pharmacy', path: '/pharmacy', icon: Pill },
+        { name: 'Library', path: '/library', icon: Bookmark },
         { name: 'Delivery', path: '/delivery', icon: Truck },
     ];
 
