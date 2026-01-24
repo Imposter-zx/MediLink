@@ -3,6 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 
 /**
  * Performance Manager - Monitors FPS and adjusts quality dynamically
+ * Enhanced with Battery and GPU tier detection awareness.
  */
 export default function PerformanceManager({ onQualityChange }) {
   const { gl } = useThree();
@@ -10,30 +11,50 @@ export default function PerformanceManager({ onQualityChange }) {
   const lastTimeRef = useRef(performance.now());
   const [quality, setQuality] = useState('high');
 
-  // Detect device type
+  // Detect device capabilities & battery status
   useEffect(() => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    const isLowEnd = navigator.hardwareConcurrency <= 4;
-    
-    let initialQuality = 'high';
-    if (isMobile || isLowEnd) {
-      initialQuality = 'medium';
-    }
-    
-    setQuality(initialQuality);
-    onQualityChange?.(initialQuality);
-    
-    // Set pixel ratio based on device
-    gl.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 2));
+    const detectHardware = async () => {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const isLowEnd = navigator.hardwareConcurrency <= 4;
+        
+        let initialQuality = 'high';
+        if (isMobile || isLowEnd) {
+          initialQuality = 'medium';
+        }
+        
+        // Battery Status API Check
+        if ('getBattery' in navigator) {
+            try {
+                const battery = await navigator.getBattery();
+                if (battery.level < 0.2 && !battery.charging) {
+                    console.log('[Performance] Low battery detected, downgrading quality');
+                    initialQuality = 'low';
+                }
+            } catch (e) {
+                // Ignore battery API errors
+            }
+        }
+
+        setQuality(initialQuality);
+        onQualityChange?.(initialQuality);
+        
+        // Set pixel ratio based on device
+        gl.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 2));
+    };
+
+    detectHardware();
   }, [gl, onQualityChange]);
 
   // Monitor FPS
   useFrame(() => {
     const now = performance.now();
     const delta = now - lastTimeRef.current;
-    const fps = 1000 / delta;
     
-    fpsRef.current.push(fps);
+    // Prevent divide by zero
+    if (delta > 0) {
+        const fps = 1000 / delta;
+        fpsRef.current.push(fps);
+    }
     
     // Keep only last 60 frames
     if (fpsRef.current.length > 60) {

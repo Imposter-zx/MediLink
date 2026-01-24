@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
+import DashboardErrorBoundary from '../components/ui/DashboardErrorBoundary';
 
 // Lazy load pages
 const Home = lazy(() => import('../pages/Home'));
@@ -24,7 +25,12 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, isAuthenticated } = useAuthStore();
   
   if (!isAuthenticated) return <Navigate to="/" replace />;
-  if (allowedRoles && !allowedRoles.includes(user.role)) return <Navigate to="/" replace />;
+  
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    // Audit Log: Unauthorized access attempt
+    console.warn(`[RBAC] Access Denied for user ${user.id} (${user.role}) to restricted route. Required: ${allowedRoles.join(', ')}`);
+    return <Navigate to="/" replace />;
+  }
   
   return children;
 };
@@ -38,27 +44,35 @@ const AppRoutes = () => {
         {/* Protected Patient Routes */}
         <Route path="/patient" element={
           <ProtectedRoute allowedRoles={['patient']}>
-            <PatientDashboard />
+            <DashboardErrorBoundary>
+              <PatientDashboard />
+            </DashboardErrorBoundary>
           </ProtectedRoute>
         } />
         
         <Route path="/medications" element={
           <ProtectedRoute allowedRoles={['patient']}>
-            <Medications />
+            <DashboardErrorBoundary>
+              <Medications />
+            </DashboardErrorBoundary>
           </ProtectedRoute>
         } />
         
         {/* Protected Pharmacy Routes */}
         <Route path="/pharmacy" element={
           <ProtectedRoute allowedRoles={['pharmacy']}>
-            <PharmacyDashboard />
+            <DashboardErrorBoundary>
+              <PharmacyDashboard />
+            </DashboardErrorBoundary>
           </ProtectedRoute>
         } />
         
         {/* Protected Delivery Routes */}
         <Route path="/delivery" element={
           <ProtectedRoute allowedRoles={['delivery']}>
-            <DeliveryDashboard />
+            <DashboardErrorBoundary>
+              <DeliveryDashboard />
+            </DashboardErrorBoundary>
           </ProtectedRoute>
         } />
 

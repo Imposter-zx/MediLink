@@ -8,8 +8,36 @@ import { ShoppingBag, Bell, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
 
+import { useMedplum } from '@medplum/react';
+
 const PatientDashboard = () => {
     const { user } = useAuthStore();
+    const medplum = useMedplum();
+
+    const handleOrder = async (medicationName) => {
+        try {
+            const medicationRequest = await medplum.createResource({
+                resourceType: 'MedicationRequest',
+                status: 'active',
+                intent: 'order',
+                medicationCodeableConcept: {
+                    text: medicationName,
+                    coding: [{ display: medicationName }]
+                },
+                subject: {
+                    reference: `Patient/${user?.id || 'unknown'}`,
+                    display: user?.name
+                },
+                authoredOn: new Date().toISOString()
+            });
+            console.log('Created MedicationRequest:', medicationRequest);
+            alert(`Order placed for ${medicationName}! (FHIR ID: ${medicationRequest.id})`);
+        } catch (error) {
+            console.error('Failed to create order:', error);
+            alert('Failed to place order. See console for details.');
+        }
+    };
+
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -40,7 +68,7 @@ const PatientDashboard = () => {
                 <div className="space-y-8">
                     <MediPal />
 
-                    <QuickRefillCard />
+                    <QuickRefillCard onOrder={handleOrder} />
 
                     <Card className="bg-destructive text-destructive-foreground border-none shadow-lg shadow-destructive/20">
                         <CardContent className="flex items-center justify-between p-6">
@@ -62,7 +90,7 @@ const PatientDashboard = () => {
     );
 };
 
-const QuickRefillCard = () => (
+const QuickRefillCard = ({ onOrder }) => (
     <Card>
         <CardHeader>
             <CardTitle className="flex items-center gap-2 text-primary">
@@ -71,19 +99,21 @@ const QuickRefillCard = () => (
             </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-            <RefillItem name="Metformin" daysLeft={5} />
-            <RefillItem name="Lisinopril" daysLeft={3} />
+            <RefillItem name="Metformin" daysLeft={5} onOrder={onOrder} />
+            <RefillItem name="Lisinopril" daysLeft={3} onOrder={onOrder} />
         </CardContent>
     </Card>
 );
 
-const RefillItem = ({ name, daysLeft }) => (
+const RefillItem = ({ name, daysLeft, onOrder }) => (
     <div className="flex items-center justify-between bg-muted/30 p-3 rounded-lg border border-border/50">
         <div>
             <p className="font-medium text-foreground">{name}</p>
             <p className="text-xs text-muted-foreground">Remaining: {daysLeft} days</p>
         </div>
-        <Button size="sm" variant="outline" className="h-8">Order</Button>
+        <Button size="sm" variant="outline" className="h-8" onClick={() => onOrder(name)}>
+            Order
+        </Button>
     </div>
 );
 

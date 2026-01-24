@@ -6,11 +6,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
 const Home = () => {
-    const { isAuthenticated, login } = useAuth();
+    const { isAuthenticated, user, login } = useAuth();
     const navigate = useNavigate();
 
     const handleGetStarted = async () => {
-        if (!isAuthenticated) {
+        if (!isAuthenticated || user?.role !== 'patient') {
             await login({ 
                 userData: { id: 'user-1', name: 'Ilyass', role: 'patient' } 
             });
@@ -19,7 +19,7 @@ const Home = () => {
     };
 
     const handlePartnerWithUs = async () => {
-        if (!isAuthenticated) {
+        if (!isAuthenticated || user?.role !== 'pharmacy') {
             await login({ 
                 userData: { id: 'user-2', name: 'Pharmacy Admin', role: 'pharmacy' } 
             });

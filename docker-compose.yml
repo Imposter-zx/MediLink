@@ -1,0 +1,8 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      - VITE_MEDPLUM_BASE_URL=https://api.medplum.com/
+    restart: always

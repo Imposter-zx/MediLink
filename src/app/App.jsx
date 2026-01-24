@@ -5,6 +5,12 @@ import AppRoutes from './routes';
 import { useAuthStore } from '../stores/authStore';
 import { useThemeStore } from '../stores/themeStore';
 import { useFeatureFlag, FLAGS } from '../utils/featureFlags';
+import { MedplumProvider } from '@medplum/react';
+import { medplum } from '../lib/medplum';
+import { MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
+import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 
 // Lazy load Landing Scene
 const LandingScene = lazy(() => import('../components/ThreeLanding/LandingScene'));
@@ -84,9 +90,14 @@ function AppContent({ isLandingEnabled, showLanding, isAuthenticated, onEnterApp
   }
 
   return (
-    <AppShell>
-      <AppRoutes />
-    </AppShell>
+    <MedplumProvider medplum={medplum}>
+      <MantineProvider>
+        <Notifications position="bottom-right" />
+        <AppShell>
+          <AppRoutes />
+        </AppShell>
+      </MantineProvider>
+    </MedplumProvider>
   );
 }
 

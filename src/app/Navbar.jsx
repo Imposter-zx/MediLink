@@ -4,6 +4,8 @@ import { Heart, Home, Pill, Truck, User, Menu, X, Bookmark } from 'lucide-react'
 import { cn } from '../lib/utils';
 import Button from '../components/ui/Button';
 import { useAuth } from '../hooks/useAuth';
+import ThemeSwitcher from '../components/ui/ThemeSwitcher';
+import { Settings } from 'lucide-react';
 
 const Navbar = () => {
     const location = useLocation();
@@ -35,6 +37,8 @@ const Navbar = () => {
         navigate(item.path);
         setIsMobileMenuOpen(false);
     };
+
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     return (
         <nav className="bg-background/80 backdrop-blur-md sticky top-0 z-50 border-b border-border shadow-sm">
@@ -72,6 +76,24 @@ const Navbar = () => {
                                     </button>
                                 );
                             })}
+                        </div>
+                        
+                        {/* Accessibility Settings */}
+                        <div className="relative">
+                            <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+                                className={cn("rounded-full", isSettingsOpen && "bg-muted")}
+                            >
+                                <Settings size={20} />
+                            </Button>
+                            
+                            {isSettingsOpen && (
+                                <div className="absolute right-0 top-full mt-2 w-64 z-50">
+                                    <ThemeSwitcher />
+                                </div>
+                            )}
                         </div>
                     </div>
 

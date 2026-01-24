@@ -78,6 +78,10 @@
      HIGH CONTRAST THEME
      Maximum readability for accessibility
      ======================================== */
+  /* ========================================
+     HIGH CONTRAST THEME
+     Maximum readability for accessibility
+     ======================================== */
   :root[data-theme="high-contrast"],
   :root[data-contrast="high"] {
     --background: 0 0% 100%; /* Pure White */
@@ -104,8 +108,8 @@
     --destructive: 0 100% 45%; /* High Contrast Red */
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
+    --border: 0 0% 0%; /* Pure Black Borders */
+    --input: 0 0% 0%;
     --ring: 210 100% 40%;
   }
 
