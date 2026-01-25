@@ -144,7 +144,7 @@ export const validateMedicationName = (name) => {
   }
   
   // Allow letters, numbers, spaces, hyphens, and parentheses
-  const pattern = /^[a-zA-Z0-9\s\-\(\)]+$/;
+  const pattern = /^[a-zA-Z0-9\s\-()]+$/;
   
   if (!pattern.test(name)) {
     return { valid: false, error: 'Medication name contains invalid characters' };

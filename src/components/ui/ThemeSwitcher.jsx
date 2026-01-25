@@ -63,19 +63,22 @@ const ThemeSwitcher = () => {
     );
 };
 
-const ThemeButton = ({ active, onClick, icon: Icon, label }) => (
-    <button
-        onClick={onClick}
-        className={cn(
-            "flex flex-col items-center justify-center p-2 rounded-lg transition-all text-xs font-medium gap-1",
-            active 
-                ? "bg-primary text-primary-foreground shadow-sm" 
-                : "bg-muted text-muted-foreground hover:bg-muted/80"
-        )}
-    >
-        <Icon size={16} />
-        {label}
-    </button>
-);
+const ThemeButton = (props) => {
+    const { active, onClick, icon: DisplayIcon, label } = props;
+    return (
+        <button
+            onClick={onClick}
+            className={cn(
+                "flex flex-col items-center justify-center p-2 rounded-lg transition-all text-xs font-medium gap-1",
+                active 
+                    ? "bg-primary text-primary-foreground shadow-sm" 
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+            )}
+        >
+            <DisplayIcon size={16} />
+            {label}
+        </button>
+    );
+};
 
 export default ThemeSwitcher;

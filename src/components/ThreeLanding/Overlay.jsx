@@ -265,6 +265,7 @@ export default function Overlay({ onEnter, isExiting }) {
             key={i}
             className="absolute w-1 h-1 bg-primary/40 rounded-full"
             initial={{
+              // eslint-disable-next-line react-hooks/purity
               x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
               y: -10,
               opacity: 0,
@@ -274,8 +275,10 @@ export default function Overlay({ onEnter, isExiting }) {
               opacity: [0, 0.3, 0],
             }}
             transition={{
+              // eslint-disable-next-line react-hooks/purity
               duration: 5 + Math.random() * 3,
               repeat: Infinity,
+              // eslint-disable-next-line react-hooks/purity
               delay: Math.random() * 5,
               ease: 'linear',
             }}

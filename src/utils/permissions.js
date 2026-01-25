@@ -89,7 +89,7 @@ export const canAccessRoute = (userRole, route) => {
  */
 export const getPermissionsForRole = (userRole) => {
   return Object.entries(PERMISSIONS)
-    .filter(([_, allowedRoles]) => allowedRoles.includes(userRole))
+    .filter(([, allowedRoles]) => allowedRoles.includes(userRole))
     .map(([permission]) => permission);
 };
 
@@ -131,7 +131,7 @@ export const auditPermissionCheck = (userId, userRole, permission, granted) => {
   };
   
   // In production: Send to backend logging service
-  if (process.env.NODE_ENV === 'production') {
+  if (import.meta.env.PROD) {
     // fetch('/api/audit/permissions', {
     //   method: 'POST',
     //   body: JSON.stringify(logEntry),

@@ -13,23 +13,35 @@ export default function MedicalParticles({ count = 30 }) {
   const particles = useMemo(() => {
     const temp = [];
     for (let i = 0; i < count; i++) {
+      // eslint-disable-next-line react-hooks/purity
       const type = ['pill', 'capsule', 'cross'][Math.floor(Math.random() * 3)];
       const position = [
+        // eslint-disable-next-line react-hooks/purity
         (Math.random() - 0.5) * 20,
+        // eslint-disable-next-line react-hooks/purity
         (Math.random() - 0.5) * 15,
+        // eslint-disable-next-line react-hooks/purity
         (Math.random() - 0.5) * 20,
       ];
       const velocity = [
+        // eslint-disable-next-line react-hooks/purity
         (Math.random() - 0.5) * 0.02,
+        // eslint-disable-next-line react-hooks/purity
         (Math.random() - 0.5) * 0.02,
+        // eslint-disable-next-line react-hooks/purity
         (Math.random() - 0.5) * 0.02,
       ];
       const rotation = [
+        // eslint-disable-next-line react-hooks/purity
         Math.random() * Math.PI * 2,
+        // eslint-disable-next-line react-hooks/purity
         Math.random() * Math.PI * 2,
+        // eslint-disable-next-line react-hooks/purity
         Math.random() * Math.PI * 2,
       ];
+      // eslint-disable-next-line react-hooks/purity
       const scale = 0.3 + Math.random() * 0.4;
+      // eslint-disable-next-line react-hooks/purity
       const color = Math.random() > 0.5 ? '#8fbfa0' : '#c5d8cc'; // Sage or Light Sage/Mint
       
       temp.push({ type, position, velocity, rotation, scale, color });

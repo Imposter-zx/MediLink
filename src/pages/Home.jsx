@@ -96,18 +96,21 @@ const Home = () => {
     );
 };
 
-const FeatureCard = ({ icon: Icon, title, description }) => (
-    <Card className="border-none shadow-lg shadow-slate-200/50 hover:-translate-y-1 transition-transform duration-300">
-        <CardContent className="p-8 text-center">
-            <div className="mx-auto w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 text-primary">
-                <Icon size={28} />
-            </div>
-            <h3 className="text-xl font-bold mb-3 text-foreground">{title}</h3>
-            <p className="text-muted-foreground leading-relaxed">
-                {description}
-            </p>
-        </CardContent>
-    </Card>
-);
+const FeatureCard = (props) => {
+    const { icon: DisplayIcon, title, description } = props;
+    return (
+        <Card className="border-none shadow-lg shadow-slate-200/50 hover:-translate-y-1 transition-transform duration-300">
+            <CardContent className="p-8 text-center">
+                <div className="mx-auto w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 text-primary">
+                    <DisplayIcon size={28} />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-foreground">{title}</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                    {description}
+                </p>
+            </CardContent>
+        </Card>
+    );
+};
 
 export default Home;

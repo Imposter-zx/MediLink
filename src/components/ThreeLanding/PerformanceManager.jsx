@@ -8,7 +8,12 @@ import { useFrame, useThree } from '@react-three/fiber';
 export default function PerformanceManager({ onQualityChange }) {
   const { gl } = useThree();
   const fpsRef = useRef([]);
-  const lastTimeRef = useRef(performance.now());
+  const lastTimeRef = useRef(0);
+
+  useEffect(() => {
+    lastTimeRef.current = performance.now();
+  }, []);
+
   const [quality, setQuality] = useState('high');
 
   // Detect device capabilities & battery status

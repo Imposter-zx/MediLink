@@ -145,7 +145,7 @@ export const VALIDATION = {
   PASSWORD_REQUIRE_SPECIAL: true,
   
   DOSAGE_PATTERN: /^\d+(\.\d+)?\s*(mg|g|ml|mcg|IU)$/i,
-  PHONE_PATTERN: /^[\d\s\-\+\(\)]+$/,
+  PHONE_PATTERN: /^[\d\s\-+()]+$/,
   EMAIL_PATTERN: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
 };
 
