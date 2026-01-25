@@ -1,6 +1,5 @@
 import { useAuthStore } from '../stores/authStore';
 import { useUserStore } from '../stores/userStore';
-import { useOrdersStore } from '../stores/ordersStore';
 import { useNotificationsStore } from '../stores/notificationsStore';
 import { hasPermission } from '../utils/permissions';
 

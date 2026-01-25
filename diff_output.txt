@@ -1,0 +1,349 @@
+diff --git a/src/app/App.jsx b/src/app/App.jsx
+index 670d07f..dec0d9e 100644
+--- a/src/app/App.jsx
++++ b/src/app/App.jsx
+@@ -17,7 +17,6 @@ const LandingScene = lazy(() => import('../components/ThreeLanding/LandingScene'
+ 
+ function App() {
+   const { isAuthenticated, login, checkSession, isLoading } = useAuthStore();
+-  const theme = useThemeStore((state) => state.theme);
+   
+   const isLandingEnabled = useFeatureFlag(FLAGS.LANDING_3D, true);
+   
+diff --git a/src/components/ThreeLanding/Experience.jsx b/src/components/ThreeLanding/Experience.jsx
+index 3d3b928..0439db6 100644
+--- a/src/components/ThreeLanding/Experience.jsx
++++ b/src/components/ThreeLanding/Experience.jsx
+@@ -4,7 +4,8 @@ import { useRef, useMemo, useState } from 'react';
+ import * as THREE from 'three';
+ import CameraRig from './CameraRig';
+ import MedicalParticles from './MedicalParticles';
+-import PerformanceManager, { qualityPresets } from './PerformanceManager';
++import PerformanceManager from './PerformanceManager';
++import { qualityPresets } from './performancePresets';
+ 
+ // Enhanced DNA Strand with glowing connections and pulsing animations
+ const DNAStrand = ({ count = 40, radius = 2, height = 8 }) => {
+@@ -18,7 +19,7 @@ const DNAStrand = ({ count = 40, radius = 2, height = 8 }) => {
+ 
+     // Pulse animation for connection bars
+     const pulse = Math.sin(state.clock.getElapsedTime() * 2) * 0.5 + 0.5;
+-    barsRef.current.forEach((bar, i) => {
++    barsRef.current.forEach((bar) => {
+       if (bar) {
+         bar.material.opacity = 0.2 + pulse * 0.3;
+         bar.scale.y = 0.8 + pulse * 0.4;
+diff --git a/src/components/ThreeLanding/LandingScene.jsx b/src/components/ThreeLanding/LandingScene.jsx
+index a542a3c..6992f02 100644
+--- a/src/components/ThreeLanding/LandingScene.jsx
++++ b/src/components/ThreeLanding/LandingScene.jsx
+@@ -15,21 +15,7 @@ import Experience from './Experience';
+ import Overlay from './Overlay';
+ 
+ export default function LandingScene({ onEnter }) {
+-  const [ready, setReady] = useState(false);
+   const [isExiting, setIsExiting] = useState(false);
+-  const [lowMotion, setLowMotion] = useState(false);
+-
+-  useEffect(() => {
+-    // Check for reduced motion preference
+-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+-    setLowMotion(prefersReducedMotion);
+-  }, []);
+-
+-  useEffect(() => {
+-    // Simulate asset loading buffer
+-    const timer = setTimeout(() => setReady(true), 500);
+-    return () => clearTimeout(timer);
+-  }, []);
+ 
+   const handleEnter = () => {
+     setIsExiting(true);
+diff --git a/src/components/ThreeLanding/Overlay.jsx b/src/components/ThreeLanding/Overlay.jsx
+index dcf8af1..1aaa0e7 100644
+--- a/src/components/ThreeLanding/Overlay.jsx
++++ b/src/components/ThreeLanding/Overlay.jsx
+@@ -1,4 +1,4 @@
+-import { motion, useAnimation } from 'framer-motion';
++import { motion as Motion, useAnimation } from 'framer-motion';
+ import { useEffect, useRef, useState } from 'react';
+ 
+ export default function Overlay({ onEnter, isExiting }) {
+@@ -79,12 +79,12 @@ export default function Overlay({ onEnter, isExiting }) {
+           <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-primary/40 -mb-0.5 -mr-0.5 animate-pulse" />
+           
+           {/* Animated corner lines with softer colors */}
+-          <motion.div
++          <Motion.div
+             className="absolute top-0 left-8 w-16 h-0.5 bg-gradient-to-r from-teal-400/70 to-transparent"
+             animate={{ opacity: [0.4, 0.7, 0.4] }}
+             transition={{ duration: 2, repeat: Infinity }}
+           />
+-          <motion.div
++          <Motion.div
+             className="absolute top-0 right-8 w-16 h-0.5 bg-gradient-to-l from-teal-400/70 to-transparent"
+             animate={{ opacity: [0.4, 0.7, 0.4] }}
+             transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+@@ -93,7 +93,7 @@ export default function Overlay({ onEnter, isExiting }) {
+       </div>
+ 
+       {/* Warm animated scan lines effect */}
+-      <motion.div
++      <Motion.div
+         className="absolute inset-0 pointer-events-none opacity-[0.03]"
+         style={{
+           background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, #8fbfa0 2px, #8fbfa0 4px)',
+@@ -103,41 +103,41 @@ export default function Overlay({ onEnter, isExiting }) {
+       />
+ 
+       {/* Medical Cross Icon */}
+-      <motion.div
++      <Motion.div
+         animate={crossControls}
+         initial={{ opacity: 0, scale: 0 }}
+         className="mb-8"
+       >
+         <div className="relative w-16 h-16 md:w-20 md:h-20">
+           {/* Vertical bar with warm sage gradient */}
+-          <motion.div
++          <Motion.div
+             className="absolute left-1/2 top-0 w-2 h-full bg-gradient-to-b from-primary/80 to-primary transform -translate-x-1/2 shadow-md shadow-primary/20"
+             animate={{ scaleY: [1, 1.02, 1] }}
+             transition={{ duration: 3, repeat: Infinity }}
+           />
+           {/* Horizontal bar with warm sage gradient */}
+-          <motion.div
++          <Motion.div
+             className="absolute top-1/2 left-0 w-full h-2 bg-gradient-to-r from-primary/80 to-primary transform -translate-y-1/2 shadow-md shadow-primary/20"
+             animate={{ scaleX: [1, 1.02, 1] }}
+             transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
+           />
+           {/* Subtle pulsing glow effect */}
+-          <motion.div
++          <Motion.div
+             className="absolute inset-0 bg-primary/10 blur-xl rounded-full"
+             animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.2, 0.1] }}
+             transition={{ duration: 3, repeat: Infinity }}
+           />
+         </div>
+-      </motion.div>
++      </Motion.div>
+ 
+       {/* Title with glitch effect */}
+-      <motion.div
++      <Motion.div
+         initial={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
+         animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+         transition={{ duration: 1.5, ease: 'circOut', delay: 0.3 }}
+         className="text-center relative z-10 mb-4"
+       >
+-        <motion.h1
++        <Motion.h1
+           ref={titleRef}
+           animate={titleControls}
+           className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter select-none relative"
+@@ -149,33 +149,33 @@ export default function Overlay({ onEnter, isExiting }) {
+             MEDILINK
+           </span>
+           {/* Subtle ivory accents layer */}
+-          <motion.span
++          <Motion.span
+             className="absolute inset-0 bg-clip-text text-transparent bg-white/10"
+             style={{ transform: 'translate(1px, 1px)' }}
+           >
+             MEDILINK
+-          </motion.span>
+-        </motion.h1>
++          </Motion.span>
++        </Motion.h1>
+ 
+-        <motion.p
++        <Motion.p
+           initial={{ opacity: 0, y: 20 }}
+           animate={{ opacity: 0.6, y: 0 }}
+           transition={{ delay: 1.2, duration: 1.2 }}
+           className="text-primary uppercase tracking-[0.5em] text-xs md:text-sm font-bold mt-4"
+         >
+           Healthcare Connectivity Platform
+-        </motion.p>
+-      </motion.div>
++        </Motion.p>
++      </Motion.div>
+ 
+       {/* System status indicators with sage colors */}
+-      <motion.div
++      <Motion.div
+         initial={{ opacity: 0 }}
+         animate={{ opacity: 0.4 }}
+         transition={{ delay: 1.5, duration: 1.5 }}
+         className="flex gap-4 mb-12 text-xs font-mono text-primary"
+       >
+         <div className="flex items-center gap-2">
+-          <motion.div
++          <Motion.div
+             className="w-2 h-2 bg-primary rounded-full"
+             animate={{ opacity: [0.3, 0.6, 0.3] }}
+             transition={{ duration: 2, repeat: Infinity }}
+@@ -183,18 +183,18 @@ export default function Overlay({ onEnter, isExiting }) {
+           <span>SYSTEM READY</span>
+         </div>
+         <div className="flex items-center gap-2">
+-          <motion.div
++          <Motion.div
+             className="w-2 h-2 bg-primary/60 rounded-full"
+             animate={{ opacity: [0.3, 0.6, 0.3] }}
+             transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+           />
+           <span>SECURE CONNECTION</span>
+         </div>
+-      </motion.div>
++      </Motion.div>
+ 
+       {/* Enhanced CTA Button */}
+       {showButton && (
+-        <motion.button
++        <Motion.button
+           initial={{ opacity: 0, y: 50 }}
+           animate={{ opacity: 1, y: 0 }}
+           whileHover={{
+@@ -212,12 +212,12 @@ export default function Overlay({ onEnter, isExiting }) {
+           {/* Border with skew and primary Sage colors */}
+           <div className="absolute inset-0 w-full h-full border-2 border-primary/30 group-hover:border-primary/50 transition-colors duration-300 transform skew-x-[-12deg]">
+             {/* Corner highlights */}
+-            <motion.div
++            <Motion.div
+               className="absolute top-0 left-0 w-3 h-3 bg-primary/40 group-hover:bg-primary/60 transition-colors"
+               animate={{ opacity: [0.3, 0.5, 0.3] }}
+               transition={{ duration: 2, repeat: Infinity }}
+             />
+-            <motion.div
++            <Motion.div
+               className="absolute bottom-0 right-0 w-3 h-3 bg-primary/40 group-hover:bg-primary/60 transition-colors"
+               animate={{ opacity: [0.3, 0.5, 0.3] }}
+               transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+@@ -225,7 +225,7 @@ export default function Overlay({ onEnter, isExiting }) {
+           </div>
+ 
+           {/* Subtle hover overlay */}
+-          <motion.div
++          <Motion.div
+             className="absolute inset-0 w-full h-0.5 bg-primary/20"
+             initial={{ opacity: 0 }}
+             whileHover={{ opacity: [0, 0.3, 0] }}
+@@ -234,7 +234,7 @@ export default function Overlay({ onEnter, isExiting }) {
+ 
+           <span className="relative z-10 text-primary font-bold tracking-widest text-sm uppercase flex items-center gap-3">
+             <span>Enter Experience</span>
+-            <motion.svg
++            <Motion.svg
+               className="w-5 h-5"
+               fill="none"
+               stroke="currentColor"
+@@ -243,25 +243,25 @@ export default function Overlay({ onEnter, isExiting }) {
+               transition={{ type: 'spring', stiffness: 400 }}
+             >
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+-            </motion.svg>
++            </Motion.svg>
+           </span>
+-        </motion.button>
++        </Motion.button>
+       )}
+ 
+       {/* Version info */}
+-      <motion.div
++      <Motion.div
+         initial={{ opacity: 0 }}
+         animate={{ opacity: 0.4 }}
+         transition={{ delay: 2.5, duration: 1 }}
+         className="absolute bottom-8 text-[10px] text-slate-500 font-mono tracking-widest uppercase"
+       >
+         v1.0.0 // Medical Platform // Access Granted
+-      </motion.div>
++      </Motion.div>
+ 
+       {/* Floating particle effects with sage colors */}
+       <div className="absolute inset-0 pointer-events-none overflow-hidden">
+         {[...Array(20)].map((_, i) => (
+-          <motion.div
++          <Motion.div
+             key={i}
+             className="absolute w-1 h-1 bg-primary/40 rounded-full"
+             initial={{
+diff --git a/src/components/ThreeLanding/PerformanceManager.jsx b/src/components/ThreeLanding/PerformanceManager.jsx
+index 2e856bd..24694ea 100644
+--- a/src/components/ThreeLanding/PerformanceManager.jsx
++++ b/src/components/ThreeLanding/PerformanceManager.jsx
+@@ -30,7 +30,7 @@ export default function PerformanceManager({ onQualityChange }) {
+                     console.log('[Performance] Low battery detected, downgrading quality');
+                     initialQuality = 'low';
+                 }
+-            } catch (e) {
++            } catch {
+                 // Ignore battery API errors
+             }
+         }
+@@ -88,31 +88,3 @@ export default function PerformanceManager({ onQualityChange }) {
+ 
+   return null;
+ }
+-
+-// Quality presets
+-export const qualityPresets = {
+-  low: {
+-    particleCount: 15,
+-    dnaCount: 20,
+-    sparklesCount: 100,
+-    shadowsEnabled: false,
+-    bloomIntensity: 0.8,
+-    postProcessing: false,
+-  },
+-  medium: {
+-    particleCount: 25,
+-    dnaCount: 30,
+-    sparklesCount: 200,
+-    shadowsEnabled: false,
+-    bloomIntensity: 1.0,
+-    postProcessing: true,
+-  },
+-  high: {
+-    particleCount: 35,
+-    dnaCount: 40,
+-    sparklesCount: 300,
+-    shadowsEnabled: true,
+-    bloomIntensity: 1.2,
+-    postProcessing: true,
+-  },
+-};
+diff --git a/src/components/patient/MedicationList.jsx b/src/components/patient/MedicationList.jsx
+index d71a0d4..4a3c128 100644
+--- a/src/components/patient/MedicationList.jsx
++++ b/src/components/patient/MedicationList.jsx
+@@ -7,7 +7,7 @@ import { cn } from '../../lib/utils';
+ import { useMedicationsStore } from '../../stores/medicationsStore';
+ 
+ const MedicationList = () => {
+-    const { medications: meds, updateMedication } = useMedicationsStore();
++    const { medications: meds } = useMedicationsStore();
+     const [localMeds, setLocalMeds] = useState(meds); // Still use local for the 'taken' checkbox if not in store
+     
+     // Sync with global store if needed
+diff --git a/src/components/ui/ThemeSwitcher.jsx b/src/components/ui/ThemeSwitcher.jsx
+index 7e0d334..8f404bb 100644
+--- a/src/components/ui/ThemeSwitcher.jsx
++++ b/src/components/ui/ThemeSwitcher.jsx
+@@ -1,4 +1,4 @@
+-import React, { useEffect } from 'react';
++import React from 'react';
+ import { useThemeStore, THEMES, CONTRAST_MODES } from '../../stores/themeStore';
+ import { Sun, Moon, Eye, Type } from 'lucide-react';
+ import Button from '../ui/Button';
+@@ -6,7 +6,7 @@ import { cn } from '../../lib/utils';
+ import { useAuthStore } from '../../stores/authStore';
+ 
+ const ThemeSwitcher = () => {
+-    const { theme, setTheme, contrastMode, setContrastMode, fontSizeMultiplier, setFontSizeMultiplier } = useThemeStore();
++    const { theme, setTheme, setContrastMode, fontSizeMultiplier, setFontSizeMultiplier } = useThemeStore();
+     const { isAuthenticated } = useAuthStore();
+ 
+     // Only show for authenticated users (part of user preferences)

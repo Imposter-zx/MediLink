@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useThemeStore, THEMES, CONTRAST_MODES } from '../../stores/themeStore';
 import { Sun, Moon, Eye, Type } from 'lucide-react';
 import Button from '../ui/Button';
 import { cn } from '../../lib/utils';
-import { useAuthStore } from '../../stores/authStore';
-
 const ThemeSwitcher = () => {
-    const { theme, setTheme, contrastMode, setContrastMode, fontSizeMultiplier, setFontSizeMultiplier } = useThemeStore();
-    const { isAuthenticated } = useAuthStore();
+    const { theme, setTheme, fontSizeMultiplier, setFontSizeMultiplier } = useThemeStore();
 
     // Only show for authenticated users (part of user preferences)
     // Or show always if you want it on landing page too.

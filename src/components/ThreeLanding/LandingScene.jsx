@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber';
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState } from 'react';
 import {
   EffectComposer,
   Bloom,
@@ -15,21 +15,7 @@ import Experience from './Experience';
 import Overlay from './Overlay';
 
 export default function LandingScene({ onEnter }) {
-  const [ready, setReady] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const [lowMotion, setLowMotion] = useState(false);
-
-  useEffect(() => {
-    // Check for reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setLowMotion(prefersReducedMotion);
-  }, []);
-
-  useEffect(() => {
-    // Simulate asset loading buffer
-    const timer = setTimeout(() => setReady(true), 500);
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleEnter = () => {
     setIsExiting(true);

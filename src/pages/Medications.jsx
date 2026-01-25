@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Plus, Search, Calendar, Clock, Pill } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card, { CardHeader, CardTitle, CardContent } from '../components/ui/Card';
-import { cn } from '../lib/utils';
 import { useMedicationsStore } from '../stores/medicationsStore';
 
 const Medications = () => {

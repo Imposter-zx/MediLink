@@ -4,7 +4,8 @@ import { useRef, useMemo, useState } from 'react';
 import * as THREE from 'three';
 import CameraRig from './CameraRig';
 import MedicalParticles from './MedicalParticles';
-import PerformanceManager, { qualityPresets } from './PerformanceManager';
+import PerformanceManager from './PerformanceManager';
+import { qualityPresets } from './performancePresets';
 
 // Enhanced DNA Strand with glowing connections and pulsing animations
 const DNAStrand = ({ count = 40, radius = 2, height = 8 }) => {
@@ -18,7 +19,7 @@ const DNAStrand = ({ count = 40, radius = 2, height = 8 }) => {
 
     // Pulse animation for connection bars
     const pulse = Math.sin(state.clock.getElapsedTime() * 2) * 0.5 + 0.5;
-    barsRef.current.forEach((bar, i) => {
+    barsRef.current.forEach((bar) => {
       if (bar) {
         bar.material.opacity = 0.2 + pulse * 0.3;
         bar.scale.y = 0.8 + pulse * 0.4;

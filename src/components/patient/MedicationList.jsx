@@ -7,7 +7,7 @@ import { cn } from '../../lib/utils';
 import { useMedicationsStore } from '../../stores/medicationsStore';
 
 const MedicationList = () => {
-    const { medications: meds, updateMedication } = useMedicationsStore();
+    const { medications: meds } = useMedicationsStore();
     const [localMeds, setLocalMeds] = useState(meds); // Still use local for the 'taken' checkbox if not in store
     
     // Sync with global store if needed

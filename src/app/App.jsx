@@ -3,7 +3,6 @@ import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import AppShell from './AppShell';
 import AppRoutes from './routes';
 import { useAuthStore } from '../stores/authStore';
-import { useThemeStore } from '../stores/themeStore';
 import { useFeatureFlag, FLAGS } from '../utils/featureFlags';
 import { MedplumProvider } from '@medplum/react';
 import { medplum } from '../lib/medplum';
@@ -17,7 +16,6 @@ const LandingScene = lazy(() => import('../components/ThreeLanding/LandingScene'
 
 function App() {
   const { isAuthenticated, login, checkSession, isLoading } = useAuthStore();
-  const theme = useThemeStore((state) => state.theme);
   
   const isLandingEnabled = useFeatureFlag(FLAGS.LANDING_3D, true);
   
