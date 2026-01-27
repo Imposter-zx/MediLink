@@ -12,6 +12,7 @@ const PharmacyDashboard = lazy(() => import('../pages/PharmacyDashboard'));
 const DeliveryDashboard = lazy(() => import('../pages/DeliveryDashboard'));
 const MedicationLibrary = lazy(() => import('../pages/MedicationLibrary'));
 const Medications = lazy(() => import('../pages/Medications'));
+const Profile = lazy(() => import('../pages/Profile'));
 
 const PageLoader = () => (
   <div className="min-h-[60vh] flex items-center justify-center">
@@ -80,6 +81,13 @@ const AppRoutes = () => {
         } />
 
         <Route path="/library" element={<MedicationLibrary />} />
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <DashboardErrorBoundary>
+              <Profile />
+            </DashboardErrorBoundary>
+          </ProtectedRoute>
+        } />
         <Route path="/settings" element={<Settings />} />
         
         {/* 404 Redirect */}

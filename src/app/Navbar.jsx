@@ -103,6 +103,16 @@ const Navbar = () => {
                                             <div className="p-2">
                                                 <button
                                                     onClick={() => {
+                                                        navigate('/profile');
+                                                        setIsSettingsOpen(false);
+                                                    }}
+                                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors text-left"
+                                                >
+                                                    <User size={18} />
+                                                    <span className="font-medium">My Profile</span>
+                                                </button>
+                                                <button
+                                                    onClick={() => {
                                                         navigate('/settings');
                                                         setIsSettingsOpen(false);
                                                     }}
