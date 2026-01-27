@@ -11,7 +11,6 @@ import Slider from '../components/ui/Slider';
 import TagsInput from '../components/ui/TagsInput';
 import FileUpload from '../components/ui/FileUpload';
 import { useAuthStore } from '../stores/authStore';
-import { useUserStore } from '../stores/userStore';
 import { useThemeStore, THEMES, CONTRAST_MODES } from '../stores/themeStore';
 import ConfirmModal from '../components/ui/ConfirmModal';
 
@@ -30,7 +29,6 @@ const Settings = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     
     const { user } = useAuthStore();
-    const userStore = useUserStore();
     const themeStore = useThemeStore();
     
     // Account state

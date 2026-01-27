@@ -96,7 +96,7 @@ const Login = () => {
                 });
                 
                 navigate('/patient');
-            } catch (error) {
+            } catch {
                 setErrors({ submit: 'Invalid credentials. Please try again.' });
             } finally {
                 setIsLoading(false);
