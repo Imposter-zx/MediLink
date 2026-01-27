@@ -78,20 +78,62 @@ const Navbar = () => {
                             })}
                         </div>
                         
-                        {/* Accessibility Settings */}
-                        <div className="relative">
-                            <Button 
-                                variant="ghost" 
-                                size="icon" 
-                                onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-                                className={cn("rounded-full", isSettingsOpen && "bg-muted")}
-                            >
-                                <Settings size={20} />
-                            </Button>
+                        {/* Settings & Auth Actions */}
+                        <div className="flex items-center gap-2">
+                            {/* Settings Dropdown */}
+                            <div className="relative">
+                                <Button 
+                                    variant="ghost" 
+                                    size="icon" 
+                                    onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+                                    className={cn("rounded-full", isSettingsOpen && "bg-muted")}
+                                    aria-label="Settings menu"
+                                >
+                                    <Settings size={20} />
+                                </Button>
+                                
+                                {isSettingsOpen && (
+                                    <>
+                                        {/* Backdrop to close dropdown */}
+                                        <div 
+                                            className="fixed inset-0 z-40" 
+                                            onClick={() => setIsSettingsOpen(false)}
+                                        />
+                                        <div className="absolute right-0 top-full mt-2 w-64 z-50 bg-card border border-border rounded-xl shadow-lg overflow-hidden">
+                                            <div className="p-2">
+                                                <button
+                                                    onClick={() => {
+                                                        navigate('/settings');
+                                                        setIsSettingsOpen(false);
+                                                    }}
+                                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors text-left"
+                                                >
+                                                    <Settings size={18} />
+                                                    <span className="font-medium">Settings</span>
+                                                </button>
+                                            </div>
+                                            <div className="border-t border-border p-2">
+                                                <ThemeSwitcher />
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
                             
-                            {isSettingsOpen && (
-                                <div className="absolute right-0 top-full mt-2 w-64 z-50">
-                                    <ThemeSwitcher />
+                            {/* Sign In / User Button */}
+                            {!user ? (
+                                <Button
+                                    variant="primary"
+                                    size="sm"
+                                    onClick={() => navigate('/login')}
+                                    className="rounded-full px-4"
+                                >
+                                    Sign In
+                                </Button>
+                            ) : (
+                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary">
+                                    <User size={16} />
+                                    <span className="text-sm font-medium">{user.name}</span>
                                 </div>
                             )}
                         </div>
