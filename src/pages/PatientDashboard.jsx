@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MedicationList from '../components/patient/MedicationList';
 import AppointmentList from '../components/patient/AppointmentList';
 import MediPal from '../components/patient/MediPal';
@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { useNotificationsStore } from '../stores/notificationsStore';
 import ConfirmModal from '../components/ui/ConfirmModal';
+import { useAuthStore } from '../stores/authStore';
+import { useMedplum } from '@medplum/react';
 
 const PatientDashboard = () => {
     const { user } = useAuthStore();
@@ -24,7 +26,7 @@ const PatientDashboard = () => {
     const handleConfirmOrder = async () => {
         const medicationName = confirmOrder.medicationName;
         try {
-            const medicationRequest = await medplum.createResource({
+            await medplum.createResource({
                 resourceType: 'MedicationRequest',
                 status: 'active',
                 intent: 'order',

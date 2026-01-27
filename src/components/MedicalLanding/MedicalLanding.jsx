@@ -5,6 +5,8 @@ import DashboardPreview from './DashboardPreview';
 import { motion } from 'framer-motion';
 
 const MedicalLanding = ({ onEnter }) => {
+  const MotionDiv = motion.div;
+
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center relative overflow-hidden font-sans transition-colors duration-300">
       {/* Subtle Background Elements */}
@@ -15,17 +17,17 @@ const MedicalLanding = ({ onEnter }) => {
 
       <div className="container max-w-6xl mx-auto px-6 relative z-10 flex flex-col items-center text-center py-12">
         {/* Trusted Badge */}
-        <motion.div 
+        <MotionDiv 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-4 py-2 bg-card border border-border shadow-sm rounded-full mb-8"
         >
             <Shield className="text-primary" size={16} />
             <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Trusted Healthcare Platform</span>
-        </motion.div>
+        </MotionDiv>
 
         {/* Hero Section */}
-        <motion.div
+        <MotionDiv
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -37,10 +39,10 @@ const MedicalLanding = ({ onEnter }) => {
             <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
                 MediLink bridges the gap between patients, healthcare providers, and pharmacies with a secure, real-time clinical network built on FHIR standards.
             </p>
-        </motion.div>
+        </MotionDiv>
 
         {/* Primary Actions */}
-        <motion.div 
+        <MotionDiv 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
@@ -60,10 +62,10 @@ const MedicalLanding = ({ onEnter }) => {
             >
                 Sign In
             </Button>
-        </motion.div>
+        </MotionDiv>
 
         {/* Security & Trust Icons */}
-        <motion.div 
+        <MotionDiv 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
@@ -81,17 +83,17 @@ const MedicalLanding = ({ onEnter }) => {
                 <Activity size={18} />
                 <span className="text-sm font-medium">Real-time Clinical Data</span>
             </div>
-        </motion.div>
+        </MotionDiv>
 
         {/* Dashboard Preview / Interface Hint */}
-        <motion.div 
+        <MotionDiv 
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
             className="w-full"
         >
             <DashboardPreview />
-        </motion.div>
+        </MotionDiv>
 
         {/* Footer Reassurance */}
         <div className="mt-12 pt-8 border-t border-border w-full flex flex-col items-center">

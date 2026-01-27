@@ -3,7 +3,6 @@ import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import AppShell from './AppShell';
 import AppRoutes from './routes';
 import { useAuthStore } from '../stores/authStore';
-import { useFeatureFlag, FLAGS } from '../utils/featureFlags';
 import { MedplumProvider } from '@medplum/react';
 import { medplum } from '../lib/medplum';
 import { MantineProvider } from '@mantine/core';
