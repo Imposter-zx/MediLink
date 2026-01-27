@@ -6,6 +6,8 @@ import MedicineDetailModal from '../components/library/MedicineDetailModal';
 import { useMedplum } from '@medplum/react';
 import { useEffect } from 'react';
 
+import { Skeleton } from '@mantine/core';
+
 const MedicationLibrary = () => {
     const medplum = useMedplum();
     const [searchQuery, setSearchQuery] = useState('');
@@ -100,8 +102,25 @@ const MedicationLibrary = () => {
 
             {/* Content Grid */}
             {loading ? (
-                <div className="flex justify-center py-20">
-                    <Loader2 className="animate-spin text-primary" size={48} />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {[...Array(6)].map((_, i) => (
+                        <Card key={i} className="rounded-[2.5rem] p-8 space-y-6">
+                            <div className="flex justify-between">
+                                <Skeleton height={56} width={56} radius="xl" />
+                                <Skeleton height={24} width={80} radius="xl" />
+                            </div>
+                            <Skeleton height={32} width="70%" radius="md" />
+                            <div className="space-y-2">
+                                <Skeleton height={16} width="100%" radius="md" />
+                                <Skeleton height={16} width="90%" radius="md" />
+                                <Skeleton height={16} width="80%" radius="md" />
+                            </div>
+                            <div className="flex justify-between items-center pt-4">
+                                <Skeleton height={20} width={100} radius="md" />
+                                <Skeleton height={40} width={120} radius="xl" />
+                            </div>
+                        </Card>
+                    ))}
                 </div>
             ) : medicines.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -134,7 +153,7 @@ const MedicationLibrary = () => {
                                     <Button 
                                         onClick={() => handleViewDetails(med)}
                                         variant="outline" 
-                                        className="rounded-full font-bold group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all"
+                                        className="rounded-full font-bold transition-all"
                                     >
                                         View Details
                                         <Plus size={16} className="ml-2" />

@@ -6,15 +6,23 @@ import Card, { CardHeader, CardTitle, CardContent } from '../components/ui/Card'
 import Button from '../components/ui/Button';
 import { ShoppingBag, Bell, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useAuthStore } from '../stores/authStore';
-
-import { useMedplum } from '@medplum/react';
+import { notifications } from '@mantine/notifications';
+import { useNotificationsStore } from '../stores/notificationsStore';
+import ConfirmModal from '../components/ui/ConfirmModal';
 
 const PatientDashboard = () => {
     const { user } = useAuthStore();
     const medplum = useMedplum();
+    const addNotif = useNotificationsStore(state => state.addNotification);
+    
+    const [confirmOrder, setConfirmOrder] = useState({ open: false, medicationName: '' });
 
-    const handleOrder = async (medicationName) => {
+    const handleOrderClick = (name) => {
+        setConfirmOrder({ open: true, medicationName: name });
+    };
+
+    const handleConfirmOrder = async () => {
+        const medicationName = confirmOrder.medicationName;
         try {
             const medicationRequest = await medplum.createResource({
                 resourceType: 'MedicationRequest',
@@ -30,16 +38,40 @@ const PatientDashboard = () => {
                 },
                 authoredOn: new Date().toISOString()
             });
-            console.log('Created MedicationRequest:', medicationRequest);
-            alert(`Order placed for ${medicationName}! (FHIR ID: ${medicationRequest.id})`);
+            
+            notifications.show({
+                title: 'Order Processing',
+                message: `${medicationName} request has been sent to your pharmacy.`,
+                color: 'teal',
+            });
+
+            addNotif({
+                title: 'Order Placed',
+                message: `Prescription request for ${medicationName} sent.`,
+                type: 'success'
+            });
+
         } catch (error) {
             console.error('Failed to create order:', error);
-            alert('Failed to place order. See console for details.');
+            notifications.show({
+                title: 'Service Interruption',
+                message: 'Could not connect to medical server. Please try again later.',
+                color: 'red',
+            });
         }
     };
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <ConfirmModal 
+                isOpen={confirmOrder.open}
+                onClose={() => setConfirmOrder({ ...confirmOrder, open: false })}
+                onConfirm={handleConfirmOrder}
+                title="Confirm Medication Order"
+                message={`Are you sure you want to request a refill for ${confirmOrder.medicationName}? This will create a clinical MedicationRequest.`}
+                confirmText="Place Order"
+                type="info"
+            />
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-foreground">Good Morning, {user?.name || 'Guest'}</h1>
@@ -68,7 +100,7 @@ const PatientDashboard = () => {
                 <div className="space-y-8">
                     <MediPal />
 
-                    <QuickRefillCard onOrder={handleOrder} />
+                    <QuickRefillCard onOrder={handleOrderClick} />
 
                     <Card className="bg-destructive text-destructive-foreground border-none shadow-lg shadow-destructive/20">
                         <CardContent className="flex items-center justify-between p-6">
@@ -79,7 +111,7 @@ const PatientDashboard = () => {
                                 </h3>
                                 <p className="text-destructive-foreground/80 text-sm mt-1">Press if you need help</p>
                             </div>
-                            <Button variant="secondary" className="bg-background text-destructive hover:bg-background/90 font-bold px-6">
+                            <Button variant="secondary" className="bg-destructive-foreground text-destructive hover:bg-destructive-foreground/90 font-bold px-6">
                                 CALL 112
                             </Button>
                         </CardContent>

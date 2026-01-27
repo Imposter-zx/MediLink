@@ -18,8 +18,8 @@ const DeliveryCard = ({ delivery, onAction }) => {
                 <div className="flex justify-between items-start">
                     <div>
                         <div className="flex items-center gap-2 mb-2">
-                            <div className="bg-secondary p-1.5 rounded-md">
-                                <Box size={16} className="text-secondary-foreground" />
+                            <div className="bg-muted p-1.5 rounded-md">
+                                <Box size={16} className="text-muted-foreground" />
                             </div>
                             <span className="font-mono font-bold text-foreground">#{delivery.id}</span>
                             <span className="text-[10px] px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-bold uppercase tracking-wide">
@@ -83,21 +83,21 @@ const DeliveryDashboard = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[600px]">
                 {/* Simulated Map Area */}
-                <div className="bg-muted/30 rounded-3xl overflow-hidden relative border border-border shadow-inner flex items-center justify-center group">
-                    <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-50"></div>
-                    <div className="text-center z-10 bg-background/90 backdrop-blur-md px-8 py-4 rounded-2xl shadow-lg border border-border/50 transition-transform group-hover:scale-105">
+                <div className="bg-muted/10 rounded-3xl overflow-hidden relative border border-border shadow-inner flex items-center justify-center group transition-colors">
+                    <div className="absolute inset-0 bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:16px_16px] opacity-20"></div>
+                    <div className="text-center z-10 bg-card/90 backdrop-blur-md px-8 py-4 rounded-2xl shadow-lg border border-border/50 transition-transform group-hover:scale-105">
                         <MapPin size={32} className="mx-auto text-primary mb-2" />
                         <p className="font-bold text-foreground">Live Map Feed</p>
                         <p className="text-xs text-muted-foreground">Simulated GPS Tracking</p>
                     </div>
                     {/* Simulated Pins */}
                     <div className="absolute top-1/3 left-1/3 animate-bounce duration-[2000ms]">
-                        <div className="w-8 h-8 bg-primary rounded-full border-4 border-background shadow-xl flex items-center justify-center text-primary-foreground">
+                        <div className="w-8 h-8 bg-primary rounded-full border-4 border-card shadow-xl flex items-center justify-center text-primary-foreground">
                             <Box size={14} />
                         </div>
                     </div>
                     <div className="absolute bottom-1/4 right-1/4 animate-bounce duration-[2500ms]">
-                        <div className="w-8 h-8 bg-accent rounded-full border-4 border-background shadow-xl flex items-center justify-center text-accent-foreground">
+                        <div className="w-8 h-8 bg-accent rounded-full border-4 border-card shadow-xl flex items-center justify-center text-accent-foreground">
                             <Navigation size={14} />
                         </div>
                     </div>

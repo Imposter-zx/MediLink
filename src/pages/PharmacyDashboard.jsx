@@ -83,7 +83,7 @@ const PharmacyDashboard = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Stats */}
-                <Card className="border-none shadow-md bg-gradient-to-br from-accent/5 to-background">
+                <Card className="border-none shadow-md bg-accent/5">
                     <CardContent className="flex items-center gap-4 p-6">
                         <div className="p-3 bg-accent/10 text-accent rounded-xl">
                             <Clock size={24} />
@@ -94,7 +94,7 @@ const PharmacyDashboard = () => {
                         </div>
                     </CardContent>
                 </Card>
-                <Card className="border-none shadow-md bg-gradient-to-br from-primary/5 to-background">
+                <Card className="border-none shadow-md bg-primary/5">
                     <CardContent className="flex items-center gap-4 p-6">
                         <div className="p-3 bg-primary/10 text-primary rounded-xl">
                             <CheckCircle size={24} />
@@ -113,7 +113,7 @@ const PharmacyDashboard = () => {
                     <div className="relative hidden md:block w-72">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
                         <input
-                            className="w-full bg-secondary/50 border-transparent rounded-lg pl-9 pr-4 py-2 text-sm focus:bg-background focus:ring-2 focus:ring-primary transition-all"
+                            className="w-full bg-secondary border-transparent rounded-lg pl-9 pr-4 py-2 text-sm focus:bg-background focus:ring-2 focus:ring-primary transition-all text-foreground placeholder:text-muted-foreground"
                             placeholder="Search orders..."
                         />
                     </div>

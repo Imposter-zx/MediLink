@@ -9,7 +9,7 @@ import ErrorBoundary from './ErrorBoundary';
 const AppShell = ({ children }) => {
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-primary/20">
+      <div className="min-h-screen bg-background font-sans text-foreground selection:bg-primary/20 transition-colors duration-300">
         <Navbar />
         <main className="relative">
           {children}
