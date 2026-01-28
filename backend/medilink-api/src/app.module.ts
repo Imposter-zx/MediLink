@@ -4,6 +4,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ServicesModule } from './services/services.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { PrescriptionsModule } from './modules/prescriptions/prescriptions.module';
+import { PatientsModule } from './modules/patients/patients.module';
+import { DeliveryModule } from './modules/delivery/delivery.module';
 
 @Module({
   imports: [
@@ -16,10 +19,10 @@ import { AuthModule } from './modules/auth/auth.module';
     ServicesModule,
     // Authentication
     AuthModule,
-    // Future modules
-    // PatientsModule,
-    // PrescriptionsModule,
-    // MessagingModule,
+    // Core business modules
+    PrescriptionsModule,
+    PatientsModule,
+    DeliveryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
