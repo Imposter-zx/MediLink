@@ -67,6 +67,16 @@ MediLink is a high-performance, secure, and accessible healthcare platform bridg
 - **Icons:** Lucide React
 - **Routing:** React Router v6
 
+### Backend (NestJS)
+
+- **Framework:** NestJS, TypeScript
+- **FHIR Server:** Medplum (HL7 FHIR R4)
+- **Real-time:** WebSocket (Socket.io)
+- **Encryption:** AES-256-GCM for PHI
+- **Authentication:** Session-based (ready for OIDC)
+- **Validation:** class-validator, class-transformer
+- **Security:** Helmet, CORS, RBAC
+
 ---
 
 ## 📦 Getting Started
@@ -101,6 +111,21 @@ MediLink is a high-performance, secure, and accessible healthcare platform bridg
     ```
 
     Access the application at `http://localhost:5173`
+
+4.  **Backend API (Optional):**
+
+    ```bash
+    cd backend/medilink-api
+    npm install
+
+    # Configure .env with your Medplum credentials
+    cp .env.example .env
+
+    # Start backend server
+    npm run start:dev
+    ```
+
+    Backend API runs on `http://localhost:3000`
 
 ---
 
@@ -167,7 +192,7 @@ docker compose up --build
 
 ```
 MediLink/
-├── src/
+├── src/                  # Frontend application
 │   ├── app/              # Core app configuration
 │   │   ├── App.jsx       # Main app component
 │   │   ├── routes.jsx    # Route definitions
@@ -178,13 +203,28 @@ MediLink/
 │   │   ├── Settings.jsx
 │   │   └── *Dashboard.jsx
 │   ├── components/       # Reusable components
-│   │   └── ui/           # UI primitives
+│   │   ├── ui/           # UI primitives
+│   │   └── chat/         # Messaging components
 │   ├── stores/           # Zustand state stores
 │   │   ├── authStore.js
-│   │   ├── userStore.js
+│   │   ├── chatStore.js
 │   │   └── themeStore.js
 │   ├── hooks/            # Custom React hooks
 │   └── styles/           # Global styles
+├── backend/              # Backend API
+│   └── medilink-api/     # NestJS application
+│       ├── src/
+│       │   ├── modules/  # Feature modules
+│       │   │   ├── auth/
+│       │   │   ├── prescriptions/
+│       │   │   ├── patients/
+│       │   │   ├── delivery/
+│       │   │   └── messaging/
+│       │   ├── services/     # Shared services
+│       │   │   ├── fhir.service.ts
+│       │   │   └── encryption.service.ts
+│       │   └── common/       # Guards, decorators
+│       └── README.md     # Backend documentation
 └── .github/
     └── workflows/        # CI/CD pipelines
 ```
