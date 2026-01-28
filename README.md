@@ -162,6 +162,89 @@ MediLink is a high-performance, secure, and accessible healthcare platform bridg
 
 ---
 
+## 🏥 Backend Architecture
+
+MediLink features a production-grade, healthcare-compliant backend API built with NestJS.
+
+### Core Features
+
+✅ **FHIR-Compliant API** - Full CRUD operations on healthcare resources  
+✅ **Real-time Messaging** - WebSocket-based encrypted communication  
+✅ **End-to-End Encryption** - AES-256-GCM for all PHI  
+✅ **RBAC Authorization** - Role-based access on all endpoints  
+✅ **Audit Trail** - Complete Provenance and AuditEvent logging  
+✅ **HIPAA-Ready** - Healthcare compliance built-in
+
+### API Endpoints
+
+**Authentication**
+
+- `POST /api/auth/login` - User authentication
+- `POST /api/auth/logout` - Session termination
+- `GET /api/auth/session` - Current session info
+
+**Prescriptions (MedicationRequest)**
+
+- `POST /api/prescriptions` - Create prescription
+- `GET /api/prescriptions` - List prescriptions (role-filtered)
+- `GET /api/prescriptions/:id` - Get prescription details
+- `PATCH /api/prescriptions/:id/status` - Update status
+
+**Patients (Patient)**
+
+- `GET /api/patients/:id` - Get patient profile
+- `PATCH /api/patients/:id` - Update profile
+
+**Delivery (Task)**
+
+- `POST /api/deliveries` - Create delivery task
+- `GET /api/deliveries` - List deliveries (role-filtered)
+- `PATCH /api/deliveries/:id` - Update delivery status
+- `PATCH /api/deliveries/:id/assign` - Assign driver
+
+**Messaging (Communication)**
+
+- `GET /api/messages/conversation?userId=X` - Get conversation
+- `GET /api/messages/by-context?type=X&id=Y` - Context messages
+- `POST /api/messages` - Send message
+- **WebSocket:** `/messaging` namespace for real-time
+
+### FHIR Resources Used
+
+| Resource            | Purpose             |
+| ------------------- | ------------------- |
+| `MedicationRequest` | Prescription orders |
+| `Patient`           | Patient profiles    |
+| `Task`              | Delivery workflows  |
+| `Communication`     | Encrypted messages  |
+| `Provenance`        | Audit trails        |
+| `AuditEvent`        | Security logging    |
+
+### Security Implementation
+
+**Encryption:**
+
+- All message content encrypted with AES-256-GCM
+- IV and AuthTag stored as FHIR extensions
+- Decryption only for authorized recipients
+
+**Authorization:**
+
+- Session-based authentication
+- RBAC middleware on all protected routes
+- Role-specific data filtering
+- Ownership verification in services
+
+**Audit Logging:**
+
+- Provenance for all resource mutations
+- AuditEvent for security events
+- Immutable compliance trail
+
+See `backend/` directory for complete documentation.
+
+---
+
 ## 🐳 Production Deployment
 
 MediLink is container-ready for professional deployment.
