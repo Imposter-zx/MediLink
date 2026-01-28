@@ -173,7 +173,9 @@ MediLink features a production-grade, healthcare-compliant backend API built wit
 ✅ **End-to-End Encryption** - AES-256-GCM for all PHI  
 ✅ **RBAC Authorization** - Role-based access on all endpoints  
 ✅ **Audit Trail** - Complete Provenance and AuditEvent logging  
-✅ **HIPAA-Ready** - Healthcare compliance built-in
+✅ **HIPAA-Ready** - Healthcare compliance built-in  
+✅ **Automated Testing** - Comprehensive unit test suite for core services  
+✅ **Docker Orchestration** - Full-stack deployment with Redis for session management
 
 ### API Endpoints
 
@@ -398,6 +400,8 @@ This project is licensed under the MIT License.
 ✅ **Medical-Grade UI** - Professional healthcare design  
 ✅ **Secure by Design** - RBAC, audit logging, encryption  
 ✅ **Performance Optimized** - Lazy loading, code splitting  
+✅ **Automated Tests** - Unit test suite for core backend services  
+✅ **Orchestrated** - Full Docker Compose setup with Redis  
 ✅ **Elderly-Friendly** - Large text, high contrast, simple UX
 
 ---
