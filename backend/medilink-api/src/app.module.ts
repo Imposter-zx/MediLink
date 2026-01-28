@@ -7,6 +7,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { PrescriptionsModule } from './modules/prescriptions/prescriptions.module';
 import { PatientsModule } from './modules/patients/patients.module';
 import { DeliveryModule } from './modules/delivery/delivery.module';
+import { MessagingModule } from './modules/messaging/messaging.module';
 
 @Module({
   imports: [
@@ -23,6 +24,8 @@ import { DeliveryModule } from './modules/delivery/delivery.module';
     PrescriptionsModule,
     PatientsModule,
     DeliveryModule,
+    // Real-time messaging
+    MessagingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
