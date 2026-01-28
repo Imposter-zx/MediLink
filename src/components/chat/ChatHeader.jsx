@@ -1,7 +1,6 @@
 import React from 'react';
 import { useChatStore } from '../../stores/chatStore';
 import { Package, FileText, Phone, MoreVertical } from 'lucide-react';
-import { useOrdersStore } from '../../stores/ordersStore';
 
 const ChatHeader = () => {
   const { activeConversationId, getConversationPartner, getActiveConversationDetails } = useChatStore();
