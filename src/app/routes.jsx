@@ -13,6 +13,7 @@ const DeliveryDashboard = lazy(() => import('../pages/DeliveryDashboard'));
 const MedicationLibrary = lazy(() => import('../pages/MedicationLibrary'));
 const Medications = lazy(() => import('../pages/Medications'));
 const Profile = lazy(() => import('../pages/Profile'));
+const Messages = lazy(() => import('../pages/Messages'));
 
 const PageLoader = () => (
   <div className="min-h-[60vh] flex items-center justify-center">
@@ -89,6 +90,31 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } />
         <Route path="/settings" element={<Settings />} />
+
+        {/* Messaging Routes */}
+        <Route path="/messages/patient" element={
+          <ProtectedRoute allowedRoles={['patient']}>
+            <DashboardErrorBoundary>
+              <Messages />
+            </DashboardErrorBoundary>
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/messages/delivery" element={
+          <ProtectedRoute allowedRoles={['delivery']}>
+             <DashboardErrorBoundary>
+              <Messages />
+            </DashboardErrorBoundary>
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/messages/medical" element={
+          <ProtectedRoute allowedRoles={['pharmacy', 'doctor']}>
+             <DashboardErrorBoundary>
+              <Messages />
+            </DashboardErrorBoundary>
+          </ProtectedRoute>
+        } />
         
         {/* 404 Redirect */}
         <Route path="*" element={<Navigate to="/" replace />} />

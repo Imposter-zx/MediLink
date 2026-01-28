@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Heart, Home, Pill, Truck, User, Menu, X, Bookmark } from 'lucide-react';
+import { Heart, Home, Pill, Truck, User, Menu, X, Bookmark, Mail } from 'lucide-react';
 import { cn } from '../lib/utils';
 import Button from '../components/ui/Button';
 import { useAuth } from '../hooks/useAuth';
@@ -16,6 +16,7 @@ const Navbar = () => {
     const navItems = [
         { name: 'Home', path: '/', icon: Home },
         { name: 'Patient', path: '/patient', icon: User, role: 'patient' },
+        { name: 'Messages', path: '/messages/patient', icon: Mail, role: 'patient' },
         { name: 'Pharmacy', path: '/pharmacy', icon: Pill, role: 'pharmacy' },
         { name: 'Library', path: '/library', icon: Bookmark },
         { name: 'Delivery', path: '/delivery', icon: Truck, role: 'delivery' },
