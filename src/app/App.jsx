@@ -12,7 +12,6 @@ import '@mantine/notifications/styles.css';
 
 // Lazy load Medical Landing Page
 const MedicalLanding = lazy(() => import('../components/MedicalLanding/MedicalLanding'));
-const MedicalIntro = lazy(() => import('../components/MedicalIntro'));
 
 function App() {
   const { isAuthenticated, login, checkSession, isLoading } = useAuthStore();
@@ -23,14 +22,6 @@ function App() {
   
   const [showLanding, setShowLanding] = useState(() => {
     return localStorage.getItem('medilink_landing_seen') !== 'true';
-  });
-
-  const [showIntro, setShowIntro] = useState(() => {
-    // Skip if already seen in this session
-    if (sessionStorage.getItem('medilink_intro_seen') === 'true') return false;
-    // Skip if low performance device (optional/basic check)
-    if (typeof navigator !== 'undefined' && navigator.hardwareConcurrency < 4) return false;
-    return true;
   });
 
   const handleEnterApp = () => {
@@ -55,8 +46,6 @@ function App() {
         showLanding={showLanding} 
         isAuthenticated={isAuthenticated} 
         onEnterApp={handleEnterApp} 
-        showIntro={showIntro}
-        setShowIntro={setShowIntro}
       />
     </Router>
   );
@@ -65,7 +54,7 @@ function App() {
 /**
  * Secondary component to use hooks like useLocation
  */
-function AppContent({ showLanding, isAuthenticated, onEnterApp, showIntro, setShowIntro }) {
+function AppContent({ showLanding, isAuthenticated, onEnterApp }) {
   const location = useLocation();
   
   /**
@@ -79,15 +68,9 @@ function AppContent({ showLanding, isAuthenticated, onEnterApp, showIntro, setSh
     !isAuthenticated && 
     (location.pathname === '/' || location.pathname === '');
 
-  if (showIntro) {
-    return (
-      <Suspense fallback={<div className="bg-white h-screen" />}>
-        <MedicalIntro onComplete={() => {
-          sessionStorage.setItem('medilink_intro_seen', 'true');
-          setShowIntro(false);
-        }} />
-      </Suspense>
-    );
+  // Redirect to intro if not seen this session and user just entered
+  if (!isAuthenticated && location.pathname === '/' && sessionStorage.getItem('medilink_intro_played') !== 'true') {
+    return <Navigate to="/intro" replace />;
   }
 
   if (shouldShowLanding) {

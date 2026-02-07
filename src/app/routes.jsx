@@ -14,6 +14,7 @@ const MedicationLibrary = lazy(() => import('../pages/MedicationLibrary'));
 const Medications = lazy(() => import('../pages/Medications'));
 const Profile = lazy(() => import('../pages/Profile'));
 const Messages = lazy(() => import('../pages/Messages'));
+const IntroPage = lazy(() => import('../pages/IntroPage'));
 
 const PageLoader = () => (
   <div className="min-h-[60vh] flex items-center justify-center">
@@ -116,11 +117,31 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } />
         
+        <Route path="/intro" element={<IntroPage />} />
+        
+        {/* Dashboard Unified Redirect */}
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <DashboardRedirect />
+          </ProtectedRoute>
+        } />
+
         {/* 404 Redirect */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Suspense>
   );
+};
+
+/**
+ * Redirects user to their specific dashboard based on role
+ */
+const DashboardRedirect = () => {
+  const { user } = useAuthStore();
+  if (user?.role === 'patient') return <Navigate to="/patient" replace />;
+  if (user?.role === 'pharmacy') return <Navigate to="/pharmacy" replace />;
+  if (user?.role === 'delivery') return <Navigate to="/delivery" replace />;
+  return <Navigate to="/" replace />;
 };
 
 export default AppRoutes;
