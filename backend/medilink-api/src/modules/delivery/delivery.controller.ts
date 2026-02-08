@@ -30,7 +30,7 @@ export class DeliveryController {
   @Post()
   @Roles('pharmacy')
   async create(@Body() dto: CreateDeliveryDto, @Session() session: SessionData) {
-    return this.deliveryService.create(dto, session.organizationId);
+    return this.deliveryService.create(dto, session.organizationId as string);
   }
 
   /**
@@ -43,7 +43,7 @@ export class DeliveryController {
     } else if (session.role === 'patient') {
       return this.deliveryService.findByPatient(session.userId);
     } else if (session.role === 'pharmacy') {
-      return this.deliveryService.findByPharmacy(session.organizationId);
+      return this.deliveryService.findByPharmacy(session.organizationId as string);
     }
     return [];
   }

@@ -12,9 +12,9 @@ export class FhirService {
 
   constructor(private configService: ConfigService) {
     this.client = new MedplumClient({
-      baseUrl: this.configService.get('MEDPLUM_BASE_URL'),
-      clientId: this.configService.get('MEDPLUM_CLIENT_ID'),
-      clientSecret: this.configService.get('MEDPLUM_CLIENT_SECRET'),
+      baseUrl: this.configService.get('MEDPLUM_BASE_URL') || '',
+      clientId: this.configService.get('MEDPLUM_CLIENT_ID') || '',
+      clientSecret: this.configService.get('MEDPLUM_CLIENT_SECRET') || '',
     });
 
     // Initialize authentication
@@ -24,9 +24,10 @@ export class FhirService {
   private async initialize() {
     try {
       await this.client.startClientLogin(
-        this.configService.get('MEDPLUM_CLIENT_ID'),
-        this.configService.get('MEDPLUM_CLIENT_SECRET'),
+        this.configService.get('MEDPLUM_CLIENT_ID') as string,
+        this.configService.get('MEDPLUM_CLIENT_SECRET') as string,
       );
+
       console.log('✅ Connected to Medplum FHIR server');
     } catch (error) {
       console.error('❌ Failed to connect to Medplum:', error.message);

@@ -1,0 +1,344 @@
+
+> ilyass@0.0.0 lint
+> eslint .
+
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\app.controller.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+  11:23  error  'exports' is not defined                                         no-undef
+  12:1   error  'exports' is not defined                                         no-undef
+  13:18  error  'require' is not defined                                         no-undef
+  14:23  error  'require' is not defined                                         no-undef
+  24:1   error  'exports' is not defined                                         no-undef
+  31:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\app.module.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   8:23  error  'exports' is not defined                                         no-undef
+   9:1   error  'exports' is not defined                                         no-undef
+  10:18  error  'require' is not defined                                         no-undef
+  11:18  error  'require' is not defined                                         no-undef
+  12:26  error  'require' is not defined                                         no-undef
+  13:23  error  'require' is not defined                                         no-undef
+  14:27  error  'require' is not defined                                         no-undef
+  15:23  error  'require' is not defined                                         no-undef
+  16:32  error  'require' is not defined                                         no-undef
+  17:27  error  'require' is not defined                                         no-undef
+  18:27  error  'require' is not defined                                         no-undef
+  19:28  error  'require' is not defined                                         no-undef
+  22:1   error  'exports' is not defined                                         no-undef
+  23:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\app.service.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   8:23  error  'exports' is not defined                                         no-undef
+   9:1   error  'exports' is not defined                                         no-undef
+  10:18  error  'require' is not defined                                         no-undef
+  16:1   error  'exports' is not defined                                         no-undef
+  17:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\common\decorators\roles.decorator.js
+  2:23  error  'exports' is not defined  no-undef
+  3:1   error  'exports' is not defined  no-undef
+  4:18  error  'require' is not defined  no-undef
+  6:1   error  'exports' is not defined  no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\common\decorators\session.decorator.js
+  2:23  error  'exports' is not defined  no-undef
+  3:1   error  'exports' is not defined  no-undef
+  4:18  error  'require' is not defined  no-undef
+  5:1   error  'exports' is not defined  no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\common\guards\auth.guard.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   8:23  error  'exports' is not defined                                         no-undef
+   9:1   error  'exports' is not defined                                         no-undef
+  10:18  error  'require' is not defined                                         no-undef
+  21:1   error  'exports' is not defined                                         no-undef
+  22:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\common\guards\roles.guard.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+  11:23  error  'exports' is not defined                                         no-undef
+  12:1   error  'exports' is not defined                                         no-undef
+  13:18  error  'require' is not defined                                         no-undef
+  14:16  error  'require' is not defined                                         no-undef
+  38:1   error  'exports' is not defined                                         no-undef
+  39:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\common\guards\ws-auth.guard.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   8:23  error  'exports' is not defined                                         no-undef
+   9:1   error  'exports' is not defined                                         no-undef
+  10:18  error  'require' is not defined                                         no-undef
+  29:1   error  'exports' is not defined                                         no-undef
+  30:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\common\types\session.types.js
+  2:23  error  'exports' is not defined  no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\main.js
+   5:23  error  'exports' is not defined  no-undef
+   6:16  error  'require' is not defined  no-undef
+   7:18  error  'require' is not defined  no-undef
+   8:22  error  'require' is not defined  no-undef
+   9:34  error  'require' is not defined  no-undef
+  14:17  error  'process' is not defined  no-undef
+  24:18  error  'process' is not defined  no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\auth\auth.controller.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+  14:23  error  'exports' is not defined                                         no-undef
+  15:1   error  'exports' is not defined                                         no-undef
+  16:18  error  'require' is not defined                                         no-undef
+  17:27  error  'require' is not defined                                         no-undef
+  18:29  error  'require' is not defined                                         no-undef
+  19:22  error  'require' is not defined                                         no-undef
+  20:23  error  'require' is not defined                                         no-undef
+  43:1   error  'exports' is not defined                                         no-undef
+  76:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\auth\auth.module.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   8:23  error  'exports' is not defined                                         no-undef
+   9:1   error  'exports' is not defined                                         no-undef
+  10:18  error  'require' is not defined                                         no-undef
+  11:27  error  'require' is not defined                                         no-undef
+  12:24  error  'require' is not defined                                         no-undef
+  15:1   error  'exports' is not defined                                         no-undef
+  16:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\auth\auth.service.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   8:23  error  'exports' is not defined                                         no-undef
+   9:1   error  'exports' is not defined                                         no-undef
+  10:18  error  'require' is not defined                                         no-undef
+  11:18  error  'require' is not defined                                         no-undef
+  59:1   error  'exports' is not defined                                         no-undef
+  60:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\delivery\delivery.controller.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+  14:23  error  'exports' is not defined                                         no-undef
+  15:1   error  'exports' is not defined                                         no-undef
+  16:18  error  'require' is not defined                                         no-undef
+  17:28  error  'require' is not defined                                         no-undef
+  18:22  error  'require' is not defined                                         no-undef
+  19:23  error  'require' is not defined                                         no-undef
+  20:27  error  'require' is not defined                                         no-undef
+  21:29  error  'require' is not defined                                         no-undef
+  22:24  error  'require' is not defined                                         no-undef
+  53:1   error  'exports' is not defined                                         no-undef
+  96:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\delivery\delivery.module.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   8:23  error  'exports' is not defined                                         no-undef
+   9:1   error  'exports' is not defined                                         no-undef
+  10:18  error  'require' is not defined                                         no-undef
+  11:31  error  'require' is not defined                                         no-undef
+  12:28  error  'require' is not defined                                         no-undef
+  15:1   error  'exports' is not defined                                         no-undef
+  16:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\delivery\delivery.service.js
+    5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   11:23  error  'exports' is not defined                                         no-undef
+   12:1   error  'exports' is not defined                                         no-undef
+   13:18  error  'require' is not defined                                         no-undef
+   14:24  error  'require' is not defined                                         no-undef
+  163:1   error  'exports' is not defined                                         no-undef
+  164:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\delivery\dto\delivery.dto.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+  11:23  error  'exports' is not defined                                         no-undef
+  12:1   error  'exports' is not defined                                         no-undef
+  12:29  error  'exports' is not defined                                         no-undef
+  13:27  error  'require' is not defined                                         no-undef
+  21:1   error  'exports' is not defined                                         no-undef
+  52:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\messaging\messaging.controller.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+  14:23  error  'exports' is not defined                                         no-undef
+  15:1   error  'exports' is not defined                                         no-undef
+  16:18  error  'require' is not defined                                         no-undef
+  17:29  error  'require' is not defined                                         no-undef
+  18:22  error  'require' is not defined                                         no-undef
+  19:29  error  'require' is not defined                                         no-undef
+  42:1   error  'exports' is not defined                                         no-undef
+  67:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\messaging\messaging.gateway.js
+    5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   14:23  error  'exports' is not defined                                         no-undef
+   15:1   error  'exports' is not defined                                         no-undef
+   16:22  error  'require' is not defined                                         no-undef
+   17:21  error  'require' is not defined                                         no-undef
+   18:29  error  'require' is not defined                                         no-undef
+   19:18  error  'require' is not defined                                         no-undef
+   20:25  error  'require' is not defined                                         no-undef
+  123:1   error  'exports' is not defined                                         no-undef
+  152:1   error  'exports' is not defined                                         no-undef
+  155:21  error  'process' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\messaging\messaging.module.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   8:23  error  'exports' is not defined                                         no-undef
+   9:1   error  'exports' is not defined                                         no-undef
+  10:18  error  'require' is not defined                                         no-undef
+  11:29  error  'require' is not defined                                         no-undef
+  12:29  error  'require' is not defined                                         no-undef
+  13:32  error  'require' is not defined                                         no-undef
+  16:1   error  'exports' is not defined                                         no-undef
+  17:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\messaging\messaging.service.js
+    5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   11:23  error  'exports' is not defined                                         no-undef
+   12:1   error  'exports' is not defined                                         no-undef
+   13:18  error  'require' is not defined                                         no-undef
+   14:24  error  'require' is not defined                                         no-undef
+   15:30  error  'require' is not defined                                         no-undef
+  201:24  error  'error' is defined but never used                                no-unused-vars
+  221:1   error  'exports' is not defined                                         no-undef
+  222:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\patients\dto\patient.dto.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+  11:23  error  'exports' is not defined                                         no-undef
+  12:1   error  'exports' is not defined                                         no-undef
+  13:27  error  'require' is not defined                                         no-undef
+  14:29  error  'require' is not defined                                         no-undef
+  43:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\patients\patients.controller.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+  14:23  error  'exports' is not defined                                         no-undef
+  15:1   error  'exports' is not defined                                         no-undef
+  16:18  error  'require' is not defined                                         no-undef
+  17:28  error  'require' is not defined                                         no-undef
+  18:22  error  'require' is not defined                                         no-undef
+  19:23  error  'require' is not defined                                         no-undef
+  20:27  error  'require' is not defined                                         no-undef
+  21:29  error  'require' is not defined                                         no-undef
+  22:23  error  'require' is not defined                                         no-undef
+  38:1   error  'exports' is not defined                                         no-undef
+  58:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\patients\patients.module.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   8:23  error  'exports' is not defined                                         no-undef
+   9:1   error  'exports' is not defined                                         no-undef
+  10:18  error  'require' is not defined                                         no-undef
+  11:31  error  'require' is not defined                                         no-undef
+  12:28  error  'require' is not defined                                         no-undef
+  15:1   error  'exports' is not defined                                         no-undef
+  16:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\patients\patients.service.js
+    5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   11:23  error  'exports' is not defined                                         no-undef
+   12:1   error  'exports' is not defined                                         no-undef
+   13:18  error  'require' is not defined                                         no-undef
+   14:24  error  'require' is not defined                                         no-undef
+  103:1   error  'exports' is not defined                                         no-undef
+  104:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\prescriptions\dto\prescription.dto.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+  11:23  error  'exports' is not defined                                         no-undef
+  12:1   error  'exports' is not defined                                         no-undef
+  12:39  error  'exports' is not defined                                         no-undef
+  13:27  error  'require' is not defined                                         no-undef
+  25:1   error  'exports' is not defined                                         no-undef
+  73:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\prescriptions\prescriptions.controller.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+  14:23  error  'exports' is not defined                                         no-undef
+  15:1   error  'exports' is not defined                                         no-undef
+  16:18  error  'require' is not defined                                         no-undef
+  17:33  error  'require' is not defined                                         no-undef
+  18:22  error  'require' is not defined                                         no-undef
+  19:23  error  'require' is not defined                                         no-undef
+  20:27  error  'require' is not defined                                         no-undef
+  21:29  error  'require' is not defined                                         no-undef
+  22:28  error  'require' is not defined                                         no-undef
+  47:1   error  'exports' is not defined                                         no-undef
+  83:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\prescriptions\prescriptions.module.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   8:23  error  'exports' is not defined                                         no-undef
+   9:1   error  'exports' is not defined                                         no-undef
+  10:18  error  'require' is not defined                                         no-undef
+  11:36  error  'require' is not defined                                         no-undef
+  12:33  error  'require' is not defined                                         no-undef
+  15:1   error  'exports' is not defined                                         no-undef
+  16:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\modules\prescriptions\prescriptions.service.js
+    5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   11:23  error  'exports' is not defined                                         no-undef
+   12:1   error  'exports' is not defined                                         no-undef
+   13:18  error  'require' is not defined                                         no-undef
+   14:24  error  'require' is not defined                                         no-undef
+  171:1   error  'exports' is not defined                                         no-undef
+  172:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\services\encryption.service.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+  11:23  error  'exports' is not defined                                         no-undef
+  12:1   error  'exports' is not defined                                         no-undef
+  13:18  error  'require' is not defined                                         no-undef
+  14:18  error  'require' is not defined                                         no-undef
+  15:18  error  'require' is not defined                                         no-undef
+  28:24  error  'Buffer' is not defined                                          no-undef
+  44:83  error  'Buffer' is not defined                                          no-undef
+  45:29  error  'Buffer' is not defined                                          no-undef
+  54:1   error  'exports' is not defined                                         no-undef
+  55:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\services\fhir.service.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+  11:23  error  'exports' is not defined                                         no-undef
+  12:1   error  'exports' is not defined                                         no-undef
+  13:18  error  'require' is not defined                                         no-undef
+  14:18  error  'require' is not defined                                         no-undef
+  15:16  error  'require' is not defined                                         no-undef
+  57:1   error  'exports' is not defined                                         no-undef
+  58:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\backend\medilink-api\dist\services\services.module.js
+   5:63  error  Expected a conditional expression and instead saw an assignment  no-cond-assign
+   8:23  error  'exports' is not defined                                         no-undef
+   9:1   error  'exports' is not defined                                         no-undef
+  10:18  error  'require' is not defined                                         no-undef
+  11:24  error  'require' is not defined                                         no-undef
+  12:30  error  'require' is not defined                                         no-undef
+  15:1   error  'exports' is not defined                                         no-undef
+  16:1   error  'exports' is not defined                                         no-undef
+
+C:\Users\HASSA\Desktop\MediLink\src\components\MedicalIntro.jsx
+    2:10  error  'motion' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+  183:41  error  'split' is defined but never used                                              no-unused-vars
+
+C:\Users\HASSA\Desktop\MediLink\src\components\intro\CapsuleIntro.jsx
+   9:18  error  'materials' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                      no-unused-vars
+  17:7   error  Error: This value cannot be modified
+
+Modifying a value returned from a hook is not allowed. Consider moving the modification into the hook where the value is constructed.
+
+  15 |       const action = actions[animationName];
+  16 |       action.setLoop(THREE.LoopOnce);
+> 17 |       action.clampWhenFinished = true;
+     |       ^^^^^^ `actions` cannot be modified
+  18 |       action.play();
+  19 |
+  20 |       const duration = action.getClip().duration || 5;  react-hooks/immutability
+  46:13  error  'state' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                              no-unused-vars
+
+Ô£û 259 problems (259 errors, 0 warnings)
+

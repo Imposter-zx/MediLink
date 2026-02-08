@@ -63,7 +63,7 @@ export class DeliveryService {
       ],
     });
 
-    console.log(`✅ Delivery task created: ${task.id}`);
+    console.log(`✅ Delivery task created: ${(task as any).id}`);
     return task;
   }
 

@@ -49,7 +49,7 @@ export class PrescriptionsController {
       return this.prescriptionsService.findByPatient(session.userId, status);
     } else if (session.role === 'pharmacy') {
       return this.prescriptionsService.findByPharmacy(
-        session.organizationId,
+        session.organizationId as string,
         status,
       );
     }
@@ -77,7 +77,7 @@ export class PrescriptionsController {
     return this.prescriptionsService.updateStatus(
       id,
       dto.status,
-      dto.notes,
+      dto.notes || '',
       session.userId,
     );
   }

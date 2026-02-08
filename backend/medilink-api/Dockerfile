@@ -5,10 +5,10 @@ WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
-COPY yarn.lock ./
 
-# Install dependencies (using yarn to bypass npm auth issues if possible in build)
-RUN yarn install --frozen-lockfile || npm install
+# Install dependencies
+RUN npm install
+
 
 # Copy source
 COPY . .

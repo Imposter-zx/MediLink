@@ -68,10 +68,6 @@ function AppContent({ showLanding, isAuthenticated, onEnterApp }) {
     !isAuthenticated && 
     (location.pathname === '/' || location.pathname === '');
 
-  // Redirect to intro if not seen this session and user just entered
-  if (!isAuthenticated && location.pathname === '/' && sessionStorage.getItem('medilink_intro_played') !== 'true') {
-    return <Navigate to="/intro" replace />;
-  }
 
   if (shouldShowLanding) {
     return (

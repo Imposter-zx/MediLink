@@ -1,0 +1,14 @@
+npm warn "0" is being parsed as a normal command line argument.
+npm warn Unknown cli config "--max-warnings". This will stop working in the next major version of npm.
+
+> ilyass@0.0.0 lint
+> eslint . 0
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+No files matching the pattern "0" were found.
+Please check for typing mistakes in the pattern.
+

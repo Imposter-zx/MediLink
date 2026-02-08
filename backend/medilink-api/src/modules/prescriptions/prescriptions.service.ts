@@ -70,8 +70,9 @@ export class PrescriptionsService {
     // Create provenance
     await this.fhirService.createResource({
       resourceType: 'Provenance',
-      target: [{ reference: `MedicationRequest/${medicationRequest.id}` }],
+      target: [{ reference: `MedicationRequest/${(medicationRequest as any).id}` }],
       recorded: new Date().toISOString(),
+
       agent: [
         {
           who: { reference: `Practitioner/${requesterId}` },
@@ -87,7 +88,7 @@ export class PrescriptionsService {
       },
     });
 
-    console.log(`✅ Prescription created: ${medicationRequest.id}`);
+    console.log(`✅ Prescription created: ${(medicationRequest as any).id}`);
     return medicationRequest;
   }
 

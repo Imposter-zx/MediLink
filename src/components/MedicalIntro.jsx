@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+
+
 
 const MedicalIntro = ({ onComplete }) => {
   const [stage, setStage] = useState('entry'); // entry, convergence, activation, exit
@@ -180,13 +182,14 @@ const Capsule = ({ color, rotation }) => (
   </div>
 );
 
-const LargeCapsule = ({ color1, color2, split }) => (
+const LargeCapsule = ({ color1, color2 }) => (
   <div className="w-16 h-32 relative">
     <div className="w-full h-1/2 rounded-t-full" style={{ backgroundColor: color1 }} />
     <div className="w-full h-1/2 rounded-b-full" style={{ backgroundColor: color2 }} />
     <div className="absolute top-1/2 left-0 right-0 h-1 bg-white/20 -translate-y-1/2" />
   </div>
 );
+
 
 const CapsuleHalf = ({ color, pos }) => (
   <div 

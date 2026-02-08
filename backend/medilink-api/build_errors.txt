@@ -1,0 +1,95 @@
+
+> medilink-api@0.0.1 build
+> nest build
+
+src/app.module.ts:2:30 - error TS2307: Cannot find module '@nestjs/config' or its corresponding type declarations.
+
+2 import { ConfigModule } from '@nestjs/config';
+                               ~~~~~~~~~~~~~~~~
+src/common/guards/ws-auth.guard.ts:7:24 - error TS2307: Cannot find module 'socket.io' or its corresponding type declarations.
+
+7 import { Socket } from 'socket.io';
+                         ~~~~~~~~~~~
+src/main.ts:4:20 - error TS2307: Cannot find module 'helmet' or its corresponding type declarations.
+
+4 import helmet from 'helmet';
+                     ~~~~~~~~
+src/modules/delivery/delivery.controller.ts:33:45 - error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+33     return this.deliveryService.create(dto, session.organizationId);
+                                               ~~~~~~~~~~~~~~~~~~~~~~
+src/modules/delivery/delivery.controller.ts:46:50 - error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+46       return this.deliveryService.findByPharmacy(session.organizationId);
+                                                    ~~~~~~~~~~~~~~~~~~~~~~
+src/modules/delivery/delivery.service.ts:66:50 - error TS2339: Property 'id' does not exist on type '{ resourceType: string; status: string; intent: string; priority: "routine" | "urgent" | "stat"; code: { coding: { system: string; code: string; display: string; }[]; }; focus: { reference: string; }; ... 4 more ...; extension: { ...; }[]; }'.
+
+66     console.log(`Ô£à Delivery task created: ${task.id}`);
+                                                    ~~
+src/modules/delivery/dto/delivery.dto.ts:1:50 - error TS2307: Cannot find module 'class-validator' or its corresponding type declarations.
+
+1 import { IsString, IsOptional, IsNotEmpty } from 'class-validator';
+                                                   ~~~~~~~~~~~~~~~~~
+src/modules/messaging/messaging.gateway.ts:9:8 - error TS2307: Cannot find module '@nestjs/websockets' or its corresponding type declarations.
+
+9 } from '@nestjs/websockets';
+         ~~~~~~~~~~~~~~~~~~~~
+src/modules/messaging/messaging.gateway.ts:10:32 - error TS2307: Cannot find module 'socket.io' or its corresponding type declarations.
+
+10 import { Server, Socket } from 'socket.io';
+                                  ~~~~~~~~~~~
+src/modules/messaging/messaging.gateway.ts:113:28 - error TS2339: Property 'id' does not exist on type '{ decryptedContent: string; resourceType: string; status: string; category: { coding: { system: string; code: string; }[]; }[]; subject: { reference: string; } | undefined; sent: string; sender: { reference: string; }; recipient: { ...; }[]; payload: { ...; }[]; extension: ({ ...; } | { ...; })[]; }'.
+
+113         messageId: message.id,
+                               ~~
+src/modules/messaging/messaging.gateway.ts:119:28 - error TS2339: Property 'id' does not exist on type '{ decryptedContent: string; resourceType: string; status: string; category: { coding: { system: string; code: string; }[]; }[]; subject: { reference: string; } | undefined; sent: string; sender: { reference: string; }; recipient: { ...; }[]; payload: { ...; }[]; extension: ({ ...; } | { ...; })[]; }'.
+
+119         messageId: message.id,
+                               ~~
+src/modules/messaging/messaging.gateway.ts:129:50 - error TS2339: Property 'id' does not exist on type '{ decryptedContent: string; resourceType: string; status: string; category: { coding: { system: string; code: string; }[]; }[]; subject: { reference: string; } | undefined; sent: string; sender: { reference: string; }; recipient: { ...; }[]; payload: { ...; }[]; extension: ({ ...; } | { ...; })[]; }'.
+
+129       return { success: true, messageId: message.id };
+                                                     ~~
+src/modules/patients/dto/patient.dto.ts:1:64 - error TS2307: Cannot find module 'class-validator' or its corresponding type declarations.
+
+1 import { IsString, IsOptional, IsObject, ValidateNested } from 'class-validator';
+                                                                 ~~~~~~~~~~~~~~~~~
+src/modules/patients/dto/patient.dto.ts:2:22 - error TS2307: Cannot find module 'class-transformer' or its corresponding type declarations.
+
+2 import { Type } from 'class-transformer';
+                       ~~~~~~~~~~~~~~~~~~~
+src/modules/prescriptions/dto/prescription.dto.ts:1:60 - error TS2307: Cannot find module 'class-validator' or its corresponding type declarations.
+
+1 import { IsString, IsNumber, IsOptional, IsNotEmpty } from 'class-validator';
+                                                             ~~~~~~~~~~~~~~~~~
+src/modules/prescriptions/prescriptions.controller.ts:52:9 - error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+52         session.organizationId,
+           ~~~~~~~~~~~~~~~~~~~~~~
+src/modules/prescriptions/prescriptions.controller.ts:80:7 - error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+80       dto.notes,
+         ~~~~~~~~~
+src/modules/prescriptions/prescriptions.service.ts:73:68 - error TS2339: Property 'id' does not exist on type '{ resourceType: string; status: string; intent: string; medicationCodeableConcept: { coding: { system: string; code: string; display: string; }[]; text: string; }; subject: { reference: string; }; requester: { ...; }; dosageInstruction: { ...; }[]; dispenseRequest: { ...; }; extension: { ...; }[]; }'.
+
+73       target: [{ reference: `MedicationRequest/${medicationRequest.id}` }],
+                                                                      ~~
+src/modules/prescriptions/prescriptions.service.ts:90:62 - error TS2339: Property 'id' does not exist on type '{ resourceType: string; status: string; intent: string; medicationCodeableConcept: { coding: { system: string; code: string; display: string; }[]; text: string; }; subject: { reference: string; }; requester: { ...; }; dosageInstruction: { ...; }[]; dispenseRequest: { ...; }; extension: { ...; }[]; }'.
+
+90     console.log(`Ô£à Prescription created: ${medicationRequest.id}`);
+                                                                ~~
+src/services/encryption.service.ts:2:31 - error TS2307: Cannot find module '@nestjs/config' or its corresponding type declarations.
+
+2 import { ConfigService } from '@nestjs/config';
+                                ~~~~~~~~~~~~~~~~
+src/services/fhir.service.ts:2:31 - error TS2307: Cannot find module '@nestjs/config' or its corresponding type declarations.
+
+2 import { ConfigService } from '@nestjs/config';
+                                ~~~~~~~~~~~~~~~~
+
+Found 21 error(s).
+

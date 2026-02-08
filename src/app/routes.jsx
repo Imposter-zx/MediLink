@@ -14,7 +14,7 @@ const MedicationLibrary = lazy(() => import('../pages/MedicationLibrary'));
 const Medications = lazy(() => import('../pages/Medications'));
 const Profile = lazy(() => import('../pages/Profile'));
 const Messages = lazy(() => import('../pages/Messages'));
-const IntroPage = lazy(() => import('../pages/IntroPage'));
+
 
 const PageLoader = () => (
   <div className="min-h-[60vh] flex items-center justify-center">
@@ -117,7 +117,7 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } />
         
-        <Route path="/intro" element={<IntroPage />} />
+
         
         {/* Dashboard Unified Redirect */}
         <Route path="/dashboard" element={

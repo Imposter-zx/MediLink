@@ -110,13 +110,13 @@ export class MessagingGateway
 
       // Emit to sender (confirmation)
       client.emit('message_sent', {
-        messageId: message.id,
+        messageId: (message as any).id,
         timestamp: new Date().toISOString(),
       });
 
       // Emit to recipient (real-time delivery)
       this.server.to(`user:${data.recipientId}`).emit('new_message', {
-        messageId: message.id,
+        messageId: (message as any).id,
         senderId,
         content: data.content, // Already decrypted by service
         timestamp: new Date().toISOString(),
@@ -126,7 +126,7 @@ export class MessagingGateway
 
       console.log(`📨 Message sent: ${senderId} → ${data.recipientId}`);
 
-      return { success: true, messageId: message.id };
+      return { success: true, messageId: (message as any).id };
     } catch (error) {
       console.error('Error sending message:', error);
       return { success: false, error: error.message };
