@@ -1,5 +1,5 @@
 import React, { useState, Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter as Router, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, useLocation, Navigate } from 'react-router-dom';
 import AppShell from './AppShell';
 import AppRoutes from './routes';
 import { useAuthStore } from '../stores/authStore';
