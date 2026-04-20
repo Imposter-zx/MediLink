@@ -12,7 +12,6 @@ const Navbar = () => {
     const navigate = useNavigate();
     const { user, login } = useAuth();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
     const navItems = [
         { name: 'Home', path: '/', icon: Home },

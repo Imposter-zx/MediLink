@@ -6,11 +6,11 @@ import QRCode from 'qrcode.react';
  * Guides users through TOTP setup with Google Authenticator, Authy, etc.
  */
 function TwoFactorSetup() {
-  const [step, setStep] = useState<'intro' | 'generate' | 'scan' | 'verify' | 'backup' | 'complete'>('intro');
+  const [step, setStep] = useState('intro');
   const [secret, setSecret] = useState('');
   const [qrCode, setQrCode] = useState('');
   const [totpToken, setTotpToken] = useState('');
-  const [backupCodes, setBackupCodes] = useState<string[]>([]);
+  const [backupCodes, setBackupCodes] = useState([]);
   const [loading, setLoading] = useState(false);
 
   /**

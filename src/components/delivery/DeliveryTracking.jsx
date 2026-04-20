@@ -6,8 +6,8 @@ import React, { useState, useEffect } from 'react';
  */
 function DeliveryTracking() {
   const [deliveries, setDeliveries] = useState([]);
-  const [selectedDelivery, setSelectedDelivery] = useState<string | null>(null);
-  const [deliveryDetails, setDeliveryDetails] = useState<any>(null);
+  const [selectedDelivery, setSelectedDelivery] = useState(null);
+  const [deliveryDetails, setDeliveryDetails] = useState(null);
   const [loading, setLoading] = useState(false);
   const [mapCenter, setMapCenter] = useState({ lat: 37.7749, lng: -122.4194 }); // San Francisco default
 
@@ -34,7 +34,7 @@ function DeliveryTracking() {
     try {
       const response = await fetch('/api/delivery/my-deliveries');
       const data = await response.json();
-      setDeliveries(data.sort((a: any, b: any) => {
+      setDeliveries(data.sort((a, b) => {
         // Sort by status: in-transit first, then pending
         if (a.status === 'in_transit' && b.status !== 'in_transit') return -1;
         if (a.status !== 'in_transit' && b.status === 'in_transit') return 1;

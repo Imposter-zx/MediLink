@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
  */
 function NotificationCenter() {
   const [notifications, setNotifications] = useState([]);
-  const [activeFilter, setActiveFilter] = useState<'all' | 'unread' | 'refill' | 'delivery'>('all');
+  const [activeFilter, setActiveFilter] = useState('all');
   const [loading, setLoading] = useState(false);
 
   // Load notifications on mount
@@ -26,7 +26,7 @@ function NotificationCenter() {
     try {
       const response = await fetch('/api/notifications');
       const data = await response.json();
-      setNotifications(data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+      setNotifications(data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
     } catch (error) {
       console.error('Failed to load notifications:', error);
     } finally {

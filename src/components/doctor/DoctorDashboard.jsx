@@ -5,9 +5,9 @@ import React, { useState, useEffect } from 'react';
  * Complete EHR (Electronic Health Record) system for doctors
  */
 function DoctorDashboard() {
-  const [activeTab, setActiveTab] = useState<'patients' | 'prescriptions' | 'history' | 'refills'>('patients');
+  const [activeTab, setActiveTab] = useState('patients');
   const [patients, setPatients] = useState([]);
-  const [selectedPatient, setSelectedPatient] = useState<string | null>(null);
+  const [selectedPatient, setSelectedPatient] = useState(null);
   const [patientHistory, setPatientHistory] = useState(null);
   const [stats, setStats] = useState({ activePatients: 0, activePrescriptions: 0, prescriptionsThisMonth: 0, avgRefillTime: 0, rating: 0 });
   const [loading, setLoading] = useState(false);

@@ -17,7 +17,7 @@ function AdvancedMedicationSearch() {
     maxPrice: 100,
     prescriptionRequired: null,
     genericAvailable: null,
-    excludeSideEffects: [] as string[],
+    excludeSideEffects: [],
   });
 
   const [showFilters, setShowFilters] = useState(false);

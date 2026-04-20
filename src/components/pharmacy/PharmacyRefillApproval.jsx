@@ -6,8 +6,8 @@ import React, { useState, useEffect } from 'react';
  */
 function PharmacyRefillApproval() {
   const [refills, setRefills] = useState([]);
-  const [activeTab, setActiveTab] = useState<'pending' | 'approved' | 'rejected'>('pending');
-  const [selectedRefill, setSelectedRefill] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState('pending');
+  const [selectedRefill, setSelectedRefill] = useState(null);
   const [approvalNote, setApprovalNote] = useState('');
   const [loading, setLoading] = useState(false);
   const [stats, setStats] = useState({ pending: 0, approved: 0, rejected: 0, total: 0 });
@@ -32,9 +32,9 @@ function PharmacyRefillApproval() {
 
       // Calculate stats
       const stats = {
-        pending: data.filter((r: any) => r.status === 'PENDING').length,
-        approved: data.filter((r: any) => r.status === 'APPROVED').length,
-        rejected: data.filter((r: any) => r.status === 'REJECTED').length,
+        pending: data.filter((r) => r.status === 'PENDING').length,
+        approved: data.filter((r) => r.status === 'APPROVED').length,
+        rejected: data.filter((r) => r.status === 'REJECTED').length,
         total: data.length,
       };
       setStats(stats);

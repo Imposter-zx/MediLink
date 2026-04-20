@@ -14,8 +14,8 @@ function NotificationPreferences() {
     deliveryUpdates: true,
     promotionalEmails: false,
     weeklyDigest: false,
-    quietHoursStart: null as string | null,
-    quietHoursEnd: null as string | null,
+    quietHoursStart: null,
+    quietHoursEnd: null,
   });
 
   const [saved, setSaved] = useState(false);

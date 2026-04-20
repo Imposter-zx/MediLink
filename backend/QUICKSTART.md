@@ -1,6 +1,22 @@
-# MediLink Phase 4 - Quick Start Guide
+# MediLink Quick Start Guide (Phase 4 & 5)
 
-## 🚀 Getting Started
+## 🚀 Frontend - Getting Started
+
+### Install Dependencies
+```bash
+npm install
+```
+
+### Run Development Server
+```bash
+npm run dev
+```
+
+Frontend starts on `http://localhost:5173`
+
+---
+
+## 🚀 Backend - Getting Started
 
 ### Install Dependencies
 ```bash
@@ -13,89 +29,309 @@ npm install
 npm run start:dev
 ```
 
-Server will start on `http://localhost:3000`
+Backend API runs on `http://localhost:3000`
+
+---
+
+## 📋 Phase 5 Features - Quick Access
+
+### 1. Two-Factor Authentication
+**Route:** `/auth/two-factor`
+**Roles:** Patient
+
+```typescript
+// Generate TOTP secret
+POST /api/auth/2fa/generate
+Response: { secret, qrCode }
+
+// Verify token
+POST /api/auth/2fa/verify
+Body: { secret, token: "123456" }
+Response: { backupCodes }
+
+// Enable 2FA
+POST /api/auth/2fa/enable
+Body: { secret, backupCodes }
+```
+
+### 2. Prescription Refills
+**Routes:** 
+- Patient: `/patient/refills`
+- Pharmacy: `/pharmacy/refills`
+
+```typescript
+// Request refill
+POST /api/prescriptions/refill
+Body: { prescriptionId }
+
+// Get pending refills
+GET /api/prescriptions/refills?status=PENDING
+
+// Approve refill
+PATCH /api/prescriptions/refills/{refillId}/approve
+Body: { approverNote }
+
+// Reject refill
+PATCH /api/prescriptions/refills/{refillId}/reject
+Body: { approverNote }
+
+// Get stats
+GET /api/prescriptions/refills/stats
+```
+
+### 3. Advanced Medication Search
+**Route:** `/medications/search`
+**Roles:** Patient, Public
+
+```typescript
+// Search medications
+GET /api/medications/search?query=lisinopril
+
+// Advanced filter
+POST /api/medications/search
+Body: { name, condition, minRating, maxPrice, prescriptionRequired, genericAvailable }
+
+// Check interactions
+POST /api/medications/interactions
+Body: { medicationIds }
+
+// Get alternatives
+GET /api/medications/{medicationId}/alternatives
+
+// Get generics
+GET /api/medications/{medicationId}/generics
+
+// Symptom-based recommendation
+POST /api/medications/recommend-by-symptoms
+Body: { symptoms }
+```
+
+### 4. Geolocation & Delivery Tracking
+**Route:** `/delivery/tracking`
+**Roles:** Delivery, Patient
+
+```typescript
+// Calculate distance
+POST /api/geolocation/distance
+Body: { from: { lat, lng }, to: { lat, lng } }
+
+// Calculate ETA
+POST /api/geolocation/eta
+Body: { from, to, speedKmh }
+
+// Start tracking
+POST /api/geolocation/tracking/{deliveryId}/start
+
+// Update location
+PATCH /api/geolocation/tracking/{deliveryId}/location
+Body: { latitude, longitude }
+
+// Optimize route
+POST /api/geolocation/route/optimize
+Body: { locations }
+
+// Calculate delivery fee
+POST /api/geolocation/delivery-fee
+Body: { distanceKm, baseFeeDollars, perKmRate }
+```
+
+### 5. Multi-Channel Notifications
+**Routes:**
+- Center: `/notifications`
+- Settings: `/notifications/preferences`
+
+```typescript
+// Send notification
+POST /api/notifications/send
+Body: { userId, recipient, type, templateId, variables }
+
+// Get notifications
+GET /api/notifications?userId={userId}&limit=20
+
+// Mark as read
+POST /api/notifications/{notificationId}/read
+
+// Get preferences
+GET /api/notifications/preferences?userId={userId}
+
+// Update preferences
+POST /api/notifications/preferences
+Body: { userId, email, sms, push, inApp, quietHours }
+
+// Get stats
+GET /api/notifications/stats?userId={userId}
+```
+
+### 6. Doctor EHR Module
+**Route:** `/doctor`
+**Roles:** Doctor
+
+```typescript
+// Get doctor profile
+GET /api/doctor/profile/{doctorId}
+
+// Create prescription
+POST /api/doctor/prescriptions
+Body: { patientId, medicationName, strength, dosage, frequency, daysSupply, refills }
+
+// Get doctor's patients
+GET /api/doctor/patients?doctorId={doctorId}
+
+// Get patient medical history
+GET /api/doctor/patient/{patientId}/history
+
+// Get patient prescriptions
+GET /api/doctor/patient/{patientId}/prescriptions
+
+// Record vitals
+POST /api/doctor/patient/{patientId}/vitals
+Body: { bloodPressure, temperature, pulse, weight }
+
+// Get doctor stats
+GET /api/doctor/stats/{doctorId}
+
+// Approve refill
+PATCH /api/doctor/refills/{refillId}/approve
+
+// Deny refill
+PATCH /api/doctor/refills/{refillId}/deny
+```
 
 ---
 
 ## 🧪 Running Tests
 
-### Run All Tests
+### Backend Tests
+
+**Run all unit tests:**
 ```bash
+cd backend/medilink-api
 npm run test
 ```
 
-### Run Tests with Coverage
+**Run tests with coverage:**
 ```bash
 npm run test:cov
 ```
 
-### Run E2E Tests
+**Run E2E tests:**
 ```bash
 npm run test:e2e
 ```
 
-### Run Specific Test File
+**Run specific test file:**
 ```bash
 npm run test -- auth.service.spec
 ```
 
-### Watch Mode (Auto-rerun on changes)
+**Watch mode (auto-rerun on changes):**
 ```bash
 npm run test:watch
 ```
 
+**Debug tests:**
+```bash
+npm run test:debug
+```
+
+### Test Coverage Goals
+- Services: >95%
+- Controllers: >90%
+- Modules: >85%
+- **Total:** ~90%
+
 ---
 
-## 📊 Key Features
+## 📚 Frontend Routes
 
-### 1. Audit Logging
+### All Available Routes
+```
+/                    - Home/Landing page
+/login               - Login page
+/settings            - User settings
+/profile             - User profile
+/library             - Medication library
 
-**Check audit logs:**
+PATIENT ROUTES:
+/patient             - Patient dashboard
+/patient/refills     - Prescription refills
+/medications         - Medication list
+/medications/search  - Advanced search with filters
+/auth/two-factor     - 2FA setup
+
+PHARMACY ROUTES:
+/pharmacy            - Pharmacy dashboard
+/pharmacy/refills    - Refill approval queue
+
+DELIVERY ROUTES:
+/delivery            - Delivery dashboard
+/delivery/tracking   - Real-time tracking
+
+DOCTOR ROUTES:
+/doctor              - Doctor EHR dashboard
+
+NOTIFICATION ROUTES:
+/notifications              - Notification center
+/notifications/preferences  - Notification settings
+```
+
+---
+
+## 🎭 Demo Navigation
+
+All dashboards support role switching in the navbar:
+
+1. Click navbar buttons to switch roles:
+   - **Patient** → Loads patient dashboard
+   - **Pharmacy** → Loads pharmacy dashboard
+   - **Delivery** → Loads delivery dashboard
+   - **Doctor** → Loads doctor EHR (if available)
+
+2. Auto-login triggers for seamless navigation
+3. Session maintains user context
+
+---
+
+## 🛡️ Phase 4 Features (Production Ready)
+
+### Audit Logging
+**Endpoint:** `/api/audit/logs`
+
 ```bash
+# Get all audit logs
 curl http://localhost:3000/api/audit/logs
-```
 
-**Filter by action:**
-```bash
+# Filter by action
 curl "http://localhost:3000/api/audit/logs?action=LOGIN"
-```
 
-**Filter by user:**
-```bash
-curl "http://localhost:3000/api/audit/logs?userId=user-1&limit=10"
-```
+# Filter by user
+curl "http://localhost:3000/api/audit/logs?userId=user-1"
 
-**Get compliance report:**
-```bash
+# Get compliance report
 curl "http://localhost:3000/api/audit/compliance-report?startDate=2026-01-01&endDate=2026-12-31"
+
+# Export as CSV
+curl "http://localhost:3000/api/audit/export-csv" > audit.csv
 ```
 
-**Export as CSV:**
-```bash
-curl "http://localhost:3000/api/audit/export-csv?startDate=2026-01-01&endDate=2026-12-31" > audit.csv
-```
-
-### 2. Rate Limiting
-
-Every request includes rate limit headers:
+### Rate Limiting
+All endpoints have rate limits. Response includes headers:
 ```
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 95
 X-RateLimit-Reset: 1719381234
 ```
 
-When rate limited (429):
-```json
-{
-  "statusCode": 429,
-  "message": "Rate limit exceeded. Try again after 45 seconds",
-  "error": "Too Many Requests"
-}
-```
+Rate limits by tier:
+- LOGIN: 5 per 15 minutes
+- CREATE: 50 per minute
+- READ: 200 per minute
+- UPDATE: 50 per minute
+- DELETE: 20 per minute
+- EXPORT: 10 per hour
 
-### 3. Error Handling
-
-All errors follow consistent format:
+### Error Handling
+All errors include trace ID for debugging:
 ```json
 {
   "statusCode": 400,
@@ -110,194 +346,149 @@ All errors follow consistent format:
 
 ---
 
-## 📝 Using Audit Service in Your Code
+## 🔧 Development Tips
 
-### Log User Login
-```typescript
-import { AuditService } from './modules/audit/audit.service';
+### Accessing Settings
+1. Click ⚙️ icon in navbar (top right)
+2. Select option from dropdown:
+   - My Profile
+   - Notifications
+   - Notification Settings
+   - Two-Factor Auth
+   - Settings
 
-constructor(private auditService: AuditService) {}
+### Accessing New Phase 5 Features
+1. **Patient Features:**
+   - Click "Patient" in navbar → dashboard
+   - Click "Refills" for prescription management
+   - Click "Search Meds" for medication search
+   - Settings → "Two-Factor Auth" to enable 2FA
 
-async login(credentials) {
-  const user = await this.validateUser(credentials);
-  
-  // Log successful login
-  await this.auditService.logLogin(
-    user.id,
-    user.email,
-    user.role,
-    req.ip,
-    req.headers['user-agent']
-  );
-  
-  return user;
-}
+2. **Pharmacy Features:**
+   - Click "Pharmacy" in navbar → dashboard
+   - Click "Approvals" for refill queue
+
+3. **Delivery Features:**
+   - Click "Delivery" in navbar → dashboard
+   - Click "Tracking" for real-time location
+
+4. **Doctor Features:**
+   - Click "Doctor" in navbar → EHR dashboard
+   - View patients, create prescriptions, record vitals
+
+5. **Notifications:**
+   - Click 🔔 bell icon for notification center
+   - Click ⚙️ → "Notification Settings" for preferences
+
+---
+
+## 📊 Component Tree
+
 ```
+TwoFactorSetup
+  └── 5-step wizard with QR code
 
-### Log Failed Authentication
-```typescript
-async login(credentials) {
-  try {
-    return await this.validateUser(credentials);
-  } catch (error) {
-    // Log failed attempt
-    await this.auditService.logFailedAuth(
-      credentials.email,
-      req.ip,
-      req.headers['user-agent'],
-      'Invalid password'
-    );
-    throw error;
-  }
-}
-```
+PrescriptionRefills
+  ├── 3 tabs: Available, Pending, History
+  ├── Refill request form
+  └── Status tracking
 
-### Log Resource Creation
-```typescript
-async createPrescription(userId: string, userEmail: string, data: any) {
-  const prescription = await this.fhirService.createResource(data);
-  
-  // Log creation
-  await this.auditService.logCreate(
-    userId,
-    userEmail,
-    'pharmacy',
-    'Prescription',
-    prescription.id,
-    'Created new prescription',
-    { medication: data.medication, dosage: data.dosage }
-  );
-  
-  return prescription;
-}
-```
+AdvancedMedicationSearch
+  ├── Search input
+  ├── Filter panel
+  └── Results grid with interaction warnings
 
-### Log Unauthorized Access
-```typescript
-if (!hasPermission(user, resource)) {
-  await this.auditService.logUnauthorizedAccess(
-    user.id,
-    user.role,
-    'Patient',
-    patient.id,
-    'User attempted to access another patient record'
-  );
-  throw new ForbiddenException('Access denied');
-}
+NotificationCenter
+  ├── 4 filter tabs
+  ├── Notification list
+  └── Mark as read / delete
+
+NotificationPreferences
+  ├── Channel toggles (email, SMS, push, in-app)
+  ├── Type preferences
+  └── Quiet hours setup
+
+DoctorDashboard
+  ├── 4 tabs: Patients, Prescriptions, Refills, History
+  ├── Patient medical history view
+  ├── Vital signs form
+  └── Prescription creation form
+
+DeliveryTracking
+  ├── Delivery list
+  ├── Map container
+  └── ETA and driver info
+
+PharmacyRefillApproval
+  ├── Refill queue
+  ├── Status tabs
+  └── Approval form
 ```
 
 ---
 
-## 🛡️ Custom Exception Usage
+## 🚀 Deployment
 
-```typescript
-import {
-  ResourceNotFoundException,
-  UnauthorizedAccessException,
-  ValidationException,
-  FhirException,
-  EncryptionException,
-} from './common/exceptions';
+### Build for Production
+```bash
+npm run build
+```
 
-// Not found
-throw new ResourceNotFoundException('Prescription', 'rx-123');
+### Start Production Server
+```bash
+npm run preview
+```
 
-// Unauthorized
-throw new UnauthorizedAccessException('Cannot access this patient data');
-
-// Validation error
-throw new ValidationException({
-  email: ['Invalid email format'],
-  password: ['Password must be at least 8 characters']
-});
-
-// FHIR error
-throw new FhirException('Failed to create medication request', error);
-
-// Encryption error
-throw new EncryptionException('decrypt', 'Invalid auth tag');
+### Backend Deployment
+```bash
+cd backend/medilink-api
+npm run build
+npm run start
 ```
 
 ---
 
-## 📈 Test Results Summary
+## 🐛 Troubleshooting
 
+### Frontend Won't Load
+```bash
+# Clear cache and reinstall
+rm -rf node_modules package-lock.json
+npm install
+npm run dev
 ```
-✅ Encryption Service: 12/12 tests passing
-✅ Auth Service: 14/14 tests passing
-✅ Audit Service: 15/15 tests passing
-✅ E2E Tests: 20+ tests passing
 
-Total Coverage: ~90%
-Total Tests: 61+
-Status: ALL PASSING
+### Backend API Not Responding
+```bash
+# Check if running on port 3000
+curl http://localhost:3000/api/health
+
+# Check environment variables
+cat .env
+
+# Restart backend
+npm run start:dev
+```
+
+### Tests Failing
+```bash
+# Run with verbose output
+npm run test -- --verbose
+
+# Run specific test with debugging
+npm run test:debug -- auth.service.spec
 ```
 
 ---
 
-## 🔧 Configuration
+## 📞 Quick Links
 
-### Rate Limit Configuration
-Edit `src/common/middleware/rate-limit.service.ts`:
+- **Phase 4 Docs:** See `backend/PHASE4_COMPLETE.md`
+- **Phase 5 Docs:** See `backend/PHASE5_COMPLETE.md`
+- **GitHub:** https://github.com/Imposter-zx/MediLink
+- **Issues:** Create issue in GitHub repository
 
-```typescript
-export const RATE_LIMIT_CONFIG = {
-  LOGIN: { limit: 5, window: 15 * 60 * 1000 },
-  CREATE: { limit: 50, window: 60 * 1000 },
-  READ: { limit: 200, window: 60 * 1000 },
-  UPDATE: { limit: 50, window: 60 * 1000 },
-  DELETE: { limit: 20, window: 60 * 1000 },
-  SEND_MESSAGE: { limit: 100, window: 60 * 1000 },
-  EXPORT: { limit: 10, window: 60 * 60 * 1000 },
-  DEFAULT: { limit: 100, window: 60 * 1000 },
-};
-```
 
-### Audit Log Retention
-Edit `src/modules/audit/audit.service.ts`:
-
-```typescript
-// Clear logs older than 90 days
-await this.auditService.clearOldLogs(90);
-```
-
----
-
-## 📊 Common Queries
-
-### Get all login attempts in last 24 hours
-```bash
-curl "http://localhost:3000/api/audit/logs?action=LOGIN&limit=1000"
-```
-
-### Get failed authentications
-```bash
-curl "http://localhost:3000/api/audit/logs?action=FAILED_AUTH&limit=100"
-```
-
-### Get all user activities
-```bash
-curl "http://localhost:3000/api/audit/logs?userId=user-1"
-```
-
-### Get all data exports
-```bash
-curl "http://localhost:3000/api/audit/logs?action=EXPORT"
-```
-
-### Get critical security events
-```bash
-curl "http://localhost:3000/api/audit/logs?action=UNAUTHORIZED_ACCESS"
-```
-
----
-
-## 🐛 Debugging
-
-### Enable Debug Mode
-```bash
-npm run test:debug
-```
 
 ### View Test Logs
 ```bash

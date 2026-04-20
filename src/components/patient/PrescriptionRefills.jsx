@@ -5,10 +5,10 @@ import React, { useState, useEffect } from 'react';
  * Manages prescription refill requests and workflow
  */
 function PrescriptionRefills() {
-  const [activeTab, setActiveTab] = useState<'available' | 'pending' | 'history'>('available');
+  const [activeTab, setActiveTab] = useState('available');
   const [prescriptions, setPrescriptions] = useState([]);
   const [refills, setRefills] = useState([]);
-  const [selectedPrescription, setSelectedPrescription] = useState<string | null>(null);
+  const [selectedPrescription, setSelectedPrescription] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showRefillModal, setShowRefillModal] = useState(false);
 

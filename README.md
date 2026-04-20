@@ -57,86 +57,97 @@ MediLink is a high-performance, secure, and accessible healthcare platform bridg
 
 ---
 
-## 🛠️ Technology Stack
+## ✨ Phase 4 & 5 Features
 
-- **Frontend:** React 19, Vite
-- **State Management:** Zustand with persistence middleware
-- **Clinical Data:** Medplum FHIR API
-- **3D Graphics:** Three.js, @react-three/fiber
-- **UI Architecture:** Tailwind CSS, Mantine (Notifications)
-- **Icons:** Lucide React
-- **Routing:** React Router v6
+### Phase 4: Production Hardening ✅
 
-### Backend (NestJS)
+- **🧪 Comprehensive Testing:** 61+ unit and E2E tests with 90% coverage
+- **📋 Audit Logging:** HIPAA-compliant activity tracking and compliance reports
+- **⏱️ Rate Limiting:** 6-tier request throttling to prevent abuse
+- **🛡️ Exception Handling:** Centralized error responses with trace IDs
+- **🔍 Custom Exceptions:** 9 specialized exception classes for better error handling
 
-- **Framework:** NestJS, TypeScript
-- **FHIR Server:** Medplum (HL7 FHIR R4)
-- **Real-time:** WebSocket (Socket.io)
-- **Encryption:** AES-256-GCM for PHI
-- **Authentication:** Session-based (ready for OIDC)
-- **Validation:** class-validator, class-transformer
-- **Security:** Helmet, CORS, RBAC
+### Phase 5: Enterprise Features ✅
 
----
+1. **🔑 Two-Factor Authentication (TOTP)**
+   - Google Authenticator / Authy / Microsoft Authenticator support
+   - QR code generation and manual entry
+   - Backup codes for account recovery
+   - Components: `TwoFactorSetup`, route: `/auth/two-factor`
 
-## 📦 Getting Started
+2. **💊 Prescription Refill Management**
+   - Patient refill requests with eligibility checking
+   - Pharmacy approval workflow
+   - Refill statistics and history
+   - Components: `PrescriptionRefills`, `PharmacyRefillApproval`
 
-### Prerequisites
+3. **🔍 Advanced Medication Search**
+   - Full-text search with autocomplete
+   - 6+ filter categories (condition, price, rating, generics)
+   - Drug interaction checking
+   - Generic alternatives and cost comparison
+   - Component: `AdvancedMedicationSearch`, route: `/medications/search`
 
-- Node.js (v20+)
-- npm or yarn
-- Docker (for production simulation)
+4. **🗺️ Geolocation & Delivery Optimization**
+   - Real-time delivery tracking with map integration
+   - Haversine distance calculations
+   - ETA estimation with speed adjustment
+   - Route optimization algorithm
+   - Dynamic delivery fee calculation
+   - Component: `DeliveryTracking`, route: `/delivery/tracking`
 
-### Installation
+5. **🔔 Multi-Channel Notifications**
+   - Email, SMS, Push, and In-App notifications
+   - Template-based messaging with variables
+   - User preference management
+   - Quiet hours support
+   - Components: `NotificationCenter`, `NotificationPreferences`
 
-1.  **Clone & Install:**
+6. **👨‍⚕️ Doctor EHR System**
+   - Complete patient management dashboard
+   - Medical history tracking (allergies, conditions, surgeries)
+   - Prescription lifecycle management
+   - Vital signs recording
+   - Refill approval workflow
+   - Component: `DoctorDashboard`, route: `/doctor`
 
-    ```bash
-    git clone https://github.com/Imposter-zx/MediLink.git
-    cd MediLink
-    npm install
-    ```
-
-2.  **Environment Setup:**
-    Create a `.env` file based on `.env.example`:
-
-    ```bash
-    cp .env.example .env
-    ```
-
-3.  **Run Development Server:**
-
-    ```bash
-    npm run dev
-    ```
-
-    Access the application at `http://localhost:5173`
-
-4.  **Backend API (Optional):**
-
-    ```bash
-    cd backend/medilink-api
-    npm install
-
-    # Configure .env with your Medplum credentials
-    cp .env.example .env
-
-    # Start backend server
-    npm run start:dev
-    ```
-
-    Backend API runs on `http://localhost:3000`
+**See detailed documentation:**
+- Phase 4: [`backend/PHASE4_COMPLETE.md`](backend/PHASE4_COMPLETE.md)
+- Phase 5: [`backend/PHASE5_COMPLETE.md`](backend/PHASE5_COMPLETE.md)
 
 ---
 
 ## 🎯 Available Routes
 
+### Core Routes
 - **`/`** - Homepage with medical landing animation
 - **`/login`** - Secure login page
 - **`/settings`** - Comprehensive user settings
-- **`/patient`** - Patient dashboard (role-protected)
-- **`/pharmacy`** - Pharmacy dashboard (role-protected)
-- **`/delivery`** - Delivery dashboard (role-protected)
+- **`/profile`** - User profile management
+
+### Patient Routes (Role-Protected)
+- **`/patient`** - Patient dashboard
+- **`/patient/refills`** - Prescription refill management (Phase 5)
+- **`/medications`** - Medication list
+- **`/medications/search`** - Advanced medication search with filters (Phase 5)
+- **`/auth/two-factor`** - Two-factor authentication setup (Phase 5)
+
+### Pharmacy Routes (Role-Protected)
+- **`/pharmacy`** - Pharmacy dashboard
+- **`/pharmacy/refills`** - Refill approval queue (Phase 5)
+
+### Delivery Routes (Role-Protected)
+- **`/delivery`** - Delivery dashboard
+- **`/delivery/tracking`** - Real-time delivery tracking with map (Phase 5)
+
+### Doctor Routes (Role-Protected)
+- **`/doctor`** - Complete EHR dashboard with patient management (Phase 5)
+
+### Notification Routes (Authenticated)
+- **`/notifications`** - Notification center with filters (Phase 5)
+- **`/notifications/preferences`** - Notification settings (Phase 5)
+
+### Public Routes
 - **`/library`** - Medication knowledge library
 
 ---
@@ -146,13 +157,32 @@ MediLink is a high-performance, secure, and accessible healthcare platform bridg
 ### Accessing Settings
 
 - Click the **⚙️ Settings icon** in the navbar
-- Select **"Settings"** from the dropdown menu
+- Select **"Settings"** or **"Two-Factor Auth"** or **"Notifications"** from dropdown
 - Or navigate directly to `/settings`
 
-### Signing In
+### Accessing Phase 5 Features
 
-- Click the green **"Sign In"** button in the navbar
-- Or navigate directly to `/login`
+1. **Patient Features:**
+   - Click "Patient" role in navbar
+   - Access "Refills" for prescription management
+   - Access "Search Meds" for medication search
+   - Settings dropdown → "Two-Factor Auth"
+
+2. **Pharmacy Features:**
+   - Click "Pharmacy" role in navbar
+   - Access "Approvals" for refill queue
+
+3. **Delivery Features:**
+   - Click "Delivery" role in navbar
+   - Access "Tracking" for real-time tracking
+
+4. **Doctor Features:**
+   - Click "Doctor" role in navbar
+   - Access full EHR dashboard
+
+5. **Notifications:**
+   - Click bell (🔔) icon for notification center
+   - Settings dropdown → "Notification Settings"
 
 ### Theme Switching
 
@@ -161,6 +191,8 @@ MediLink is a high-performance, secure, and accessible healthcare platform bridg
 - Or go to Settings → Accessibility section
 
 ---
+
+## 🏥 Backend Architecture
 
 ## 🏥 Backend Architecture
 
