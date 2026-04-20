@@ -15,6 +15,16 @@ const Medications = lazy(() => import('../pages/Medications'));
 const Profile = lazy(() => import('../pages/Profile'));
 const Messages = lazy(() => import('../pages/Messages'));
 
+// Phase 5 Components
+const TwoFactorSetup = lazy(() => import('../components/auth/TwoFactorSetup'));
+const PrescriptionRefills = lazy(() => import('../components/patient/PrescriptionRefills'));
+const AdvancedMedicationSearch = lazy(() => import('../components/library/AdvancedMedicationSearch'));
+const NotificationCenter = lazy(() => import('../components/notifications/NotificationCenter'));
+const NotificationPreferences = lazy(() => import('../components/settings/NotificationPreferences'));
+const DoctorDashboard = lazy(() => import('../components/doctor/DoctorDashboard'));
+const DeliveryTracking = lazy(() => import('../components/delivery/DeliveryTracking'));
+const PharmacyRefillApproval = lazy(() => import('../components/pharmacy/PharmacyRefillApproval'));
+
 
 const PageLoader = () => (
   <div className="min-h-[60vh] flex items-center justify-center">
@@ -63,12 +73,44 @@ const AppRoutes = () => {
             </DashboardErrorBoundary>
           </ProtectedRoute>
         } />
+
+        <Route path="/medications/search" element={
+          <ProtectedRoute allowedRoles={['patient']}>
+            <DashboardErrorBoundary>
+              <AdvancedMedicationSearch />
+            </DashboardErrorBoundary>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/patient/refills" element={
+          <ProtectedRoute allowedRoles={['patient']}>
+            <DashboardErrorBoundary>
+              <PrescriptionRefills />
+            </DashboardErrorBoundary>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/auth/two-factor" element={
+          <ProtectedRoute allowedRoles={['patient']}>
+            <DashboardErrorBoundary>
+              <TwoFactorSetup />
+            </DashboardErrorBoundary>
+          </ProtectedRoute>
+        } />
         
         {/* Protected Pharmacy Routes */}
         <Route path="/pharmacy" element={
           <ProtectedRoute allowedRoles={['pharmacy']}>
             <DashboardErrorBoundary>
               <PharmacyDashboard />
+            </DashboardErrorBoundary>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/pharmacy/refills" element={
+          <ProtectedRoute allowedRoles={['pharmacy']}>
+            <DashboardErrorBoundary>
+              <PharmacyRefillApproval />
             </DashboardErrorBoundary>
           </ProtectedRoute>
         } />
@@ -82,6 +124,23 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } />
 
+        <Route path="/delivery/tracking" element={
+          <ProtectedRoute allowedRoles={['delivery']}>
+            <DashboardErrorBoundary>
+              <DeliveryTracking />
+            </DashboardErrorBoundary>
+          </ProtectedRoute>
+        } />
+
+        {/* Protected Doctor Routes */}
+        <Route path="/doctor" element={
+          <ProtectedRoute allowedRoles={['doctor']}>
+            <DashboardErrorBoundary>
+              <DoctorDashboard />
+            </DashboardErrorBoundary>
+          </ProtectedRoute>
+        } />
+
         <Route path="/library" element={<MedicationLibrary />} />
         <Route path="/profile" element={
           <ProtectedRoute>
@@ -91,6 +150,23 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } />
         <Route path="/settings" element={<Settings />} />
+
+        {/* Notification Routes */}
+        <Route path="/notifications" element={
+          <ProtectedRoute>
+            <DashboardErrorBoundary>
+              <NotificationCenter />
+            </DashboardErrorBoundary>
+          </ProtectedRoute>
+        } />
+
+        <Route path="/notifications/preferences" element={
+          <ProtectedRoute>
+            <DashboardErrorBoundary>
+              <NotificationPreferences />
+            </DashboardErrorBoundary>
+          </ProtectedRoute>
+        } />
 
         {/* Messaging Routes */}
         <Route path="/messages/patient" element={

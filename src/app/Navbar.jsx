@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Heart, Home, Pill, Truck, User, Menu, X, Bookmark, Mail } from 'lucide-react';
+import { Heart, Home, Pill, Truck, User, Menu, X, Bookmark, Mail, Bell, Stethoscope, Search, Lock, Check } from 'lucide-react';
 import { cn } from '../lib/utils';
 import Button from '../components/ui/Button';
 import { useAuth } from '../hooks/useAuth';
@@ -12,14 +12,20 @@ const Navbar = () => {
     const navigate = useNavigate();
     const { user, login } = useAuth();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
     const navItems = [
         { name: 'Home', path: '/', icon: Home },
         { name: 'Patient', path: '/patient', icon: User, role: 'patient' },
+        { name: 'Refills', path: '/patient/refills', icon: Pill, role: 'patient' },
+        { name: 'Search Meds', path: '/medications/search', icon: Search, role: 'patient' },
         { name: 'Messages', path: '/messages/patient', icon: Mail, role: 'patient' },
         { name: 'Pharmacy', path: '/pharmacy', icon: Pill, role: 'pharmacy' },
+        { name: 'Approvals', path: '/pharmacy/refills', icon: Check, role: 'pharmacy' },
         { name: 'Library', path: '/library', icon: Bookmark },
         { name: 'Delivery', path: '/delivery', icon: Truck, role: 'delivery' },
+        { name: 'Tracking', path: '/delivery/tracking', icon: Truck, role: 'delivery' },
+        { name: 'Doctor', path: '/doctor', icon: Stethoscope, role: 'doctor' },
     ];
 
     const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -81,7 +87,19 @@ const Navbar = () => {
                         
                         {/* Settings & Auth Actions */}
                         <div className="flex items-center gap-2">
-                            {/* Settings Dropdown */}
+                            {/* Notifications Bell */}
+                            <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                onClick={() => navigate('/notifications')}
+                                className="rounded-full relative"
+                                aria-label="Notifications"
+                            >
+                                <Bell size={20} />
+                                <span className="absolute top-1 right-1 w-2 h-2 bg-red-600 rounded-full animate-pulse"></span>
+                            </Button>
+                            
+                        {/* Settings Dropdown */}
                             <div className="relative">
                                 <Button 
                                     variant="ghost" 
@@ -111,6 +129,36 @@ const Navbar = () => {
                                                 >
                                                     <User size={18} />
                                                     <span className="font-medium">My Profile</span>
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        navigate('/notifications');
+                                                        setIsSettingsOpen(false);
+                                                    }}
+                                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors text-left"
+                                                >
+                                                    <Bell size={18} />
+                                                    <span className="font-medium">Notifications</span>
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        navigate('/notifications/preferences');
+                                                        setIsSettingsOpen(false);
+                                                    }}
+                                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors text-left"
+                                                >
+                                                    <Bell size={18} />
+                                                    <span className="font-medium">Notification Settings</span>
+                                                </button>
+                                                <button
+                                                    onClick={() => {
+                                                        navigate('/auth/two-factor');
+                                                        setIsSettingsOpen(false);
+                                                    }}
+                                                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors text-left"
+                                                >
+                                                    <Lock size={18} />
+                                                    <span className="font-medium">Two-Factor Auth</span>
                                                 </button>
                                                 <button
                                                     onClick={() => {
