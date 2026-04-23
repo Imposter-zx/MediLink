@@ -55,7 +55,7 @@ function PharmacyRefillApproval() {
   /**
    * Approve refill
    */
-  const handleApproveRefill = async (refillId: string) => {
+  const handleApproveRefill = async (refillId) => {
     if (!approvalNote.trim()) {
       alert('Please enter an approval note');
       return;
@@ -86,7 +86,7 @@ function PharmacyRefillApproval() {
   /**
    * Reject refill
    */
-  const handleRejectRefill = async (refillId: string) => {
+  const handleRejectRefill = async (refillId) => {
     if (!approvalNote.trim()) {
       alert('Please enter a reason for rejection');
       return;

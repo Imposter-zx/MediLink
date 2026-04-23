@@ -58,7 +58,7 @@ function NotificationCenter() {
   /**
    * Mark notification as read
    */
-  const handleMarkAsRead = async (notificationId: string) => {
+  const handleMarkAsRead = async (notificationId) => {
     try {
       await fetch(`/api/notifications/${notificationId}/read`, { method: 'POST' });
       setNotifications(
@@ -72,7 +72,7 @@ function NotificationCenter() {
   /**
    * Delete notification
    */
-  const handleDelete = async (notificationId: string) => {
+  const handleDelete = async (notificationId) => {
     try {
       await fetch(`/api/notifications/${notificationId}`, { method: 'DELETE' });
       setNotifications(notifications.filter(n => n.id !== notificationId));
@@ -96,7 +96,7 @@ function NotificationCenter() {
   /**
    * Get notification icon based on template
    */
-  const getIcon = (templateId: string) => {
+  const getIcon = (templateId) => {
     if (templateId.includes('refill')) return '💊';
     if (templateId.includes('delivery')) return '🚚';
     if (templateId.includes('appointment')) return '📅';
@@ -107,7 +107,7 @@ function NotificationCenter() {
   /**
    * Get notification color based on type
    */
-  const getColorClass = (templateId: string) => {
+  const getColorClass = (templateId) => {
     if (templateId.includes('refill')) return 'border-l-4 border-l-blue-500';
     if (templateId.includes('delivery')) return 'border-l-4 border-l-green-500';
     if (templateId.includes('alert')) return 'border-l-4 border-l-red-500';

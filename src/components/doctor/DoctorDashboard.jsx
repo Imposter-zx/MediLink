@@ -43,7 +43,7 @@ function DoctorDashboard() {
   /**
    * Load patient medical history
    */
-  const loadPatientHistory = async (patientId: string) => {
+  const loadPatientHistory = async (patientId) => {
     try {
       const response = await fetch(`/api/doctor/patient/${patientId}/history`);
       const data = await response.json();
@@ -58,7 +58,7 @@ function DoctorDashboard() {
   /**
    * Create new prescription
    */
-  const handleCreatePrescription = async (formData: any) => {
+  const handleCreatePrescription = async (formData) => {
     try {
       const response = await fetch('/api/doctor/prescriptions', {
         method: 'POST',
@@ -80,7 +80,7 @@ function DoctorDashboard() {
   /**
    * Record vital signs
    */
-  const handleRecordVitals = async (patientId: string, vitals: any) => {
+  const handleRecordVitals = async (patientId, vitals) => {
     try {
       const response = await fetch(`/api/doctor/patient/${patientId}/vitals`, {
         method: 'POST',
@@ -245,7 +245,7 @@ export default DoctorDashboard;
 /**
  * Patient Record View Component
  */
-function PatientRecordView({ patient, onRecordVitals }: any) {
+function PatientRecordView({ patient, onRecordVitals }) {
   const [showVitalsForm, setShowVitalsForm] = useState(false);
 
   return (
@@ -270,7 +270,7 @@ function PatientRecordView({ patient, onRecordVitals }: any) {
         <h4 className="text-lg font-semibold mb-3">Allergies</h4>
         {patient.medicalHistory.allergies.length > 0 ? (
           <div className="flex flex-wrap gap-2">
-            {patient.medicalHistory.allergies.map((allergy: string) => (
+            {patient.medicalHistory.allergies.map((allergy) => (
               <span key={allergy} className="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm">
                 {allergy}
               </span>
@@ -286,7 +286,7 @@ function PatientRecordView({ patient, onRecordVitals }: any) {
         <h4 className="text-lg font-semibold mb-3">Chronic Conditions</h4>
         {patient.medicalHistory.chronicConditions.length > 0 ? (
           <ul className="space-y-2">
-            {patient.medicalHistory.chronicConditions.map((condition: string) => (
+            {patient.medicalHistory.chronicConditions.map((condition) => (
               <li key={condition} className="flex items-center gap-2">
                 <span className="text-gray-400">•</span>
                 {condition}
@@ -313,7 +313,7 @@ function PatientRecordView({ patient, onRecordVitals }: any) {
         {showVitalsForm && (
           <VitalsForm
             patientId={patient.id}
-            onSubmit={(vitals: any) => {
+            onSubmit={(vitals) => {
               onRecordVitals(patient.id, vitals);
               setShowVitalsForm(false);
             }}
@@ -348,7 +348,7 @@ function PatientRecordView({ patient, onRecordVitals }: any) {
         <h4 className="text-lg font-semibold mb-3">Current Medications</h4>
         {patient.activePrescriptions && patient.activePrescriptions.length > 0 ? (
           <div className="space-y-3">
-            {patient.activePrescriptions.map((prescription: any) => (
+            {patient.activePrescriptions.map((prescription) => (
               <div key={prescription.id} className="border-b pb-3 last:border-b-0">
                 <p className="font-semibold">{prescription.medicationName}</p>
                 <p className="text-sm text-gray-600">{prescription.dosage} {prescription.frequency}</p>
@@ -366,7 +366,7 @@ function PatientRecordView({ patient, onRecordVitals }: any) {
 /**
  * Prescription Creation Form Component
  */
-function PrescriptionForm({ onSubmit, onCancel }: any) {
+function PrescriptionForm({ onSubmit, onCancel }) {
   const [formData, setFormData] = useState({
     patientId: '',
     medicationName: '',
@@ -450,7 +450,7 @@ function PrescriptionForm({ onSubmit, onCancel }: any) {
 /**
  * Vitals Form Component
  */
-function VitalsForm({ patientId, onSubmit, onCancel }: any) {
+function VitalsForm({ patientId, onSubmit, onCancel }) {
   const [vitals, setVitals] = useState({
     bloodPressure: '',
     temperature: '',

@@ -99,7 +99,7 @@ function AdvancedMedicationSearch() {
   /**
    * Check for drug interactions
    */
-  const checkInteractions = async (medicationIds: string[]) => {
+  const checkInteractions = async (medicationIds) => {
     try {
       const response = await fetch('/api/medications/check-interactions', {
         method: 'POST',
@@ -111,7 +111,7 @@ function AdvancedMedicationSearch() {
       if (data.safe) {
         alert('✅ No interactions found between selected medications');
       } else {
-        alert(`⚠️ Potential interactions found:\n${data.interactions.map((i: any) => `${i.medication1} + ${i.medication2}`).join('\n')}`);
+        alert(`⚠️ Potential interactions found:\n${data.interactions.map((i) => `${i.medication1} + ${i.medication2}`).join('\n')}`);
       }
     } catch (error) {
       console.error('Failed to check interactions:', error);

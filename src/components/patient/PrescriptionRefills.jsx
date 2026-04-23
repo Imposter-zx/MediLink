@@ -36,7 +36,7 @@ function PrescriptionRefills() {
   /**
    * Request prescription refill
    */
-  const handleRequestRefill = async (prescriptionId: string) => {
+  const handleRequestRefill = async (prescriptionId) => {
     setLoading(true);
     try {
       const response = await fetch('/api/prescriptions/refill', {
@@ -63,7 +63,7 @@ function PrescriptionRefills() {
   /**
    * Check if prescription is eligible for refill
    */
-  const isEligibleForRefill = (daysSupply: number, lastFilled: Date) => {
+  const isEligibleForRefill = (daysSupply, lastFilled) => {
     const daysSinceFill = Math.floor((Date.now() - new Date(lastFilled).getTime()) / (1000 * 60 * 60 * 24));
     return daysSinceFill >= daysSupply - 7; // Can refill 7 days early
   };

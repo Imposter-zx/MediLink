@@ -68,7 +68,7 @@ function NotificationPreferences() {
   /**
    * Toggle preference
    */
-  const togglePreference = (key: keyof typeof preferences) => {
+  const togglePreference = (key) => {
     setPreferences({
       ...preferences,
       [key]: !preferences[key],

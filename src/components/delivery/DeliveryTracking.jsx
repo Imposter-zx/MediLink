@@ -50,7 +50,7 @@ function DeliveryTracking() {
   /**
    * Load delivery details including location
    */
-  const loadDeliveryDetails = async (deliveryId: string) => {
+  const loadDeliveryDetails = async (deliveryId) => {
     try {
       const response = await fetch(`/api/delivery/${deliveryId}`);
       const data = await response.json();
@@ -71,7 +71,7 @@ function DeliveryTracking() {
   /**
    * Get status color and icon
    */
-  const getStatusIcon = (status: string) => {
+  const getStatusIcon = (status) => {
     switch (status) {
       case 'pending':
         return { icon: '⏳', color: 'text-yellow-600', bg: 'bg-yellow-50' };
@@ -89,7 +89,7 @@ function DeliveryTracking() {
   /**
    * Calculate time difference
    */
-  const getTimeUntilDelivery = (eta: string | null) => {
+  const getTimeUntilDelivery = (eta) => {
     if (!eta) return 'Unknown';
     const now = new Date();
     const etaDate = new Date(eta);
