@@ -8,7 +8,6 @@ function DeliveryTracking() {
   const [deliveries, setDeliveries] = useState([]);
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const [deliveryDetails, setDeliveryDetails] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [mapCenter, setMapCenter] = useState({ lat: 37.7749, lng: -122.4194 }); // San Francisco default
 
   // Load deliveries on mount
@@ -119,7 +118,7 @@ function DeliveryTracking() {
           ) : (
             <div className="space-y-2">
               {deliveries.map(delivery => {
-                const { icon, color, bg } = getStatusIcon(delivery.status);
+                const { icon, color } = getStatusIcon(delivery.status);
                 const isSelected = selectedDelivery === delivery.id;
 
                 return (
@@ -283,5 +282,4 @@ function DeliveryTracking() {
     </div>
   );
 }
-export default DeliveryTracking;
 export default DeliveryTracking;

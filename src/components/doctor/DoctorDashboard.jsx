@@ -7,10 +7,8 @@ import React, { useState, useEffect } from 'react';
 function DoctorDashboard() {
   const [activeTab, setActiveTab] = useState('patients');
   const [patients, setPatients] = useState([]);
-  const [selectedPatient, setSelectedPatient] = useState(null);
   const [patientHistory, setPatientHistory] = useState(null);
   const [stats, setStats] = useState({ activePatients: 0, activePrescriptions: 0, prescriptionsThisMonth: 0, avgRefillTime: 0, rating: 0 });
-  const [loading, setLoading] = useState(false);
   const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
 
   // Load doctor data on mount
@@ -450,7 +448,7 @@ function PrescriptionForm({ onSubmit, onCancel }) {
 /**
  * Vitals Form Component
  */
-function VitalsForm({ patientId, onSubmit, onCancel }) {
+function VitalsForm({ onSubmit, onCancel }) {
   const [vitals, setVitals] = useState({
     bloodPressure: '',
     temperature: '',
@@ -507,5 +505,3 @@ function VitalsForm({ patientId, onSubmit, onCancel }) {
     </div>
   );
 }
-
-export default DoctorDashboard;

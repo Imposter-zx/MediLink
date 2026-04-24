@@ -311,5 +311,3 @@ function PharmacyRefillApproval() {
 }
 
 export default PharmacyRefillApproval;
-
-export default PharmacyRefillApproval;

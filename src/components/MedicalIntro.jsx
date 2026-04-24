@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+// eslint-disable-next-line no-unused-vars
+import { motion, AnimatePresence } from 'framer-motion';
 
 
 
@@ -94,7 +96,7 @@ const MedicalIntro = ({ onComplete }) => {
                   animate={stage === 'activation' ? { filter: "drop-shadow(0 0 15px rgba(45, 212, 191, 0.6))" } : {}}
                   className="relative z-10"
                 >
-                    <LargeCapsule color1={teal} color2={softBlue} split={stage === 'exit'} />
+                    <LargeCapsule color1={teal} color2={softBlue} />
                 </motion.div>
                 
                 {/* Pulse Glow */}

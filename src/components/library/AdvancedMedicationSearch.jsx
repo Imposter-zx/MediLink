@@ -96,28 +96,6 @@ function AdvancedMedicationSearch() {
     setFilteredMedications(results);
   };
 
-  /**
-   * Check for drug interactions
-   */
-  const checkInteractions = async (medicationIds) => {
-    try {
-      const response = await fetch('/api/medications/check-interactions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ medicationIds }),
-      });
-
-      const data = await response.json();
-      if (data.safe) {
-        alert('✅ No interactions found between selected medications');
-      } else {
-        alert(`⚠️ Potential interactions found:\n${data.interactions.map((i) => `${i.medication1} + ${i.medication2}`).join('\n')}`);
-      }
-    } catch (error) {
-      console.error('Failed to check interactions:', error);
-    }
-  };
-
   return (
     <div className="max-w-6xl mx-auto p-6">
       <h2 className="text-3xl font-bold mb-6">Medication Search</h2>

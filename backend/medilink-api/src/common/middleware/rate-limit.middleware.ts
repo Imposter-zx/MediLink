@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware, TooManyRequestsException } from '@nestjs/common';
+import { Injectable, NestMiddleware, HttpException, HttpStatus } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { RateLimitService, getIdentifier, RATE_LIMIT_CONFIG } from './rate-limit.service';
 
@@ -30,7 +30,10 @@ export class RateLimitMiddleware implements NestMiddleware {
       // Log rate limit exceeded
       console.warn(`⚠️  Rate limit exceeded for ${identifier} on ${req.path}`);
 
-      throw new TooManyRequestsException(`Rate limit exceeded. Try again after ${Math.ceil((status.resetTime - Date.now()) / 1000)} seconds`);
+      throw new HttpException(
+        `Rate limit exceeded. Try again after ${Math.ceil((status.resetTime - Date.now()) / 1000)} seconds`,
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
     }
 
     next();

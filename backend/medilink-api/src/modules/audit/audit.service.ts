@@ -268,11 +268,13 @@ export class AuditService {
     }
 
     if (filter.startDate) {
-      results = results.filter(log => log.timestamp >= filter.startDate);
+      const startDate = filter.startDate;
+      results = results.filter(log => log.timestamp >= startDate);
     }
 
     if (filter.endDate) {
-      results = results.filter(log => log.timestamp <= filter.endDate);
+      const endDate = filter.endDate;
+      results = results.filter(log => log.timestamp <= endDate);
     }
 
     // Sort by timestamp descending

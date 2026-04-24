@@ -5,7 +5,7 @@ import { AuditModule } from '../audit/audit.module';
 
 @Module({
   imports: [AuditModule],
-  services: [DoctorService],
+  providers: [DoctorService],
   controllers: [DoctorController],
   exports: [DoctorService],
 })
