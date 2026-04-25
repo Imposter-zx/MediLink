@@ -9,6 +9,7 @@ function DeliveryTracking() {
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const [deliveryDetails, setDeliveryDetails] = useState(null);
   const [mapCenter, setMapCenter] = useState({ lat: 37.7749, lng: -122.4194 }); // San Francisco default
+  const [loading, setLoading] = useState(false);
 
   // Load deliveries on mount
   useEffect(() => {
@@ -102,9 +103,15 @@ function DeliveryTracking() {
 
   const status = deliveryDetails ? getStatusIcon(deliveryDetails.status) : null;
 
-  return (
-    <div className="max-w-7xl mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6">Prescription Deliveries</h2>
+   return (
+     <div className="max-w-7xl mx-auto p-6">
+       <h2 className="text-3xl font-bold mb-6">Prescription Deliveries</h2>
+       {loading && (
+         <div className="text-center py-8">
+           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
+           <p className="text-gray-600">Loading deliveries...</p>
+         </div>
+       )}
 
       <div className="grid grid-cols-3 gap-6">
         {/* Deliveries List */}

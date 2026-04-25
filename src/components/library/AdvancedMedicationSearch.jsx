@@ -20,81 +20,86 @@ function AdvancedMedicationSearch() {
     excludeSideEffects: [],
   });
 
-  const [showFilters, setShowFilters] = useState(false);
+const [showFilters, setShowFilters] = useState(false);
 
-  // Load medications on mount
-  useEffect(() => {
-    loadMedications();
-  }, []);
+// Load medications on mount
+useEffect(() => {
+  loadMedications();
+}, []);
 
-  // Apply filters when search or filters change
-  useEffect(() => {
-    applyFilters();
-  }, [searchQuery, filters, medications]);
+// Load medications on mount
+useEffect(() => {
+  loadMedications();
+}, []);
 
-  /**
-   * Load all medications
-   */
-  const loadMedications = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/medications');
-      const data = await response.json();
-      setMedications(data);
-    } catch (error) {
-      console.error('Failed to load medications:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+/**
+ * Load all medications
+ */
+const loadMedications = async () => {
+  setLoading(true);
+  try {
+    const response = await fetch('/api/medications');
+    const data = await response.json();
+    setMedications(data);
+  } catch (error) {
+    console.error('Failed to load medications:', error);
+  } finally {
+    setLoading(false);
+  }
+};
 
-  /**
-   * Apply search and filter logic
-   */
-  const applyFilters = () => {
-    let results = [...medications];
+/**
+ * Apply search and filter logic
+ */
+const applyFilters = () => {
+  let results = [...medications];
 
-    // Search by name
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      results = results.filter(
-        m =>
-          m.name.toLowerCase().includes(query) ||
-          m.genericName.toLowerCase().includes(query) ||
-          m.indication.toLowerCase().includes(query),
-      );
-    }
+  // Search by name
+  if (searchQuery) {
+    const query = searchQuery.toLowerCase();
+    results = results.filter(
+      m =>
+        m.name.toLowerCase().includes(query) ||
+        m.genericName.toLowerCase().includes(query) ||
+        m.indication.toLowerCase().includes(query),
+    );
+  }
 
-    // Filter by condition
-    if (filters.condition) {
-      results = results.filter(m => m.indication.toLowerCase().includes(filters.condition.toLowerCase()));
-    }
+  // Filter by condition
+  if (filters.condition) {
+    results = results.filter(m => m.indication.toLowerCase().includes(filters.condition.toLowerCase()));
+  }
 
-    // Filter by rating
-    if (filters.minRating > 0) {
-      results = results.filter(m => m.rating >= filters.minRating);
-    }
+  // Filter by rating
+  if (filters.minRating > 0) {
+    results = results.filter(m => m.rating >= filters.minRating);
+  }
 
-    // Filter by price
-    results = results.filter(m => m.price <= filters.maxPrice);
+  // Filter by price
+  results = results.filter(m => m.price <= filters.maxPrice);
 
-    // Filter by prescription requirement
-    if (filters.prescriptionRequired !== null) {
-      results = results.filter(m => m.prescriptionRequired === filters.prescriptionRequired);
-    }
+  // Filter by prescription requirement
+  if (filters.prescriptionRequired !== null) {
+    results = results.filter(m => m.prescriptionRequired === filters.prescriptionRequired);
+  }
 
-    // Filter by generic availability
-    if (filters.genericAvailable !== null) {
-      results = results.filter(m => m.genericAvailable === filters.genericAvailable);
-    }
+  // Filter by generic availability
+  if (filters.genericAvailable !== null) {
+    results = results.filter(m => m.genericAvailable === filters.genericAvailable);
+  }
 
-    // Exclude medications with selected side effects
-    if (filters.excludeSideEffects.length > 0) {
-      results = results.filter(m => !m.sideEffects.some(se => filters.excludeSideEffects.includes(se)));
-    }
+  // Exclude medications with selected side effects
+  if (filters.excludeSideEffects.length > 0) {
+    results = results.filter(m => !m.sideEffects.some(se => filters.excludeSideEffects.includes(se)));
+  }
 
-    setFilteredMedications(results);
-  };
+  setFilteredMedications(results);
+};
+
+// Apply filters when search or filters change
+useEffect(() => {
+  applyFilters();
+}, [searchQuery, filters, medications]);
 
   return (
     <div className="max-w-6xl mx-auto p-6">

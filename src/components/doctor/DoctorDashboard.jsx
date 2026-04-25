@@ -10,6 +10,7 @@ function DoctorDashboard() {
   const [patientHistory, setPatientHistory] = useState(null);
   const [stats, setStats] = useState({ activePatients: 0, activePrescriptions: 0, prescriptionsThisMonth: 0, avgRefillTime: 0, rating: 0 });
   const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Load doctor data on mount
   useEffect(() => {
@@ -90,14 +91,18 @@ function DoctorDashboard() {
         alert('✅ Vitals recorded successfully');
         loadPatientHistory(patientId);
       }
-    } catch (error) {
-      console.error('Failed to record vitals:', error);
-    }
-  };
-
-  return (
-    <div className="max-w-7xl mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6">Doctor Dashboard</h2>
+     } catch (error) {
+       console.error('Failed to record vitals:', error);
+     }
+   return (
+     <div className="max-w-7xl mx-auto p-6">
+       {loading && (
+         <div className="text-center py-8">
+           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
+           <p className="text-gray-600">Loading dashboard...</p>
+         </div>
+       )}
+       <h2 className="text-3xl font-bold mb-6">Doctor Dashboard</h2>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-4 gap-4 mb-6">
