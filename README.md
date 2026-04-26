@@ -6,6 +6,8 @@ MediLink is a high-performance, secure, and accessible healthcare platform bridg
 
 ## 🚀 Key Features
 
+Last updated: April 2026
+
 ### 🔐 Authentication & User Management
 
 - **Professional Login Page:** Medical-grade UI with email/phone detection, password visibility toggle, and remember me functionality
@@ -419,6 +421,16 @@ Contributions are welcome! Please ensure:
 ---
 
 ## 📜 License
+
+This project is licensed under the MIT License.
+
+## 🔧 Recent Improvements
+
+- **April 2026:** Fixed ESLint errors in DeliveryTracking, DoctorDashboard, and AdvancedMedicationSearch components
+  - Added missing state variables (`loading`, `selectedPatient`)
+  - Corrected React hook usage and dependencies
+  - Improved loading states with visual feedback
+  - Ensured all components pass linting without errors
 
 This project is licensed under the MIT License.
 
