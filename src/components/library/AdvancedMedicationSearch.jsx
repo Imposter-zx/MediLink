@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 /**
  * Advanced Medication Search Component
@@ -97,9 +97,13 @@ const applyFilters = () => {
 };
 
 // Apply filters when search or filters change
-useEffect(() => {
+const applyFiltersCallback = useCallback(() => {
   applyFilters();
 }, [searchQuery, filters, medications]);
+
+useEffect(() => {
+  applyFiltersCallback();
+}, [applyFiltersCallback]);
 
   return (
     <div className="max-w-6xl mx-auto p-6">
