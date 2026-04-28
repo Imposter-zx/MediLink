@@ -240,7 +240,7 @@ function DoctorDashboard() {
         <PatientRecordView patient={patientHistory} onRecordVitals={handleRecordVitals} />
       )}
     </div>
-  }
+  )
 
 export default DoctorDashboard;
 
