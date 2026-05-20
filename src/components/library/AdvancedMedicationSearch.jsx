@@ -51,7 +51,7 @@ const loadMedications = async () => {
 /**
  * Apply search and filter logic
  */
-const applyFilters = () => {
+const applyFilters = useCallback(() => {
   let results = [...medications];
 
   // Search by name
@@ -94,12 +94,12 @@ const applyFilters = () => {
   }
 
   setFilteredMedications(results);
-};
+}, [searchQuery, filters, medications]);
 
 // Apply filters when search or filters change
 useEffect(() => {
   applyFilters();
-}, [searchQuery, filters, medications]);
+}, [applyFilters]);
 
   return (
     <div className="max-w-6xl mx-auto p-6">

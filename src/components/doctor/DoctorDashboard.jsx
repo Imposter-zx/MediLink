@@ -47,7 +47,6 @@ function DoctorDashboard() {
       const response = await fetch(`/api/doctor/patient/${patientId}/history`);
       const data = await response.json();
       setPatientHistory(data);
-      setSelectedPatient(patientId);
       setActiveTab('history');
     } catch (error) {
       console.error('Failed to load patient history:', error);
@@ -94,6 +93,8 @@ function DoctorDashboard() {
      } catch (error) {
        console.error('Failed to record vitals:', error);
      }
+   };
+ 
    return (
      <div className="max-w-7xl mx-auto p-6">
        {loading && (
