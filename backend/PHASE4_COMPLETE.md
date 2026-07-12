@@ -1135,3 +1135,10 @@ npm run test:debug
 For detailed API documentation, see `/api` endpoint after running the server.
 
 Issues or improvements? File a ticket in the project repository.
+
+---
+## Documentation Update
+Last updated: July 12, 2026
+- Backend session and authentication improvements implemented.
+- Verified backend build passes after auth updates.
+

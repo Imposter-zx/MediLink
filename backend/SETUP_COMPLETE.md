@@ -279,3 +279,10 @@ npm run test:debug
 - **Setup Guide:** See `QUICKSTART.md`
 - **Backend README:** See `medilink-api/README.md`
 - **Dependencies:** See `medilink-api/DEPENDENCIES.md`
+
+---
+## Documentation Update
+Last updated: July 12, 2026
+- Backend session and authentication improvements implemented.
+- Verified backend build passes after auth updates.
+
