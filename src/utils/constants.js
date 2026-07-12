@@ -60,7 +60,10 @@ export const MEDICATION_FREQUENCY_LABELS = {
   [MEDICATION_FREQUENCY.WEEKLY]: 'Weekly',
 };
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const LOCAL_BACKEND_URL = 'http://localhost:3000';
+const LOCAL_HOSTNAMES = ['localhost', '127.0.0.1', '0.0.0.0'];
+const isLocalHost = typeof window !== 'undefined' && LOCAL_HOSTNAMES.includes(window.location.hostname);
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (isLocalHost ? LOCAL_BACKEND_URL : '');
 
 // API Endpoints (for future backend integration)
 export const API_ENDPOINTS = {
