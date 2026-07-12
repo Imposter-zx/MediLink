@@ -60,13 +60,15 @@ export const MEDICATION_FREQUENCY_LABELS = {
   [MEDICATION_FREQUENCY.WEEKLY]: 'Weekly',
 };
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+
 // API Endpoints (for future backend integration)
 export const API_ENDPOINTS = {
   AUTH: {
-    LOGIN: '/api/auth/login',
-    LOGOUT: '/api/auth/logout',
-    SESSION: '/api/auth/session',
-    REFRESH: '/api/auth/refresh',
+    LOGIN: `${API_BASE_URL}/api/auth/login`,
+    LOGOUT: `${API_BASE_URL}/api/auth/logout`,
+    SESSION: `${API_BASE_URL}/api/auth/session`,
+    REFRESH: `${API_BASE_URL}/api/auth/refresh`,
   },
   USER: {
     PROFILE: '/api/user/profile',
