@@ -93,7 +93,7 @@ const Login = () => {
       } else {
         setErrors({ submit: result.error || 'Invalid credentials. Please try again.' });
       }
-    } catch (error) {
+    } catch {
       setErrors({ submit: 'Unable to sign in. Please try again later.' });
     } finally {
       setIsLoading(false);
