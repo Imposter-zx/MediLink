@@ -93,6 +93,28 @@ export class PrescriptionsService {
   }
 
   /**
+   * Create a new prescription (alias for tests and controller compatibility)
+   */
+  async createPrescription(dto: CreatePrescriptionDto, requesterId: string) {
+    return this.create(dto, requesterId);
+  }
+
+  /**
+   * Get prescriptions for a given role
+   */
+  async getPrescriptions(role: string, id: string, status?: string) {
+    if (role === 'patient') {
+      return this.findByPatient(id, status);
+    }
+
+    if (role === 'pharmacy') {
+      return this.findByPharmacy(id, status);
+    }
+
+    throw new ForbiddenException(`Role "${role}" is not allowed to retrieve prescriptions`);
+  }
+
+  /**
    * Find prescriptions by patient ID
    */
   async findByPatient(patientId: string, status?: string) {

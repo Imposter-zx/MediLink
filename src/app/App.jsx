@@ -1,5 +1,5 @@
 import React, { useState, Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter as Router, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import AppShell from './AppShell';
 import AppRoutes from './routes';
 import { useAuthStore } from '../stores/authStore';
@@ -14,7 +14,7 @@ import '@mantine/notifications/styles.css';
 const MedicalLanding = lazy(() => import('../components/MedicalLanding/MedicalLanding'));
 
 function App() {
-  const { isAuthenticated, login, checkSession, isLoading } = useAuthStore();
+  const { isAuthenticated, checkSession, isLoading } = useAuthStore();
   
   useEffect(() => {
     checkSession();
@@ -25,9 +25,6 @@ function App() {
   });
 
   const handleEnterApp = () => {
-    login({ 
-      userData: { id: 'user-1', name: 'Ilyass', role: 'patient' } 
-    });
     localStorage.setItem('medilink_landing_seen', 'true');
     setShowLanding(false);
   };
@@ -56,6 +53,12 @@ function App() {
  */
 function AppContent({ showLanding, isAuthenticated, onEnterApp }) {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleEnter = () => {
+    onEnterApp();
+    navigate('/login');
+  };
   
   /**
    * Only show landing if:
@@ -77,7 +80,7 @@ function AppContent({ showLanding, isAuthenticated, onEnterApp }) {
           <span className="font-medium tracking-widest uppercase text-xs text-muted-foreground">Loading Secure Environment</span>
         </div>
       }>
-        <MedicalLanding onEnter={onEnterApp} />
+        <MedicalLanding onEnter={handleEnter} />
       </Suspense>
     );
   }

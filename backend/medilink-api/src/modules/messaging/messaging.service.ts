@@ -151,7 +151,14 @@ export class MessagingService {
       },
     );
 
-    const allMessages = [...communications, ...reverseComms];
+    const messageMap = new Map<string, any>();
+    [...communications, ...reverseComms].forEach((message: any) => {
+      if (message && message.id) {
+        messageMap.set(message.id, message);
+      }
+    });
+
+    const allMessages = Array.from(messageMap.values());
 
     // Decrypt messages
     return allMessages.map((msg: any) => {

@@ -34,129 +34,110 @@ export const useAuthStore = create((set, get) => ({
    */
   login: async (credentials) => {
     set({ isLoading: true, error: null });
-    
+
     try {
-      // For demo purposes, simulate API call
-      // In production, replace with actual API call:
-      /*
       const response = await fetch(API_ENDPOINTS.AUTH.LOGIN, {
         method: 'POST',
-        credentials: 'include', // Send cookies
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
+        body: JSON.stringify({
+          email: credentials.identifier || credentials.email,
+          password: credentials.password,
+        }),
       });
-      
+
       if (!response.ok) {
-        throw new Error('Invalid credentials');
+        const errorBody = await response.json().catch(() => null);
+        throw new Error(errorBody?.message || 'Invalid credentials');
       }
-      
+
       const userData = await response.json();
-      */
-      
-      // DEMO: Auto-login (REMOVE IN PRODUCTION)
-      const userData = credentials.userData || {
-        id: 'user-1',
-        name: credentials.name || 'Demo User',
-        role: credentials.role || 'patient',
-      };
-      
-      set({ 
-        user: userData, 
+      set({
+        user: userData.user || userData,
         isAuthenticated: true,
         isLoading: false,
         error: null,
       });
-      
-      // Audit log
+
       console.log('[Auth] Login successful:', {
-        userId: userData.id,
-        role: userData.role,
+        userId: userData.user?.id || userData.id,
+        role: userData.user?.role || userData.role,
         timestamp: new Date().toISOString(),
       });
-      
+
       return { success: true };
     } catch (error) {
-      set({ 
-        isLoading: false, 
-        error: error.message,
+      const message = error?.message || 'Login failed';
+      set({
+        isLoading: false,
+        error: message,
         isAuthenticated: false,
         user: null,
       });
-      
+
       console.error('[Auth] Login failed:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: message };
     }
   },
-  
+
   /**
    * Logout and clear backend session
    */
   logout: async () => {
     const currentUser = get().user;
-    
+
     try {
-      // In production, call backend to clear session:
-      /*
       await fetch(API_ENDPOINTS.AUTH.LOGOUT, {
         method: 'POST',
         credentials: 'include',
       });
-      */
-      
-      set({ 
-        user: null, 
+    } catch (error) {
+      console.error('[Auth] Logout failed:', error);
+    } finally {
+      set({
+        user: null,
         isAuthenticated: false,
         error: null,
       });
-      
-      // Audit log
       console.log('[Auth] Logout successful:', {
         userId: currentUser?.id,
         timestamp: new Date().toISOString(),
       });
-    } catch (error) {
-      console.error('[Auth] Logout failed:', error);
-      // Still clear local state even if backend call fails
-      set({ user: null, isAuthenticated: false });
     }
   },
-  
+
   /**
    * Check if session is still valid (call on app load)
    * Backend validates httpOnly cookie
    */
   checkSession: async () => {
-    set({ isLoading: true });
-    
+    set({ isLoading: true, error: null });
+
     try {
-      // In production, validate session with backend:
-      /*
       const response = await fetch(API_ENDPOINTS.AUTH.SESSION, {
         credentials: 'include',
       });
-      
-      if (response.ok) {
-        const userData = await response.json();
-        set({ 
-          user: userData, 
-          isAuthenticated: true,
-          isLoading: false,
-        });
-      } else {
-        set({ 
-          user: null, 
+
+      if (!response.ok) {
+        set({
+          user: null,
           isAuthenticated: false,
           isLoading: false,
         });
+        return;
       }
-      */
-      
-      // DEMO: No session persistence (REMOVE IN PRODUCTION)
-      set({ isLoading: false });
+
+      const userData = await response.json();
+      set({
+        user: userData.user || userData,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+      });
     } catch (error) {
       console.error('[Auth] Session check failed:', error);
-      set({ 
-        user: null, 
+      set({
+        user: null,
         isAuthenticated: false,
         isLoading: false,
         error: null,

@@ -3,12 +3,16 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
 import { HttpExceptionFilter, AllExceptionsFilter } from './common/filters/http-exception.filter';
+import { sessionMiddleware } from './common/session/session.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Security middleware
   app.use(helmet());
+
+  // Session middleware
+  app.use(sessionMiddleware);
 
   // CORS configuration
   app.enableCors({

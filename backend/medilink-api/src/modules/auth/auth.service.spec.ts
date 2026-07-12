@@ -1,13 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { TwoFactorService } from './two-factor.service';
 
 describe('AuthService', () => {
   let service: AuthService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AuthService],
+      providers: [
+        AuthService,
+        {
+          provide: TwoFactorService,
+          useValue: {
+            generateSecret: jest.fn().mockResolvedValue({ secret: 'ABC123', otpauth_url: 'otpauth://example' }),
+            verifyToken: jest.fn().mockResolvedValue(true),
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<AuthService>(AuthService);

@@ -5,6 +5,8 @@ export interface SessionData {
   userId: string;
   role: 'patient' | 'pharmacy' | 'delivery' | 'doctor';
   organizationId?: string; // For pharmacy/delivery organizations
+  email?: string;
+  name?: string;
   expiresAt: number;
 }
 
@@ -16,4 +18,5 @@ export interface AuthUser {
   email: string;
   name: string;
   role: string;
+  organizationId?: string;
 }

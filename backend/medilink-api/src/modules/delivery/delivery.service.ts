@@ -68,6 +68,59 @@ export class DeliveryService {
   }
 
   /**
+   * Create delivery task (alias for test compatibility)
+   */
+  async createDelivery(dto: CreateDeliveryDto) {
+    const task = await this.fhirService.createResource({
+      resourceType: 'Task',
+      status: 'requested',
+      intent: 'order',
+      priority: dto.priority || 'routine',
+      code: {
+        coding: [
+          {
+            system: 'http://medilink.io/task-types',
+            code: 'medication-delivery',
+            display: 'Medication Delivery',
+          },
+        ],
+      },
+      focus: {
+        reference: `MedicationRequest/${dto.prescriptionId}`,
+      },
+      for: {
+        reference: `Patient/${dto.patientId}`,
+      },
+      authoredOn: new Date().toISOString(),
+      requester: {
+        reference: `Organization/${dto.pharmacyId}`,
+      },
+      owner: dto.driverId
+        ? {
+            reference: `Practitioner/${dto.driverId}`,
+          }
+        : undefined,
+      extension: [
+        {
+          url: 'http://medilink.io/fhir/StructureDefinition/delivery-id',
+          valueString: `DEL-${Date.now()}`,
+        },
+        {
+          url: 'http://medilink.io/fhir/StructureDefinition/delivery-instructions',
+          valueString: dto.deliveryInstructions || '',
+        },
+        {
+          url: 'http://medilink.io/fhir/StructureDefinition/delivery-address',
+          valueString: dto.deliveryAddress,
+        },
+      ],
+    });
+
+    console.log(`✅ Delivery task created: ${(task as any).id}`);
+    return task;
+  }
+
+  /**
    * Find deliveries by driver
    */
   async findByDriver(driverId: string) {
@@ -107,7 +160,16 @@ export class DeliveryService {
   /**
    * Update delivery status
    */
-  async updateStatus(id: string, dto: UpdateDeliveryDto, driverId: string) {
+  async updateStatus(
+    id: string,
+    statusOrDto: string | UpdateDeliveryDto,
+    driverId: string,
+  ) {
+    const dto: UpdateDeliveryDto =
+      typeof statusOrDto === 'string'
+        ? { status: statusOrDto }
+        : statusOrDto;
+
     const task = await this.fhirService.readResource('Task', id);
 
     // Update status

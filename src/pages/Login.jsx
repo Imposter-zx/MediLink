@@ -81,27 +81,23 @@ const Login = () => {
         }
         
         setIsLoading(true);
-        
-        // Simulate API call
-        setTimeout(async () => {
-            try {
-                // Demo login - in production, this would call your API
-                await login({
-                    userData: {
-                        id: 'user-1',
-                        name: 'John Doe',
-                        email: formData.identifier,
-                        role: 'patient'
-                    }
-                });
-                
-                navigate('/patient');
-            } catch {
-                setErrors({ submit: 'Invalid credentials. Please try again.' });
-            } finally {
-                setIsLoading(false);
-            }
-        }, 1000);
+
+    try {
+      const result = await login({
+        identifier: formData.identifier,
+        password: formData.password,
+      });
+
+      if (result.success) {
+        navigate('/dashboard');
+      } else {
+        setErrors({ submit: result.error || 'Invalid credentials. Please try again.' });
+      }
+    } catch (error) {
+      setErrors({ submit: 'Unable to sign in. Please try again later.' });
+    } finally {
+      setIsLoading(false);
+    }
     };
 
     return (
