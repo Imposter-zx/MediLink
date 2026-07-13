@@ -402,14 +402,14 @@ const SecuritySection = ({ data, setData, onChangePassword }) => (
                                 </p>
                             </div>
                             {!session.current && (
-                                <Button variant="ghost" size="sm">
+                                <Button variant="ghost" size="sm" onClick={() => console.log('Sign out session:', session.device)}>
                                     Sign Out
                                 </Button>
                             )}
                         </div>
                     </div>
                 ))}
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full" onClick={() => console.log('Sign out all other devices')}>
                     Sign Out All Other Devices
                 </Button>
             </CardContent>

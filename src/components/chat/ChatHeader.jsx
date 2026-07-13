@@ -5,6 +5,13 @@ import { Package, FileText, Phone, MoreVertical } from 'lucide-react';
 const ChatHeader = () => {
   const { activeConversationId, getConversationPartner, getActiveConversationDetails } = useChatStore();
   // We might want to look up full order details here if needed, but the store has basic context
+
+  const handlePhone = () => {
+    const partner = getConversationPartner(activeConversationId);
+    if (partner?.phone) {
+      window.open(`tel:${partner.phone}`);
+    }
+  };
   
   if (!activeConversationId) return null;
 
@@ -44,7 +51,7 @@ const ChatHeader = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        <button className="p-2 hover:bg-secondary rounded-full text-muted-foreground transition-colors">
+        <button onClick={handlePhone} className="p-2 hover:bg-secondary rounded-full text-muted-foreground transition-colors">
           <Phone size={18} />
         </button>
         <button className="p-2 hover:bg-secondary rounded-full text-muted-foreground transition-colors">

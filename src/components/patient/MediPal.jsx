@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Bot, Send, Sparkles } from 'lucide-react';
 import Card, { CardHeader, CardTitle, CardContent } from '../ui/Card';
 import Button from '../ui/Button';
 
 const MediPal = () => {
+    const [query, setQuery] = useState('');
+
+    const handleSend = () => {
+        if (!query.trim()) return;
+        console.log('MediPal query:', query);
+        setQuery('');
+    };
+
     return (
         <Card className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground border-none shadow-lg shadow-primary/25">
             <CardHeader className="border-primary-foreground/10 pb-2">
@@ -23,9 +31,12 @@ const MediPal = () => {
                     <input
                         type="text"
                         placeholder="Ask me anything..."
+                        value={query}
+                        onChange={e => setQuery(e.target.value)}
+                        onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
                         className="flex-1 bg-primary-foreground/10 border-primary-foreground/10 placeholder:text-primary-foreground/50 text-primary-foreground rounded-xl px-4 py-2.5 focus:outline-none focus:bg-primary-foreground/20 transition-all border"
                     />
-                    <Button size="icon" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 rounded-xl">
+                    <Button size="icon" className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 rounded-xl" onClick={handleSend}>
                         <Send size={18} />
                     </Button>
                 </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowRight, Activity, ShieldCheck, Clock } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card, { CardContent } from '../components/ui/Card';
@@ -8,23 +8,34 @@ import { useAuth } from '../hooks/useAuth';
 const Home = () => {
     const { isAuthenticated, user, login } = useAuth();
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState({ getStarted: false, partner: false });
 
     const handleGetStarted = async () => {
-        if (!isAuthenticated || user?.role !== 'patient') {
-            await login({ 
-                userData: { id: 'user-1', name: 'Ilyass', role: 'patient' } 
-            });
+        setIsLoading(prev => ({ ...prev, getStarted: true }));
+        try {
+            if (!isAuthenticated || user?.role !== 'patient') {
+                await login({ 
+                    userData: { id: 'user-1', name: 'Ilyass', role: 'patient' } 
+                });
+            }
+            navigate('/patient');
+        } finally {
+            setIsLoading(prev => ({ ...prev, getStarted: false }));
         }
-        navigate('/patient');
     };
 
     const handlePartnerWithUs = async () => {
-        if (!isAuthenticated || user?.role !== 'pharmacy') {
-            await login({ 
-                userData: { id: 'user-2', name: 'Pharmacy Admin', role: 'pharmacy' } 
-            });
+        setIsLoading(prev => ({ ...prev, partner: true }));
+        try {
+            if (!isAuthenticated || user?.role !== 'pharmacy') {
+                await login({ 
+                    userData: { id: 'user-2', name: 'Pharmacy Admin', role: 'pharmacy' } 
+                });
+            }
+            navigate('/pharmacy');
+        } finally {
+            setIsLoading(prev => ({ ...prev, partner: false }));
         }
-        navigate('/pharmacy');
     };
 
     return (
@@ -55,6 +66,7 @@ const Home = () => {
                             size="lg" 
                             className="rounded-full px-8 text-lg h-14 shadow-lg shadow-primary/25"
                             onClick={handleGetStarted}
+                            isLoading={isLoading.getStarted}
                         >
                             Get Started <ArrowRight className="ml-2 h-5 w-5" />
                         </Button>
@@ -63,6 +75,7 @@ const Home = () => {
                             size="lg" 
                             className="rounded-full px-8 text-lg h-14 bg-background/50 backdrop-blur-sm"
                             onClick={handlePartnerWithUs}
+                            isLoading={isLoading.partner}
                         >
                             Partner with Us
                         </Button>

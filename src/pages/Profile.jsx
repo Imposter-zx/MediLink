@@ -56,7 +56,7 @@ const Profile = () => {
                                 </p>
                                 
                                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                                    <Button variant="primary" size="sm" className="rounded-full shadow-md">
+                                    <Button variant="primary" size="sm" className="rounded-full shadow-md" onClick={() => navigate('/settings')}>
                                         <Edit3 size={16} />
                                         Edit Profile
                                     </Button>

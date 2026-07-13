@@ -42,8 +42,8 @@ const AppointmentList = () => {
                         </div>
 
                         <div className="flex gap-2 pt-2">
-                            <Button size="sm" variant="secondary" className="flex-1">Reschedule</Button>
-                            <Button size="sm" variant="primary" className="flex-1">Details</Button>
+                            <Button size="sm" variant="secondary" className="flex-1" onClick={() => console.log('Reschedule appointment:', apt.id)}>Reschedule</Button>
+                            <Button size="sm" variant="primary" className="flex-1" onClick={() => console.log('View appointment details:', apt.id)}>Details</Button>
                         </div>
                     </div>
                 ))}

@@ -20,7 +20,7 @@ const Medications = () => {
                     <h1 className="text-3xl font-bold tracking-tight text-foreground">My Medications</h1>
                     <p className="text-muted-foreground">Manage your prescriptions and supplements.</p>
                 </div>
-                <Button className="shadow-lg shadow-primary/25">
+                <Button className="shadow-lg shadow-primary/25" onClick={() => console.log('Add medication')}>
                     <Plus className="mr-2 h-5 w-5" />
                     Add Medication
                 </Button>

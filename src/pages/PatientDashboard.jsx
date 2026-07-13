@@ -5,7 +5,7 @@ import MediPal from '../components/patient/MediPal';
 import Card, { CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import { ShoppingBag, Bell, AlertTriangle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { useNotificationsStore } from '../stores/notificationsStore';
 import ConfirmModal from '../components/ui/ConfirmModal';
@@ -15,6 +15,7 @@ import { useMedplum } from '@medplum/react';
 const PatientDashboard = () => {
     const { user } = useAuthStore();
     const medplum = useMedplum();
+    const navigate = useNavigate();
     const addNotif = useNotificationsStore(state => state.addNotification);
     
     const [confirmOrder, setConfirmOrder] = useState({ open: false, medicationName: '' });
@@ -80,7 +81,7 @@ const PatientDashboard = () => {
                     <p className="text-muted-foreground mt-1">Here's your health overview for today.</p>
                 </div>
                 <div className="flex gap-2">
-                    <Button variant="outline" size="icon" className="rounded-full">
+                    <Button variant="outline" size="icon" className="rounded-full" onClick={() => navigate('/settings')}>
                         <Bell size={20} />
                     </Button>
                     <Link to="/library">

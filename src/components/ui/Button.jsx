@@ -8,6 +8,7 @@ const Button = ({
     size = 'default',
     className,
     isLoading,
+    disabled,
     ...props
 }) => {
     const variants = {
@@ -33,7 +34,7 @@ const Button = ({
                 sizes[size],
                 className
             )}
-            disabled={isLoading}
+            disabled={disabled || isLoading}
             {...props}
         >
             {isLoading && <Loader2 className="animate-spin" size={18} />}

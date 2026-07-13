@@ -27,11 +27,6 @@ useEffect(() => {
   loadMedications();
 }, []);
 
-// Load medications on mount
-useEffect(() => {
-  loadMedications();
-}, []);
-
 /**
  * Load all medications
  */

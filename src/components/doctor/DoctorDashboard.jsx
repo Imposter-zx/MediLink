@@ -317,8 +317,8 @@ function PatientRecordView({ patient, onRecordVitals }) {
         {showVitalsForm && (
           <VitalsForm
             patientId={patient.id}
-            onSubmit={(vitals) => {
-              onRecordVitals(patient.id, vitals);
+            onSubmit={async (vitals) => {
+              await onRecordVitals(patient.id, vitals);
               setShowVitalsForm(false);
             }}
             onCancel={() => setShowVitalsForm(false)}
@@ -381,12 +381,22 @@ function PrescriptionForm({ onSubmit, onCancel }) {
     refills: 3,
     indication: '',
   });
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    try {
+      await onSubmit(formData);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="bg-white border rounded-lg p-6 mb-6">
       <h3 className="text-lg font-semibold mb-4">Create New Prescription</h3>
       <div className="grid grid-cols-2 gap-4">
-        <input type="text" placeholder="Patient ID" className="px-3 py-2 border rounded" />
+        <input type="text" placeholder="Patient ID" value={formData.patientId} onChange={e => setFormData({ ...formData, patientId: e.target.value })} className="px-3 py-2 border rounded" />
         <input
           type="text"
           placeholder="Medication Name"
@@ -435,10 +445,11 @@ function PrescriptionForm({ onSubmit, onCancel }) {
       </div>
       <div className="flex gap-2 mt-4">
         <button
-          onClick={() => onSubmit(formData)}
-          className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+          onClick={handleSubmit}
+          disabled={submitting}
+          className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
         >
-          Create Prescription
+          {submitting ? 'Creating...' : 'Create Prescription'}
         </button>
         <button
           onClick={onCancel}
@@ -461,6 +472,16 @@ function VitalsForm({ onSubmit, onCancel }) {
     pulse: '',
     weight: '',
   });
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async () => {
+    setSubmitting(true);
+    try {
+      await onSubmit(vitals);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="border rounded-lg p-4 mb-4 bg-gray-50">
@@ -496,10 +517,11 @@ function VitalsForm({ onSubmit, onCancel }) {
       </div>
       <div className="flex gap-2 mt-3">
         <button
-          onClick={() => onSubmit(vitals)}
-          className="flex-1 bg-green-600 text-white py-2 rounded text-sm hover:bg-green-700"
+          onClick={handleSubmit}
+          disabled={submitting}
+          className="flex-1 bg-green-600 text-white py-2 rounded text-sm hover:bg-green-700 disabled:opacity-50"
         >
-          Record Vitals
+          {submitting ? 'Saving...' : 'Record Vitals'}
         </button>
         <button
           onClick={onCancel}
