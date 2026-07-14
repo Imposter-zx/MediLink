@@ -59,7 +59,7 @@ function AppContent({ showLanding, isAuthenticated, onEnterApp }) {
 
   const handleEnter = () => {
     onEnterApp();
-    navigate('/login');
+    navigate('/patient');
   };
   
   /**

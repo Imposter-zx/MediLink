@@ -5,7 +5,6 @@ import DashboardErrorBoundary from '../components/ui/DashboardErrorBoundary';
 
 // Lazy load pages
 const Home = lazy(() => import('../pages/Home'));
-const Login = lazy(() => import('../pages/Login'));
 const Settings = lazy(() => import('../pages/Settings'));
 const PatientDashboard = lazy(() => import('../pages/PatientDashboard'));
 const PharmacyDashboard = lazy(() => import('../pages/PharmacyDashboard'));
@@ -55,7 +54,6 @@ const AppRoutes = () => {
     <Suspense fallback={<PageLoader />}>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
         
         {/* Protected Patient Routes */}
         <Route path="/patient" element={

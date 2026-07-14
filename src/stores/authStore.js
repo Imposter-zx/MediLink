@@ -17,11 +17,11 @@ import { API_ENDPOINTS } from '../utils/constants';
  */
 
 export const useAuthStore = create((set, get) => ({
-  // User metadata (NOT sensitive - safe to keep in memory)
-  user: null, // { id, name, role: 'patient' | 'pharmacy' | 'delivery' }
+  // User metadata
+  user: { id: 'guest-1', name: 'Guest', role: 'patient' },
   
   // Authentication state
-  isAuthenticated: false,
+  isAuthenticated: true,
   
   // Loading states
   isLoading: false,
@@ -109,41 +109,10 @@ export const useAuthStore = create((set, get) => ({
 
   /**
    * Check if session is still valid (call on app load)
-   * Backend validates httpOnly cookie
    */
   checkSession: async () => {
-    set({ isLoading: true, error: null });
-
-    try {
-      const response = await fetch(API_ENDPOINTS.AUTH.SESSION, {
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        set({
-          user: null,
-          isAuthenticated: false,
-          isLoading: false,
-        });
-        return;
-      }
-
-      const userData = await response.json();
-      set({
-        user: userData.user || userData,
-        isAuthenticated: true,
-        isLoading: false,
-        error: null,
-      });
-    } catch (error) {
-      console.error('[Auth] Session check failed:', error);
-      set({
-        user: null,
-        isAuthenticated: false,
-        isLoading: false,
-        error: null,
-      });
-    }
+    // Guest mode - no backend session validation needed
+    set({ isLoading: false });
   },
   
   /**

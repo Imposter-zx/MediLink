@@ -38,7 +38,7 @@ const Navbar = () => {
             if (import.meta.env.DEV) {
                 console.log('[Navbar] Role mismatch — would auto-login in dev mode');
             }
-            navigate('/login');
+            navigate('/');
             setIsMobileMenuOpen(false);
             return;
         }
@@ -185,10 +185,10 @@ const Navbar = () => {
                                 <Button
                                     variant="primary"
                                     size="sm"
-                                    onClick={() => navigate('/login')}
+                                    onClick={() => navigate('/patient')}
                                     className="rounded-full px-4"
                                 >
-                                    Sign In
+                                    Dashboard
                                 </Button>
                             ) : (
                                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary">
