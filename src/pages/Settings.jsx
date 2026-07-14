@@ -50,6 +50,7 @@ const Settings = () => {
             { device: 'iPhone 14 Pro', location: 'New York, US', lastActive: '1 day ago', current: false },
         ]
     });
+    const [securityErrors, setSecurityErrors] = useState({});
     
     // Medical preferences state
     const [medicalData, setMedicalData] = useState({
@@ -90,10 +91,23 @@ const Settings = () => {
     };
     
     const handleChangePassword = () => {
-        if (securityData.newPassword !== securityData.confirmPassword) {
-            alert('Passwords do not match');
-            return;
+        const newErrors = {};
+        if (!securityData.currentPassword) {
+            newErrors.currentPassword = 'Current password is required';
         }
+        if (!securityData.newPassword) {
+            newErrors.newPassword = 'New password is required';
+        } else if (securityData.newPassword.length < 8) {
+            newErrors.newPassword = 'New password must be at least 8 characters';
+        }
+        if (!securityData.confirmPassword) {
+            newErrors.confirmPassword = 'Please confirm your new password';
+        } else if (securityData.newPassword !== securityData.confirmPassword) {
+            newErrors.confirmPassword = 'Passwords do not match';
+        }
+        setSecurityErrors(newErrors);
+        if (Object.keys(newErrors).length > 0) return;
+
         console.log('Changing password...');
         setSecurityData({
             ...securityData,
@@ -101,6 +115,7 @@ const Settings = () => {
             newPassword: '',
             confirmPassword: ''
         });
+        setSecurityErrors({});
         showSaveConfirmation();
     };
     
@@ -145,6 +160,8 @@ const Settings = () => {
                 return <SecuritySection 
                     data={securityData}
                     setData={setSecurityData}
+                    errors={securityErrors}
+                    setErrors={setSecurityErrors}
                     onChangePassword={handleChangePassword}
                 />;
             case 'medical':
@@ -313,7 +330,8 @@ const AccountSection = ({ data, setData, onSave }) => (
 );
 
 // Security Section Component
-const SecuritySection = ({ data, setData, onChangePassword }) => (
+const SecuritySection = ({ data, setData, errors, setErrors, onChangePassword }) => {
+    return (
     <div className="space-y-6">
         <Card>
             <CardHeader>
@@ -328,9 +346,18 @@ const SecuritySection = ({ data, setData, onChangePassword }) => (
                         type="password"
                         id="currentPassword"
                         value={data.currentPassword}
-                        onChange={(e) => setData({ ...data, currentPassword: e.target.value })}
-                        className="w-full h-12 px-4 rounded-xl border-2 border-input bg-background text-foreground focus:outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary"
+                        onChange={(e) => {
+                            setData({ ...data, currentPassword: e.target.value });
+                            setErrors({ ...errors, currentPassword: '' });
+                        }}
+                        className={cn(
+                            "w-full h-12 px-4 rounded-xl border-2 bg-background text-foreground focus:outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary",
+                            errors.currentPassword ? "border-destructive focus:ring-destructive/20 focus:border-destructive" : "border-input"
+                        )}
                     />
+                    {errors.currentPassword && (
+                        <p className="text-sm text-destructive font-medium" role="alert">{errors.currentPassword}</p>
+                    )}
                 </div>
                 
                 <div className="space-y-2">
@@ -341,9 +368,18 @@ const SecuritySection = ({ data, setData, onChangePassword }) => (
                         type="password"
                         id="newPassword"
                         value={data.newPassword}
-                        onChange={(e) => setData({ ...data, newPassword: e.target.value })}
-                        className="w-full h-12 px-4 rounded-xl border-2 border-input bg-background text-foreground focus:outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary"
+                        onChange={(e) => {
+                            setData({ ...data, newPassword: e.target.value });
+                            setErrors({ ...errors, newPassword: '' });
+                        }}
+                        className={cn(
+                            "w-full h-12 px-4 rounded-xl border-2 bg-background text-foreground focus:outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary",
+                            errors.newPassword ? "border-destructive focus:ring-destructive/20 focus:border-destructive" : "border-input"
+                        )}
                     />
+                    {errors.newPassword && (
+                        <p className="text-sm text-destructive font-medium" role="alert">{errors.newPassword}</p>
+                    )}
                 </div>
                 
                 <div className="space-y-2">
@@ -354,9 +390,18 @@ const SecuritySection = ({ data, setData, onChangePassword }) => (
                         type="password"
                         id="confirmPassword"
                         value={data.confirmPassword}
-                        onChange={(e) => setData({ ...data, confirmPassword: e.target.value })}
-                        className="w-full h-12 px-4 rounded-xl border-2 border-input bg-background text-foreground focus:outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary"
+                        onChange={(e) => {
+                            setData({ ...data, confirmPassword: e.target.value });
+                            setErrors({ ...errors, confirmPassword: '' });
+                        }}
+                        className={cn(
+                            "w-full h-12 px-4 rounded-xl border-2 bg-background text-foreground focus:outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary",
+                            errors.confirmPassword ? "border-destructive focus:ring-destructive/20 focus:border-destructive" : "border-input"
+                        )}
                     />
+                    {errors.confirmPassword && (
+                        <p className="text-sm text-destructive font-medium" role="alert">{errors.confirmPassword}</p>
+                    )}
                 </div>
                 
                 <Button onClick={onChangePassword}>
@@ -415,7 +460,8 @@ const SecuritySection = ({ data, setData, onChangePassword }) => (
             </CardContent>
         </Card>
     </div>
-);
+    );
+};
 
 // Medical Preferences Section Component
 const MedicalSection = ({ data, setData }) => (

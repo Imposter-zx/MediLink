@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import Card, { CardContent, CardHeader, CardTitle } from '../ui/Card';
+import Button from '../ui/Button';
 
 /**
  * Doctor Dashboard Component
@@ -11,6 +13,7 @@ function DoctorDashboard() {
   const [stats, setStats] = useState({ activePatients: 0, activePrescriptions: 0, prescriptionsThisMonth: 0, avgRefillTime: 0, rating: 0 });
   const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState(null);
 
   // Load doctor data on mount
   useEffect(() => {
@@ -65,13 +68,15 @@ function DoctorDashboard() {
       });
 
       if (response.ok) {
-        alert('✅ Prescription created successfully');
+        setNotification({ type: 'success', message: 'Prescription created successfully' });
         setShowPrescriptionForm(false);
         loadDashboard();
+      } else {
+        setNotification({ type: 'error', message: 'Failed to create prescription' });
       }
     } catch (error) {
       console.error('Failed to create prescription:', error);
-      alert('Failed to create prescription');
+      setNotification({ type: 'error', message: 'Failed to create prescription' });
     }
   };
 
@@ -87,44 +92,63 @@ function DoctorDashboard() {
       });
 
       if (response.ok) {
-        alert('✅ Vitals recorded successfully');
+        setNotification({ type: 'success', message: 'Vitals recorded successfully' });
         loadPatientHistory(patientId);
+      } else {
+        setNotification({ type: 'error', message: 'Failed to record vitals' });
       }
      } catch (error) {
        console.error('Failed to record vitals:', error);
+       setNotification({ type: 'error', message: 'Failed to record vitals' });
      }
    };
  
    return (
-     <div className="max-w-7xl mx-auto p-6">
-       {loading && (
-         <div className="text-center py-8">
-           <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
-           <p className="text-gray-600">Loading dashboard...</p>
-         </div>
-       )}
-       <h2 className="text-3xl font-bold mb-6">Doctor Dashboard</h2>
+      <div className="max-w-7xl mx-auto p-6">
+        {notification && (
+          <div className={`mb-4 p-4 rounded-lg border ${notification.type === 'success' ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800'}`}>
+            <div className="flex items-center justify-between">
+              <p className="font-medium">{notification.message}</p>
+              <button onClick={() => setNotification(null)} className="text-current opacity-60 hover:opacity-100">&times;</button>
+            </div>
+          </div>
+        )}
+        {loading && (
+          <div className="text-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading dashboard...</p>
+          </div>
+        )}
+        <h2 className="text-3xl font-bold mb-6">Doctor Dashboard</h2>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-4 gap-4 mb-6">
-        <div className="bg-white border rounded-lg p-4 shadow">
-          <div className="text-sm text-gray-600">Active Patients</div>
-          <div className="text-3xl font-bold text-blue-600 mt-2">{stats.activePatients}</div>
-        </div>
-        <div className="bg-white border rounded-lg p-4 shadow">
-          <div className="text-sm text-gray-600">Active Prescriptions</div>
-          <div className="text-3xl font-bold text-green-600 mt-2">{stats.activePrescriptions}</div>
-        </div>
-        <div className="bg-white border rounded-lg p-4 shadow">
-          <div className="text-sm text-gray-600">This Month</div>
-          <div className="text-3xl font-bold text-purple-600 mt-2">{stats.prescriptionsThisMonth}</div>
-        </div>
-        <div className="bg-white border rounded-lg p-4 shadow">
-          <div className="text-sm text-gray-600">Patient Rating</div>
-          <div className="text-3xl font-bold text-yellow-600 mt-2">
-            {stats.rating.toFixed(1)} ⭐
-          </div>
-        </div>
+        <Card>
+          <CardContent className="p-4">
+            <div className="text-sm text-muted-foreground">Active Patients</div>
+            <div className="text-3xl font-bold text-blue-600 mt-2">{stats.activePatients}</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="text-sm text-muted-foreground">Active Prescriptions</div>
+            <div className="text-3xl font-bold text-green-600 mt-2">{stats.activePrescriptions}</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="text-sm text-muted-foreground">This Month</div>
+            <div className="text-3xl font-bold text-purple-600 mt-2">{stats.prescriptionsThisMonth}</div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <div className="text-sm text-muted-foreground">Patient Rating</div>
+            <div className="text-3xl font-bold text-yellow-600 mt-2">
+              {stats.rating.toFixed(1)} ⭐
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Tabs */}
@@ -184,7 +208,12 @@ function DoctorDashboard() {
           </div>
 
           <div className="space-y-2">
-            {patients.map(patient => (
+            {patients.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">
+                <p className="font-medium">No patients assigned</p>
+                <p className="text-sm mt-1">Patient list will appear once patients are assigned to you</p>
+              </div>
+            ) : patients.map(patient => (
               <div
                 key={patient.id}
                 onClick={() => loadPatientHistory(patient.id)}
@@ -383,82 +412,72 @@ function PrescriptionForm({ onSubmit, onCancel }) {
   });
   const [submitting, setSubmitting] = useState(false);
 
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.patientId.trim()) newErrors.patientId = 'Required';
+    if (!formData.medicationName.trim()) newErrors.medicationName = 'Required';
+    if (!formData.strength.trim()) newErrors.strength = 'Required';
+    if (!formData.dosage.trim()) newErrors.dosage = 'Required';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async () => {
+    if (!validate()) return;
     setSubmitting(true);
     try {
       await onSubmit(formData);
+    } catch {
+      console.error('Prescription submission failed');
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="bg-white border rounded-lg p-6 mb-6">
-      <h3 className="text-lg font-semibold mb-4">Create New Prescription</h3>
-      <div className="grid grid-cols-2 gap-4">
-        <input type="text" placeholder="Patient ID" value={formData.patientId} onChange={e => setFormData({ ...formData, patientId: e.target.value })} className="px-3 py-2 border rounded" />
-        <input
-          type="text"
-          placeholder="Medication Name"
-          value={formData.medicationName}
-          onChange={e => setFormData({ ...formData, medicationName: e.target.value })}
-          className="px-3 py-2 border rounded"
-        />
-        <input
-          type="text"
-          placeholder="Strength (e.g., 10mg)"
-          value={formData.strength}
-          onChange={e => setFormData({ ...formData, strength: e.target.value })}
-          className="px-3 py-2 border rounded"
-        />
-        <input
-          type="text"
-          placeholder="Dosage (e.g., 1 tablet)"
-          value={formData.dosage}
-          onChange={e => setFormData({ ...formData, dosage: e.target.value })}
-          className="px-3 py-2 border rounded"
-        />
-        <select
-          value={formData.frequency}
-          onChange={e => setFormData({ ...formData, frequency: e.target.value })}
-          className="px-3 py-2 border rounded"
-        >
-          <option>once daily</option>
-          <option>twice daily</option>
-          <option>three times daily</option>
-          <option>as needed</option>
-        </select>
-        <input
-          type="number"
-          placeholder="Days Supply"
-          value={formData.daysSupply}
-          onChange={e => setFormData({ ...formData, daysSupply: parseInt(e.target.value) })}
-          className="px-3 py-2 border rounded"
-        />
-        <textarea
-          placeholder="Indication/Reason"
-          value={formData.indication}
-          onChange={e => setFormData({ ...formData, indication: e.target.value })}
-          className="col-span-2 px-3 py-2 border rounded"
-          rows={3}
-        />
-      </div>
-      <div className="flex gap-2 mt-4">
-        <button
-          onClick={handleSubmit}
-          disabled={submitting}
-          className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
-        >
-          {submitting ? 'Creating...' : 'Create Prescription'}
-        </button>
-        <button
-          onClick={onCancel}
-          className="flex-1 bg-gray-200 text-gray-800 py-2 rounded-lg hover:bg-gray-300"
-        >
-          Cancel
-        </button>
-      </div>
-    </div>
+    <Card className="mb-6">
+      <CardHeader>
+        <CardTitle>Create New Prescription</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <input type="text" placeholder="Patient ID" value={formData.patientId} onChange={e => { setFormData({ ...formData, patientId: e.target.value }); setErrors({ ...errors, patientId: '' }); }} className={`w-full px-3 py-2 border rounded ${errors.patientId ? 'border-red-500' : ''}`} />
+            {errors.patientId && <p className="text-xs text-red-600 mt-1">{errors.patientId}</p>}
+          </div>
+          <div>
+            <input type="text" placeholder="Medication Name" value={formData.medicationName} onChange={e => { setFormData({ ...formData, medicationName: e.target.value }); setErrors({ ...errors, medicationName: '' }); }} className={`w-full px-3 py-2 border rounded ${errors.medicationName ? 'border-red-500' : ''}`} />
+            {errors.medicationName && <p className="text-xs text-red-600 mt-1">{errors.medicationName}</p>}
+          </div>
+          <div>
+            <input type="text" placeholder="Strength (e.g., 10mg)" value={formData.strength} onChange={e => { setFormData({ ...formData, strength: e.target.value }); setErrors({ ...errors, strength: '' }); }} className={`w-full px-3 py-2 border rounded ${errors.strength ? 'border-red-500' : ''}`} />
+            {errors.strength && <p className="text-xs text-red-600 mt-1">{errors.strength}</p>}
+          </div>
+          <div>
+            <input type="text" placeholder="Dosage (e.g., 1 tablet)" value={formData.dosage} onChange={e => { setFormData({ ...formData, dosage: e.target.value }); setErrors({ ...errors, dosage: '' }); }} className={`w-full px-3 py-2 border rounded ${errors.dosage ? 'border-red-500' : ''}`} />
+            {errors.dosage && <p className="text-xs text-red-600 mt-1">{errors.dosage}</p>}
+          </div>
+          <select value={formData.frequency} onChange={e => setFormData({ ...formData, frequency: e.target.value })} className="w-full px-3 py-2 border rounded">
+            <option>once daily</option>
+            <option>twice daily</option>
+            <option>three times daily</option>
+            <option>as needed</option>
+          </select>
+          <input type="number" placeholder="Days Supply" value={formData.daysSupply} onChange={e => setFormData({ ...formData, daysSupply: parseInt(e.target.value) })} className="w-full px-3 py-2 border rounded" />
+          <textarea placeholder="Indication/Reason" value={formData.indication} onChange={e => setFormData({ ...formData, indication: e.target.value })} className="col-span-2 px-3 py-2 border rounded" rows={3} />
+        </div>
+        <div className="flex gap-2 mt-4">
+          <Button onClick={handleSubmit} isLoading={submitting} className="flex-1">
+            {submitting ? 'Creating...' : 'Create Prescription'}
+          </Button>
+          <Button variant="outline" onClick={onCancel} className="flex-1">
+            Cancel
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -472,64 +491,61 @@ function VitalsForm({ onSubmit, onCancel }) {
     pulse: '',
     weight: '',
   });
+  const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
+  const validate = () => {
+    const newErrors = {};
+    if (!vitals.bloodPressure.trim()) newErrors.bloodPressure = 'Required';
+    if (!vitals.temperature) newErrors.temperature = 'Required';
+    if (!vitals.pulse) newErrors.pulse = 'Required';
+    if (!vitals.weight) newErrors.weight = 'Required';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async () => {
+    if (!validate()) return;
     setSubmitting(true);
     try {
       await onSubmit(vitals);
+    } catch {
+      console.error('Vitals submission failed');
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <div className="border rounded-lg p-4 mb-4 bg-gray-50">
-      <div className="grid grid-cols-2 gap-3">
-        <input
-          type="text"
-          placeholder="BP (e.g., 120/80)"
-          value={vitals.bloodPressure}
-          onChange={e => setVitals({ ...vitals, bloodPressure: e.target.value })}
-          className="px-3 py-2 border rounded"
-        />
-        <input
-          type="number"
-          placeholder="Temperature (°F)"
-          value={vitals.temperature}
-          onChange={e => setVitals({ ...vitals, temperature: e.target.value })}
-          className="px-3 py-2 border rounded"
-        />
-        <input
-          type="number"
-          placeholder="Heart Rate (bpm)"
-          value={vitals.pulse}
-          onChange={e => setVitals({ ...vitals, pulse: e.target.value })}
-          className="px-3 py-2 border rounded"
-        />
-        <input
-          type="number"
-          placeholder="Weight (lbs)"
-          value={vitals.weight}
-          onChange={e => setVitals({ ...vitals, weight: e.target.value })}
-          className="px-3 py-2 border rounded"
-        />
-      </div>
-      <div className="flex gap-2 mt-3">
-        <button
-          onClick={handleSubmit}
-          disabled={submitting}
-          className="flex-1 bg-green-600 text-white py-2 rounded text-sm hover:bg-green-700 disabled:opacity-50"
-        >
-          {submitting ? 'Saving...' : 'Record Vitals'}
-        </button>
-        <button
-          onClick={onCancel}
-          className="flex-1 bg-gray-300 text-gray-800 py-2 rounded text-sm hover:bg-gray-400"
-        >
-          Cancel
-        </button>
-      </div>
-    </div>
+    <Card className="mb-4">
+      <CardContent>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <input type="text" placeholder="BP (e.g., 120/80)" value={vitals.bloodPressure} onChange={e => { setVitals({ ...vitals, bloodPressure: e.target.value }); setErrors({ ...errors, bloodPressure: '' }); }} className={`w-full px-3 py-2 border rounded ${errors.bloodPressure ? 'border-red-500' : ''}`} />
+            {errors.bloodPressure && <p className="text-xs text-red-600 mt-1">{errors.bloodPressure}</p>}
+          </div>
+          <div>
+            <input type="number" placeholder="Temperature (°F)" value={vitals.temperature} onChange={e => { setVitals({ ...vitals, temperature: e.target.value }); setErrors({ ...errors, temperature: '' }); }} className={`w-full px-3 py-2 border rounded ${errors.temperature ? 'border-red-500' : ''}`} />
+            {errors.temperature && <p className="text-xs text-red-600 mt-1">{errors.temperature}</p>}
+          </div>
+          <div>
+            <input type="number" placeholder="Heart Rate (bpm)" value={vitals.pulse} onChange={e => { setVitals({ ...vitals, pulse: e.target.value }); setErrors({ ...errors, pulse: '' }); }} className={`w-full px-3 py-2 border rounded ${errors.pulse ? 'border-red-500' : ''}`} />
+            {errors.pulse && <p className="text-xs text-red-600 mt-1">{errors.pulse}</p>}
+          </div>
+          <div>
+            <input type="number" placeholder="Weight (lbs)" value={vitals.weight} onChange={e => { setVitals({ ...vitals, weight: e.target.value }); setErrors({ ...errors, weight: '' }); }} className={`w-full px-3 py-2 border rounded ${errors.weight ? 'border-red-500' : ''}`} />
+            {errors.weight && <p className="text-xs text-red-600 mt-1">{errors.weight}</p>}
+          </div>
+        </div>
+        <div className="flex gap-2 mt-3">
+          <Button onClick={handleSubmit} isLoading={submitting} className="flex-1">
+            {submitting ? 'Saving...' : 'Record Vitals'}
+          </Button>
+          <Button variant="outline" onClick={onCancel} className="flex-1">
+            Cancel
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

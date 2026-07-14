@@ -47,6 +47,11 @@ const MedicationList = () => {
                             </div>
                         </div>
                     ))
+                ) : localMeds.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                        <p className="font-medium">No medications scheduled today</p>
+                        <p className="text-sm mt-1">Your medication schedule will appear here</p>
+                    </div>
                 ) : (
                     localMeds.map((med) => (
                         <div

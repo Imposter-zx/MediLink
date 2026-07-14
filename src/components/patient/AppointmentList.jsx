@@ -18,7 +18,12 @@ const AppointmentList = () => {
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                {appointments.map((apt) => (
+                {appointments.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                        <p className="font-medium">No upcoming appointments</p>
+                        <p className="text-sm mt-1">Schedule a visit to see your appointments here</p>
+                    </div>
+                ) : appointments.map((apt) => (
                     <div key={apt.id} className="p-4 bg-muted/30 rounded-xl space-y-3 border border-border/50">
                         <div className="flex justify-between items-start">
                             <div>

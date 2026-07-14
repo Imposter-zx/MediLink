@@ -1,6 +1,9 @@
 import { Controller, Post, Get, Patch, Body, Query, UseGuards, HttpCode, HttpStatus, NotFoundException, BadRequestException } from '@nestjs/common';
 import { DoctorService } from './doctor.service';
 import { AuditService } from '../audit/audit.service';
+import { AuthGuard } from '../../common/guards/auth.guard';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 export class CreatePrescriptionDto {
   patientId: string;
@@ -15,6 +18,7 @@ export class CreatePrescriptionDto {
 }
 
 @Controller('api/doctor')
+@UseGuards(AuthGuard, RolesGuard)
 export class DoctorController {
   constructor(
     private readonly doctorService: DoctorService,
@@ -25,6 +29,7 @@ export class DoctorController {
    * Get doctor profile
    */
   @Get('profile/:doctorId')
+  @Roles('doctor')
   @HttpCode(HttpStatus.OK)
   async getDoctorProfile(@Query('doctorId') doctorId: string) {
     const profile = await this.doctorService.getDoctorProfile(doctorId);
@@ -38,6 +43,7 @@ export class DoctorController {
    * Create new prescription
    */
   @Post('prescriptions')
+  @Roles('doctor')
   @HttpCode(HttpStatus.CREATED)
   async createPrescription(@Body() dto: CreatePrescriptionDto) {
     const prescription = await this.doctorService.createPrescription(
@@ -62,6 +68,7 @@ export class DoctorController {
    * Get doctor's patients
    */
   @Get('patients')
+  @Roles('doctor')
   @HttpCode(HttpStatus.OK)
   async getDoctorPatients(@Query('doctorId') doctorId: string) {
     const patients = await this.doctorService.getDoctorPatients(doctorId);
@@ -72,6 +79,7 @@ export class DoctorController {
    * Get patient medical history
    */
   @Get('patient/:patientId/history')
+  @Roles('doctor')
   @HttpCode(HttpStatus.OK)
   async getPatientHistory(@Query('patientId') patientId: string) {
     const history = await this.doctorService.getPatientMedicalHistory(patientId);
@@ -82,6 +90,7 @@ export class DoctorController {
    * Get patient active prescriptions
    */
   @Get('patient/:patientId/prescriptions')
+  @Roles('doctor')
   @HttpCode(HttpStatus.OK)
   async getPatientPrescriptions(@Query('patientId') patientId: string) {
     const prescriptions = await this.doctorService.getPatientPrescriptions(patientId);
@@ -92,51 +101,40 @@ export class DoctorController {
    * Update prescription
    */
   @Patch('prescriptions/:prescriptionId')
+  @Roles('doctor')
   @HttpCode(HttpStatus.OK)
   async updatePrescription(@Query('prescriptionId') prescriptionId: string, @Body() updates: Partial<CreatePrescriptionDto>) {
     const prescription = await this.doctorService.updatePrescription(prescriptionId, updates);
-
     await this.auditService.logUpdate('DOCTOR', 'doctor@medilink.com', 'doctor', 'Prescription', prescriptionId, updates);
-
     return prescription;
   }
 
-  /**
-   * Cancel prescription
-   */
   @Patch('prescriptions/:prescriptionId/cancel')
+  @Roles('doctor')
   @HttpCode(HttpStatus.OK)
   async cancelPrescription(@Query('prescriptionId') prescriptionId: string, @Body('reason') reason: string) {
     const prescription = await this.doctorService.cancelPrescription(prescriptionId, reason);
-
     await this.auditService.logDelete('DOCTOR', 'doctor@medilink.com', 'doctor', 'Prescription', prescriptionId, reason);
-
     return prescription;
   }
 
-  /**
-   * Get doctor's prescription statistics
-   */
   @Get('stats')
+  @Roles('doctor')
   @HttpCode(HttpStatus.OK)
   async getStats(@Query('doctorId') doctorId: string) {
     return this.doctorService.getStats(doctorId);
   }
 
-  /**
-   * Approve refill request
-   */
   @Post('refills/:refillId/approve')
+  @Roles('doctor')
   @HttpCode(HttpStatus.OK)
   async approveRefill(@Query('refillId') refillId: string, @Body('note') note?: string) {
     const refill = await this.doctorService.approveRefillRequest(refillId, note);
     return refill;
   }
 
-  /**
-   * Deny refill request
-   */
   @Post('refills/:refillId/deny')
+  @Roles('doctor')
   @HttpCode(HttpStatus.OK)
   async denyRefill(@Query('refillId') refillId: string, @Body('reason') reason: string) {
     const refill = await this.doctorService.denyRefillRequest(refillId, reason);

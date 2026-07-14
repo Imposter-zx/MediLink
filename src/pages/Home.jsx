@@ -19,6 +19,8 @@ const Home = () => {
                 });
             }
             navigate('/patient');
+        } catch {
+            console.error('Failed to proceed as patient');
         } finally {
             setIsLoading(prev => ({ ...prev, getStarted: false }));
         }
@@ -33,6 +35,8 @@ const Home = () => {
                 });
             }
             navigate('/pharmacy');
+        } catch {
+            console.error('Failed to proceed as pharmacy partner');
         } finally {
             setIsLoading(prev => ({ ...prev, partner: false }));
         }

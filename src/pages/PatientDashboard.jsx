@@ -5,7 +5,7 @@ import MediPal from '../components/patient/MediPal';
 import Card, { CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import { ShoppingBag, Bell, AlertTriangle } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { useNotificationsStore } from '../stores/notificationsStore';
 import ConfirmModal from '../components/ui/ConfirmModal';
@@ -84,11 +84,9 @@ const PatientDashboard = () => {
                     <Button variant="outline" size="icon" className="rounded-full" onClick={() => navigate('/settings')}>
                         <Bell size={20} />
                     </Button>
-                    <Link to="/library">
-                        <Button className="rounded-full shadow-lg shadow-primary/25">
-                            Order Medication
-                        </Button>
-                    </Link>
+                    <Button className="rounded-full shadow-lg shadow-primary/25" onClick={() => navigate('/library')}>
+                        Order Medication
+                    </Button>
                 </div>
             </header>
 
@@ -114,7 +112,7 @@ const PatientDashboard = () => {
                                 </h3>
                                 <p className="text-destructive-foreground/80 text-sm mt-1">Press if you need help</p>
                             </div>
-                            <Button variant="secondary" className="bg-destructive-foreground text-destructive hover:bg-destructive-foreground/90 font-bold px-6">
+                            <Button variant="secondary" className="bg-destructive-foreground text-destructive hover:bg-destructive-foreground/90 font-bold px-6" onClick={() => window.location.href = 'tel:112'}>
                                 CALL 112
                             </Button>
                         </CardContent>

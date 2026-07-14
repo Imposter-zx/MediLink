@@ -1,8 +1,9 @@
 import React, { useState, Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter as Router, useLocation, useNavigate, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, useLocation, useNavigate } from 'react-router-dom';
 import AppShell from './AppShell';
 import AppRoutes from './routes';
 import { useAuthStore } from '../stores/authStore';
+import { useAccessibility } from '../hooks/useAccessibility';
 import { MedplumProvider } from '@medplum/react';
 import { medplum } from '../lib/medplum';
 import { MantineProvider } from '@mantine/core';
@@ -15,6 +16,7 @@ const MedicalLanding = lazy(() => import('../components/MedicalLanding/MedicalLa
 
 function App() {
   const { isAuthenticated, checkSession, isLoading } = useAuthStore();
+  useAccessibility();
   
   useEffect(() => {
     checkSession();
@@ -69,7 +71,7 @@ function AppContent({ showLanding, isAuthenticated, onEnterApp }) {
   const shouldShowLanding = 
     showLanding && 
     !isAuthenticated && 
-    (location.pathname === '/' || location.pathname === '');
+    location.pathname === '/';
 
 
   if (shouldShowLanding) {

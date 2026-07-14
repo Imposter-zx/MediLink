@@ -1,4 +1,6 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, Between, LessThan } from 'typeorm';
 import { AuditLog } from './audit.entity';
 
 /**
@@ -8,24 +10,24 @@ import { AuditLog } from './audit.entity';
  */
 @Injectable()
 export class AuditService {
-  // In-memory storage for demo (replace with database in production)
-  private auditLogs: AuditLog[] = [];
+  constructor(
+    @InjectRepository(AuditLog)
+    private readonly auditLogRepository: Repository<AuditLog>,
+  ) {}
 
   /**
    * Log an audit event
    */
   async log(auditLog: Partial<AuditLog>): Promise<AuditLog> {
-    const newLog = new AuditLog();
-    Object.assign(newLog, {
-      id: this.generateUUID(),
-      timestamp: new Date(),
+    const newLog = this.auditLogRepository.create({
       ...auditLog,
+      timestamp: new Date(),
     });
 
-    this.auditLogs.push(newLog);
-    console.log(`📝 [AUDIT] ${newLog.action} - ${newLog.resourceType}${newLog.resourceId ? ':' + newLog.resourceId : ''}`);
+    const savedLog = await this.auditLogRepository.save(newLog);
+    console.log(`📝 [AUDIT] ${savedLog.action} - ${savedLog.resourceType}${savedLog.resourceId ? ':' + savedLog.resourceId : ''}`);
 
-    return newLog;
+    return savedLog;
   }
 
   /**
@@ -253,39 +255,36 @@ export class AuditService {
     limit?: number;
     offset?: number;
   }): Promise<{ logs: AuditLog[]; total: number }> {
-    let results = [...this.auditLogs];
+    const where: any = {};
 
     if (filter.userId) {
-      results = results.filter(log => log.userId === filter.userId);
+      where.userId = filter.userId;
     }
 
     if (filter.action) {
-      results = results.filter(log => log.action === filter.action);
+      where.action = filter.action;
     }
 
     if (filter.resourceType) {
-      results = results.filter(log => log.resourceType === filter.resourceType);
+      where.resourceType = filter.resourceType;
     }
 
-    if (filter.startDate) {
-      const startDate = filter.startDate;
-      results = results.filter(log => log.timestamp >= startDate);
+    if (filter.startDate || filter.endDate) {
+      where.timestamp = Between(
+        filter.startDate || new Date(0),
+        filter.endDate || new Date(),
+      );
     }
 
-    if (filter.endDate) {
-      const endDate = filter.endDate;
-      results = results.filter(log => log.timestamp <= endDate);
-    }
-
-    // Sort by timestamp descending
-    results.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
-
-    const total = results.length;
-    const offset = filter.offset || 0;
-    const limit = filter.limit || 100;
+    const [logs, total] = await this.auditLogRepository.findAndCount({
+      where,
+      order: { timestamp: 'DESC' },
+      take: filter.limit || 100,
+      skip: filter.offset || 0,
+    });
 
     return {
-      logs: results.slice(offset, offset + limit),
+      logs,
       total,
     };
   }
@@ -360,18 +359,10 @@ export class AuditService {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - daysOld);
 
-    const beforeCount = this.auditLogs.length;
-    this.auditLogs = this.auditLogs.filter(log => log.timestamp > cutoffDate);
-    const afterCount = this.auditLogs.length;
-
-    return beforeCount - afterCount;
-  }
-
-  private generateUUID(): string {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      const r = (Math.random() * 16) | 0;
-      const v = c == 'x' ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
+    const deleteResult = await this.auditLogRepository.delete({
+      timestamp: LessThan(cutoffDate),
     });
+
+    return deleteResult.affected || 0;
   }
 }

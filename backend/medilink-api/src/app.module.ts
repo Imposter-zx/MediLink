@@ -1,5 +1,6 @@
 import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ServicesModule } from './services/services.module';
@@ -19,6 +20,22 @@ import { RateLimitService } from './common/middleware/rate-limit.service';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
+    }),
+    // TypeORM database connection
+    TypeOrmModule.forRootAsync({
+      useFactory: () => {
+        const url = process.env.DATABASE_URL;
+        if (!url || url.includes('[YOUR_DATABASE_PASSWORD]')) {
+          console.warn('⚠️ DATABASE_URL is not configured properly or still has placeholder. Database integration may not work.');
+        }
+        return {
+          type: 'postgres',
+          url: url && !url.includes('[YOUR_DATABASE_PASSWORD]') ? url : 'postgresql://postgres:postgres@localhost:5432/medilink',
+          autoLoadEntities: true,
+          synchronize: true, // Autocreate schema for development
+          ssl: url && !url.includes('localhost') && !url.includes('127.0.0.1') ? { rejectUnauthorized: false } : false,
+        };
+      },
     }),
     // Global services (FHIR, Encryption, Geolocation, Notifications, etc.)
     ServicesModule,

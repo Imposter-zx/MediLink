@@ -34,6 +34,14 @@ export class AuthService {
       name: 'Mike Driver',
       organizationId: 'delivery-1',
     },
+    {
+      id: 'doctor-1',
+      email: 'doctor@test.com',
+      password: 'demo',
+      role: 'doctor',
+      name: 'Dr. Jane Smith',
+      organizationId: 'clinic-1',
+    },
   ];
 
   private twoFactorData = new Map<

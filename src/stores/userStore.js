@@ -91,7 +91,7 @@ export const useUserStore = create(
     }),
     {
       name: 'medilink-user-profile',
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => sessionStorage),
     }
   )
 );

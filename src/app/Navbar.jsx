@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Heart, Home, Pill, Truck, User, Menu, X, Bookmark, Mail, Bell, Stethoscope, Search, Lock, Check } from 'lucide-react';
+import { Heart, Home, Pill, Truck, User, Menu, X, Bookmark, Mail, Bell, Stethoscope, Search, Lock, Check, Settings } from 'lucide-react';
 import { cn } from '../lib/utils';
 import Button from '../components/ui/Button';
 import { useAuth } from '../hooks/useAuth';
 import ThemeSwitcher from '../components/ui/ThemeSwitcher';
-import { Settings } from 'lucide-react';
 
 const Navbar = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { user, login } = useAuth();
+    const { user } = useAuth();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const navItems = [
@@ -27,18 +26,21 @@ const Navbar = () => {
         { name: 'Doctor', path: '/doctor', icon: Stethoscope, role: 'doctor' },
     ];
 
+    const visibleNavItems = navItems.filter(item => {
+        if (!item.role) return true;
+        return user && user.role === item.role;
+    });
+
     const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
-    const handleNavClick = async (item) => {
+    const handleNavClick = (item) => {
         if (item.role && user?.role !== item.role) {
-            // Demo auto-login for seamless navigation
-            await login({ 
-                userData: { 
-                    id: `demo-${item.role}`, 
-                    name: `${item.name} User`, 
-                    role: item.role 
-                } 
-            });
+            if (import.meta.env.DEV) {
+                console.log('[Navbar] Role mismatch — would auto-login in dev mode');
+            }
+            navigate('/login');
+            setIsMobileMenuOpen(false);
+            return;
         }
         navigate(item.path);
         setIsMobileMenuOpen(false);
@@ -63,7 +65,7 @@ const Navbar = () => {
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center gap-3">
                         <div className="flex items-center gap-1">
-                            {navItems.map((item) => {
+                            {visibleNavItems.map((item) => {
                                 const isActive = location.pathname === item.path;
                                 const Icon = item.icon;
                                 return (
@@ -210,7 +212,7 @@ const Navbar = () => {
             {isMobileMenuOpen && (
                 <div className="md:hidden border-t border-border bg-background">
                     <div className="px-4 pt-2 pb-4 space-y-1">
-                        {navItems.map((item) => {
+                        {visibleNavItems.map((item) => {
                             const isActive = location.pathname === item.path;
                             const Icon = item.icon;
                             return (

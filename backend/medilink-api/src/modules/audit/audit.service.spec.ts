@@ -1,13 +1,61 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { AuditService } from './audit.service';
 import { AuditLog } from './audit.entity';
 
 describe('AuditService', () => {
   let service: AuditService;
+  const mockLogs: AuditLog[] = [];
+
+  const mockRepository = {
+    create: jest.fn().mockImplementation((dto) => {
+      const log = new AuditLog();
+      Object.assign(log, {
+        id: 'mock-uuid',
+        timestamp: new Date(),
+        ...dto,
+      });
+      return log;
+    }),
+    save: jest.fn().mockImplementation(async (log) => {
+      mockLogs.push(log);
+      return log;
+    }),
+    findAndCount: jest.fn().mockImplementation(async (options) => {
+      let filtered = [...mockLogs];
+      const where = options?.where;
+      if (where) {
+        if (where.userId) {
+          filtered = filtered.filter(l => l.userId === where.userId);
+        }
+        if (where.action) {
+          filtered = filtered.filter(l => l.action === where.action);
+        }
+        if (where.resourceType) {
+          filtered = filtered.filter(l => l.resourceType === where.resourceType);
+        }
+      }
+      filtered.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+      const skip = options?.skip || 0;
+      const take = options?.take || 100;
+      const paginated = filtered.slice(skip, skip + take);
+      return [paginated, filtered.length];
+    }),
+    delete: jest.fn().mockImplementation(async () => {
+      return { affected: 1 };
+    }),
+  };
 
   beforeEach(async () => {
+    mockLogs.length = 0;
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AuditService],
+      providers: [
+        AuditService,
+        {
+          provide: getRepositoryToken(AuditLog),
+          useValue: mockRepository,
+        },
+      ],
     }).compile();
 
     service = module.get<AuditService>(AuditService);

@@ -8,6 +8,7 @@ export const ROLES = {
   PATIENT: 'patient',
   PHARMACY: 'pharmacy',
   DELIVERY: 'delivery',
+  DOCTOR: 'doctor',
 };
 
 // Order Statuses

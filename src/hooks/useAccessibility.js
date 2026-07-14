@@ -15,11 +15,7 @@ export const useAccessibility = () => {
     document.documentElement.setAttribute('data-theme', theme);
     
     // Apply high contrast if enabled
-    if (contrastMode === CONTRAST_MODES.HIGH) {
-      document.documentElement.classList.add('high-contrast');
-    } else {
-      document.documentElement.classList.remove('high-contrast');
-    }
+    document.documentElement.setAttribute('data-contrast', contrastMode);
     
     // Apply font scaling
     const baseSize = 16 * fontSizeMultiplier;

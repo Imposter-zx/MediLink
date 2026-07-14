@@ -59,11 +59,12 @@ export const useAuthStore = create((set, get) => ({
         error: null,
       });
 
-      console.log('[Auth] Login successful:', {
-        userId: userData.user?.id || userData.id,
-        role: userData.user?.role || userData.role,
-        timestamp: new Date().toISOString(),
-      });
+      if (import.meta.env.DEV) {
+        console.log('[Auth] Login successful:', {
+          userId: userData.user?.id || userData.id,
+          role: userData.user?.role || userData.role,
+        });
+      }
 
       return { success: true };
     } catch (error) {

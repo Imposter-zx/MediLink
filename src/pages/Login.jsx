@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useAuthStore } from '../stores/authStore';
 import { Heart, Lock, Mail, Phone, Eye, EyeOff, ShieldCheck, ArrowRight } from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card, { CardContent } from '../components/ui/Card';
@@ -65,8 +66,8 @@ const Login = () => {
         
         if (!formData.password) {
             newErrors.password = 'Password is required';
-        } else if (formData.password.length < 6) {
-            newErrors.password = 'Password must be at least 6 characters';
+        } else if (formData.password.length < 8) {
+            newErrors.password = 'Password must be at least 8 characters';
         }
         
         setErrors(newErrors);
@@ -89,11 +90,14 @@ const Login = () => {
       });
 
       if (result.success) {
-        navigate('/dashboard');
+        const currentUser = useAuthStore.getState().user;
+        const rolePath = currentUser?.role || 'patient';
+        navigate(`/${rolePath}`);
       } else {
         setErrors({ submit: result.error || 'Invalid credentials. Please try again.' });
       }
-    } catch {
+    } catch (err) {
+      console.error('[Login] Unexpected error:', err);
       setErrors({ submit: 'Unable to sign in. Please try again later.' });
     } finally {
       setIsLoading(false);

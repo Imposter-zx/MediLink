@@ -1,8 +1,12 @@
 import { Controller, Get, Query, UseGuards, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuditService } from './audit.service';
 import { AuditLog } from './audit.entity';
+import { AuthGuard } from '../../common/guards/auth.guard';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
 
 @Controller('api/audit')
+@UseGuards(AuthGuard, RolesGuard)
 export class AuditController {
   constructor(private readonly auditService: AuditService) {}
 
@@ -10,6 +14,7 @@ export class AuditController {
    * Get audit logs with filtering
    */
   @Get('logs')
+  @Roles('admin', 'pharmacy')
   @HttpCode(HttpStatus.OK)
   async getLogs(
     @Query('userId') userId?: string,
@@ -35,24 +40,21 @@ export class AuditController {
    * Get audit logs for a specific user
    */
   @Get('user')
+  @Roles('admin', 'pharmacy')
   @HttpCode(HttpStatus.OK)
   async getLogsByUser(@Query('userId') userId: string, @Query('limit') limit?: number): Promise<AuditLog[]> {
     return this.auditService.getLogsByUser(userId, limit || 100);
   }
 
-  /**
-   * Get audit logs by action type
-   */
   @Get('action')
+  @Roles('admin')
   @HttpCode(HttpStatus.OK)
   async getLogsByAction(@Query('action') action: string, @Query('limit') limit?: number): Promise<AuditLog[]> {
     return this.auditService.getLogsByAction(action, limit || 100);
   }
 
-  /**
-   * Get compliance report for a date range
-   */
   @Get('compliance-report')
+  @Roles('admin')
   @HttpCode(HttpStatus.OK)
   async getComplianceReport(
     @Query('startDate') startDate: string,
@@ -72,6 +74,7 @@ export class AuditController {
    * Export audit logs as CSV
    */
   @Get('export-csv')
+  @Roles('admin')
   @HttpCode(HttpStatus.OK)
   async exportAsCsv(@Query('startDate') startDate: string, @Query('endDate') endDate: string): Promise<{ csv: string }> {
     const csv = await this.auditService.exportAsCsv(new Date(startDate), new Date(endDate));
