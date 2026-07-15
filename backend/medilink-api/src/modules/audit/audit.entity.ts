@@ -11,19 +11,19 @@ import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Index } from 
 @Index('idx_resource', ['resourceType', 'resourceId'])
 export class AuditLog {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column()
-  userId: string;
+  userId!: string;
 
   @Column()
-  userEmail: string;
+  userEmail!: string;
 
   @Column()
-  userRole: string;
+  userRole!: string;
 
   @CreateDateColumn()
-  timestamp: Date;
+  timestamp!: Date;
 
   @Column({
     type: 'varchar',
@@ -45,32 +45,32 @@ export class AuditLog {
       'SYSTEM_ERROR',
     ],
   })
-  action: string;
+  action!: string;
 
   @Column()
-  resourceType: string;
+  resourceType!: string;
 
   @Column({ nullable: true })
-  resourceId: string;
+  resourceId!: string;
 
   @Column({ type: 'text', nullable: true })
-  description: string;
+  description!: string;
 
   @Column({ type: 'json', nullable: true })
-  metadata: Record<string, any>;
+  metadata!: Record<string, any>;
 
   @Column({ nullable: true })
-  ipAddress: string;
+  ipAddress!: string;
 
   @Column({ nullable: true })
-  userAgent: string;
+  userAgent!: string;
 
   @Column({ type: 'varchar', default: 'INFO' })
-  severity: 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL';
+  severity!: 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL';
 
   @Column({ default: false })
-  compliant: boolean;
+  compliant!: boolean;
 
   @Column({ type: 'text', nullable: true })
-  notes: string;
+  notes!: string;
 }

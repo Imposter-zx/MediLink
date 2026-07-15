@@ -167,7 +167,7 @@ export class DeliveryService {
   ) {
     const dto: UpdateDeliveryDto =
       typeof statusOrDto === 'string'
-        ? { status: statusOrDto }
+        ? { status: statusOrDto as UpdateDeliveryDto['status'] }
         : statusOrDto;
 
     const task = await this.fhirService.readResource('Task', id);

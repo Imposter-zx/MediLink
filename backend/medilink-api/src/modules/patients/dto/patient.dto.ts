@@ -3,16 +3,16 @@ import { Type } from 'class-transformer';
 
 class AddressDto {
   @IsString()
-  street: string;
+  street!: string;
 
   @IsString()
-  city: string;
+  city!: string;
 
   @IsString()
-  state: string;
+  state!: string;
 
   @IsString()
-  postalCode: string;
+  postalCode!: string;
 }
 
 /**

@@ -28,7 +28,7 @@ export class MessagingGateway
   implements OnGatewayConnection, OnGatewayDisconnect
 {
   @WebSocketServer()
-  server: Server;
+  server!: Server;
 
   // Track connected users
   private connectedUsers = new Map<string, string>(); // socketId -> userId
@@ -129,7 +129,7 @@ export class MessagingGateway
       return { success: true, messageId: (message as any).id };
     } catch (error) {
       console.error('Error sending message:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
     }
   }
 
@@ -161,7 +161,7 @@ export class MessagingGateway
       return { success: true };
     } catch (error) {
       console.error('Error marking message as read:', error);
-      return { success: false, error: error.message };
+      return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
     }
   }
 

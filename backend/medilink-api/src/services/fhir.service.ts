@@ -30,7 +30,7 @@ export class FhirService {
 
       console.log('✅ Connected to Medplum FHIR server');
     } catch (error) {
-      console.error('❌ Failed to connect to Medplum:', error.message);
+      console.error('❌ Failed to connect to Medplum:', error instanceof Error ? error.message : error);
     }
   }
 

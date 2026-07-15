@@ -134,7 +134,7 @@ export class RefillService {
   /**
    * Check if prescription is eligible for refill
    */
-  async isEligibleForRefill(prescriptionId: string, medicationName: string): Promise<boolean> {
+  async isEligibleForRefill(prescriptionId: string, _medicationName: string): Promise<boolean> {
     const refills = await this.getPrescriptionRefillHistory(prescriptionId);
 
     // Must have at least 1 day supply remaining before refill

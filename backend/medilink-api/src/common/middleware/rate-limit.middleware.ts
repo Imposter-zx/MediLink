@@ -42,7 +42,7 @@ export class RateLimitMiddleware implements NestMiddleware {
   /**
    * Determine rate limit category based on endpoint
    */
-  private getEndpointType(path: string, method: string): string {
+  private getEndpointType(path: string, method: string): keyof typeof RATE_LIMIT_CONFIG {
     // Authentication
     if (path.includes('/auth/login')) return 'LOGIN';
     if (path.includes('/auth/logout')) return 'LOGOUT';

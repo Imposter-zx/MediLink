@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Patch, Body, Query, UseGuards, HttpCode, HttpStatus, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Get, Patch, Body, Query, UseGuards, HttpCode, HttpStatus, NotFoundException } from '@nestjs/common';
 import { DoctorService } from './doctor.service';
 import { AuditService } from '../audit/audit.service';
 import { AuthGuard } from '../../common/guards/auth.guard';
@@ -6,14 +6,14 @@ import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles } from '../../common/decorators/roles.decorator';
 
 export class CreatePrescriptionDto {
-  patientId: string;
-  medicationName: string;
-  strength: string;
-  dosage: string;
-  frequency: string;
-  daysSupply: number;
-  refills: number;
-  indication: string;
+  patientId!: string;
+  medicationName!: string;
+  strength!: string;
+  dosage!: string;
+  frequency!: string;
+  daysSupply!: number;
+  refills!: number;
+  indication!: string;
   notes?: string;
 }
 

@@ -200,7 +200,7 @@ export class GeolocationService {
   /**
    * Get nearby delivery personnel (simplified - would use actual location data)
    */
-  async getNearbyDrivers(location: Location, radiusKm: number = 5): Promise<Array<{ driverId: string; distance: number }>> {
+  async getNearbyDrivers(_location: Location, _radiusKm: number = 5): Promise<Array<{ driverId: string; distance: number }>> {
     // This is a simplified example
     // In production, query database of active drivers
     return [];

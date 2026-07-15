@@ -6,29 +6,29 @@ import { IsString, IsNumber, IsOptional, IsNotEmpty } from 'class-validator';
 export class CreatePrescriptionDto {
   @IsString()
   @IsNotEmpty()
-  patientId: string;
+  patientId!: string;
 
   @IsString()
   @IsNotEmpty()
-  medicationName: string;
+  medicationName!: string;
 
   @IsString()
   @IsNotEmpty()
-  medicationCode: string;
+  medicationCode!: string;
 
   @IsString()
   @IsNotEmpty()
-  dosageInstructions: string;
+  dosageInstructions!: string;
 
   @IsNumber()
-  quantity: number;
+  quantity!: number;
 
   @IsString()
   @IsOptional()
   unit?: string;
 
   @IsNumber()
-  frequency: number;
+  frequency!: number;
 
   @IsNumber()
   @IsOptional()
@@ -45,7 +45,7 @@ export class CreatePrescriptionDto {
 export class UpdatePrescriptionStatusDto {
   @IsString()
   @IsNotEmpty()
-  status: 'active' | 'completed' | 'cancelled' | 'on-hold';
+  status!: 'active' | 'completed' | 'cancelled' | 'on-hold';
 
   @IsString()
   @IsOptional()

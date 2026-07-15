@@ -1,6 +1,5 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { AuditService } from '../../modules/audit/audit.service';
 
 /**
  * Standard API Error Response Format
@@ -23,8 +22,6 @@ export interface ApiErrorResponse {
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger('HttpExceptionFilter');
-
-  constructor(private auditService?: AuditService) {}
 
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();

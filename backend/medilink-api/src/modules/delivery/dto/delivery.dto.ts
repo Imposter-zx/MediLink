@@ -6,11 +6,19 @@ import { IsString, IsOptional, IsNotEmpty } from 'class-validator';
 export class CreateDeliveryDto {
   @IsString()
   @IsNotEmpty()
-  prescriptionId: string;
+  prescriptionId!: string;
 
   @IsString()
   @IsNotEmpty()
-  deliveryAddress: string;
+  deliveryAddress!: string;
+
+  @IsString()
+  @IsOptional()
+  patientId?: string;
+
+  @IsString()
+  @IsOptional()
+  pharmacyId?: string;
 
   @IsString()
   @IsOptional()
@@ -31,7 +39,7 @@ export class CreateDeliveryDto {
 export class UpdateDeliveryDto {
   @IsString()
   @IsNotEmpty()
-  status: 'requested' | 'accepted' | 'in-progress' | 'completed' | 'cancelled';
+  status!: 'requested' | 'accepted' | 'in-progress' | 'completed' | 'cancelled';
 
   @IsString()
   @IsOptional()

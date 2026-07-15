@@ -63,7 +63,7 @@ export class AuthService {
     const sessionId = randomUUID();
     const session: SessionData = {
       userId: user.id,
-      role: user.role,
+      role: user.role as SessionData['role'],
       organizationId: user.organizationId,
       email: user.email,
       name: user.name,
